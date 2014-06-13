@@ -1,0 +1,10 @@
+PODS:
+  - TFBarcodeScanner (1.0.0)
+
+DEPENDENCIES:
+  - TFBarcodeScanner
+
+SPEC CHECKSUMS:
+  TFBarcodeScanner: 9070a2efb751dc26a8cc82443a14abde5165acdd
+
+COCOAPODS: 0.33.1
