@@ -1,5 +1,5 @@
 //
-//  ResultsViewController.h
+//  SearchResultsViewController.h
 //  BooksBooksBooks
 //
 //  Created by Zack Liston on 6/13/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResultsViewController : UIViewController
+@interface SearchResultsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end

@@ -8,6 +8,7 @@
 
 #import "AddViewController.h"
 #import "UIView+Borders.h"
+#import "SearchResultsViewController.h"
 #import <FXBlurView/FXBlurView.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -51,6 +52,12 @@
     [self setupTextFields];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -67,6 +74,11 @@
 }
 
 #pragma mark Start Search
+- (IBAction)searchButtonClicked:(UIButton *)sender
+{
+    SearchResultsViewController *srvc = [[SearchResultsViewController alloc] init];
+    [self.navigationController pushViewController:srvc animated:YES];
+}
 
 - (void)startSearchWithISBN:(NSString *)isnb author:(NSString *)author title:(NSString *)title
 {
@@ -126,7 +138,13 @@
     // Make the navBar items white
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
+    
+    // Set up the navigationBar title attributes
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:36.0], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:7.5 forBarMetrics:UIBarMetricsDefault];
+    
     // Remove the 'back' text from the navBar
     self.navigationController.navigationBar.topItem.title = @"";
+    self.navigationItem.title = @"Find a Book";
 }
 @end

@@ -137,15 +137,6 @@
                                 <constraint firstAttribute="trailing" secondItem="aJa-gc-u6g" secondAttribute="trailing" constant="20" id="mrl-x9-lYa"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find a Book" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3G2-md-M7Q">
-                            <rect key="frame" x="0.0" y="0.0" width="345" height="85"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="85" id="ecH-PY-ITn"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="30"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N2y-YX-sxs">
                             <rect key="frame" x="0.0" y="293" width="345" height="60"/>
                             <constraints>
@@ -155,11 +146,13 @@
                             <state key="normal" title="Search">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="searchButtonClicked:" destination="-1" eventType="touchUpInside" id="xbq-40-jru"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="3G2-md-M7Q" firstAttribute="top" secondItem="ldf-4R-vkh" secondAttribute="top" id="2co-mt-eSe"/>
                         <constraint firstAttribute="trailing" secondItem="F7A-91-ejF" secondAttribute="trailing" id="Fq3-Oh-CV1"/>
                         <constraint firstAttribute="trailing" secondItem="DXG-9O-OkB" secondAttribute="trailing" id="LsB-Nc-ni6"/>
                         <constraint firstAttribute="bottom" secondItem="N2y-YX-sxs" secondAttribute="bottom" id="M71-f5-I5r"/>
@@ -167,12 +160,10 @@
                         <constraint firstItem="DXG-9O-OkB" firstAttribute="top" secondItem="AVY-D7-qaS" secondAttribute="bottom" id="PNR-2U-17s"/>
                         <constraint firstItem="F7A-91-ejF" firstAttribute="top" secondItem="DXG-9O-OkB" secondAttribute="bottom" id="QwB-Sm-dvH"/>
                         <constraint firstItem="AVY-D7-qaS" firstAttribute="leading" secondItem="ldf-4R-vkh" secondAttribute="leading" id="RfH-Xs-ELo"/>
-                        <constraint firstAttribute="trailing" secondItem="3G2-md-M7Q" secondAttribute="trailing" id="Xdd-Oy-rxa"/>
                         <constraint firstAttribute="trailing" secondItem="AVY-D7-qaS" secondAttribute="trailing" id="ben-5S-jau"/>
                         <constraint firstItem="DXG-9O-OkB" firstAttribute="leading" secondItem="ldf-4R-vkh" secondAttribute="leading" id="dEY-bu-Od9"/>
                         <constraint firstAttribute="trailing" secondItem="N2y-YX-sxs" secondAttribute="trailing" id="e0R-DQ-yYP"/>
                         <constraint firstAttribute="centerX" secondItem="N2y-YX-sxs" secondAttribute="centerX" id="e5t-g7-eZj"/>
-                        <constraint firstItem="3G2-md-M7Q" firstAttribute="leading" secondItem="ldf-4R-vkh" secondAttribute="leading" id="lC9-bi-ik2"/>
                         <constraint firstItem="N2y-YX-sxs" firstAttribute="top" secondItem="F7A-91-ejF" secondAttribute="bottom" id="m4E-iu-eh0"/>
                         <constraint firstItem="N2y-YX-sxs" firstAttribute="leading" secondItem="ldf-4R-vkh" secondAttribute="leading" id="qps-O3-eaC"/>
                     </constraints>

@@ -20,9 +20,9 @@
 		135D69E0194AA9DE00EC8C3D /* BaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 135D69DE194AA9DE00EC8C3D /* BaseViewController.xib */; };
 		135D69E3194AAD9700EC8C3D /* books.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 135D69E2194AAD9700EC8C3D /* books.jpg */; };
 		13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F69194BF49D007980D7 /* UIView+Borders.m */; };
-		13BA9F6F194C02A2007980D7 /* ResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F6D194C02A2007980D7 /* ResultsViewController.m */; };
-		13BA9F70194C02A2007980D7 /* ResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13BA9F6E194C02A2007980D7 /* ResultsViewController.xib */; };
-		13BA9F73194C039A007980D7 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F72194C039A007980D7 /* Book.m */; };
+		13BA9F77194C05D9007980D7 /* MiniBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F76194C05D9007980D7 /* MiniBookView.m */; };
+		13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */; };
+		13BA9F7D194C1832007980D7 /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */; };
 		13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F41194AC05C00705DE1 /* TFBarcode.m */; };
 		13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F44194AC05C00705DE1 /* TFBarcodeScanner.m */; };
 		13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */; };
@@ -65,11 +65,11 @@
 		135D69E2194AAD9700EC8C3D /* books.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = books.jpg; sourceTree = "<group>"; };
 		13BA9F68194BF49D007980D7 /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
 		13BA9F69194BF49D007980D7 /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
-		13BA9F6C194C02A2007980D7 /* ResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsViewController.h; sourceTree = "<group>"; };
-		13BA9F6D194C02A2007980D7 /* ResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsViewController.m; sourceTree = "<group>"; };
-		13BA9F6E194C02A2007980D7 /* ResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultsViewController.xib; sourceTree = "<group>"; };
-		13BA9F71194C039A007980D7 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		13BA9F72194C039A007980D7 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		13BA9F75194C05D9007980D7 /* MiniBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniBookView.h; sourceTree = "<group>"; };
+		13BA9F76194C05D9007980D7 /* MiniBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniBookView.m; sourceTree = "<group>"; };
+		13BA9F79194C1832007980D7 /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
+		13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
+		13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
 		13C53F40194AC05C00705DE1 /* TFBarcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFBarcode.h; sourceTree = "<group>"; };
 		13C53F41194AC05C00705DE1 /* TFBarcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBarcode.m; sourceTree = "<group>"; };
 		13C53F42194AC05C00705DE1 /* TFBarcodeScanner-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TFBarcodeScanner-Prefix.pch"; sourceTree = "<group>"; };
@@ -127,13 +127,13 @@
 		135D69AB194A9E9300EC8C3D /* BooksBooksBooks */ = {
 			isa = PBXGroup;
 			children = (
-				13BA9F74194C03A0007980D7 /* Book View */,
-				13BA9F6B194C027A007980D7 /* Results View Controller */,
-				135D69DA194AA93C00EC8C3D /* Nibs */,
+				135D69CD194AA5ED00EC8C3D /* App Delegate */,
 				135D69DB194AA9C300EC8C3D /* Base View Controller */,
 				135D69D4194AA8E300EC8C3D /* Add View Controller */,
 				135D69D3194AA7A500EC8C3D /* Main Nav Controller */,
-				135D69CD194AA5ED00EC8C3D /* App Delegate */,
+				13BA9F78194C1817007980D7 /* Search Results Controller */,
+				13BA9F74194C03A0007980D7 /* Mini Book View */,
+				135D69DA194AA93C00EC8C3D /* Nibs */,
 				135D69B6194A9E9300EC8C3D /* Images.xcassets */,
 				135D69B3194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld */,
 				135D69AC194A9E9300EC8C3D /* Supporting Files */,
@@ -201,7 +201,7 @@
 		135D69DA194AA93C00EC8C3D /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				13BA9F6E194C02A2007980D7 /* ResultsViewController.xib */,
+				13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */,
 				135D69DE194AA9DE00EC8C3D /* BaseViewController.xib */,
 				135D69D7194AA90000EC8C3D /* AddViewController.xib */,
 				135D69D0194AA62D00EC8C3D /* MainNavigationController.xib */,
@@ -235,22 +235,22 @@
 			name = Borders;
 			sourceTree = "<group>";
 		};
-		13BA9F6B194C027A007980D7 /* Results View Controller */ = {
+		13BA9F74194C03A0007980D7 /* Mini Book View */ = {
 			isa = PBXGroup;
 			children = (
-				13BA9F6C194C02A2007980D7 /* ResultsViewController.h */,
-				13BA9F6D194C02A2007980D7 /* ResultsViewController.m */,
+				13BA9F75194C05D9007980D7 /* MiniBookView.h */,
+				13BA9F76194C05D9007980D7 /* MiniBookView.m */,
 			);
-			name = "Results View Controller";
+			name = "Mini Book View";
 			sourceTree = "<group>";
 		};
-		13BA9F74194C03A0007980D7 /* Book View */ = {
+		13BA9F78194C1817007980D7 /* Search Results Controller */ = {
 			isa = PBXGroup;
 			children = (
-				13BA9F71194C039A007980D7 /* Book.h */,
-				13BA9F72194C039A007980D7 /* Book.m */,
+				13BA9F79194C1832007980D7 /* SearchResultsViewController.h */,
+				13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */,
 			);
-			name = "Book View";
+			name = "Search Results Controller";
 			sourceTree = "<group>";
 		};
 		13C53F3F194AC05C00705DE1 /* TFBarcodeScanner */ = {
@@ -358,10 +358,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13BA9F7D194C1832007980D7 /* SearchResultsViewController.xib in Resources */,
 				135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */,
 				135D69E0194AA9DE00EC8C3D /* BaseViewController.xib in Resources */,
 				135D69D2194AA62D00EC8C3D /* MainNavigationController.xib in Resources */,
-				13BA9F70194C02A2007980D7 /* ResultsViewController.xib in Resources */,
 				135D69E3194AAD9700EC8C3D /* books.jpg in Resources */,
 				135D69B7194A9E9300EC8C3D /* Images.xcassets in Resources */,
 			);
@@ -414,13 +414,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13BA9F77194C05D9007980D7 /* MiniBookView.m in Sources */,
 				135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */,
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
+				13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */,
 				135D69DF194AA9DE00EC8C3D /* BaseViewController.m in Sources */,
 				135D69B2194A9E9300EC8C3D /* AppDelegate.m in Sources */,
-				13BA9F73194C039A007980D7 /* Book.m in Sources */,
 				13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */,
-				13BA9F6F194C02A2007980D7 /* ResultsViewController.m in Sources */,
 				135D69AF194A9E9300EC8C3D /* main.m in Sources */,
 				135D69D1194AA62D00EC8C3D /* MainNavigationController.m in Sources */,
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
