@@ -6,9 +6,9 @@
 // project.
 
 
-// TFBarcodeScanner
-#define COCOAPODS_POD_AVAILABLE_TFBarcodeScanner
-#define COCOAPODS_VERSION_MAJOR_TFBarcodeScanner 1
-#define COCOAPODS_VERSION_MINOR_TFBarcodeScanner 0
-#define COCOAPODS_VERSION_PATCH_TFBarcodeScanner 0
+// FXBlurView
+#define COCOAPODS_POD_AVAILABLE_FXBlurView
+#define COCOAPODS_VERSION_MAJOR_FXBlurView 1
+#define COCOAPODS_VERSION_MINOR_FXBlurView 6
+#define COCOAPODS_VERSION_PATCH_FXBlurView 1
 

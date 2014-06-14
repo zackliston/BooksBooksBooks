@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "AddViewController.h"
+#import <FXBlurView/FXBlurView.h>
 
 @interface BaseViewController ()
 
@@ -36,8 +37,8 @@
     if (self.hasAddButton) {
         [self addRightBarButton];
     }
-    
-    self.backgroundImageView.image = [UIImage imageNamed:@"books.jpg"];
+    UIImage *originalImage = [UIImage imageNamed:@"books.jpg"];
+    self.backgroundImageView.image = [originalImage blurredImageWithRadius:7.5 iterations:10 tintColor:nil];
     self.imageDimmingView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
 }
 
@@ -63,18 +64,10 @@
 - (void)presentAddViewController
 {
     AddViewController *addVC = [[AddViewController alloc] init];
-    addVC.hasAddButton = NO;
     addVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    addVC.dismissDelegate = self;
     
-    [self.navigationController presentViewController:addVC animated:YES completion:NULL];
+    [self.navigationController pushViewController:addVC animated:YES];
 }
 
-#pragma mark Delegate Methods
-
-- (void)dismissPresentedViewController
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 
 @end

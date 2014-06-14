@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "55CC410E71DA4938BF2EFDAF"
-               BuildableName = "libPods-BooksBooksBooks-TFBarcodeScanner.a"
-               BlueprintName = "Pods-BooksBooksBooks-TFBarcodeScanner"
+               BlueprintIdentifier = "02496C5D3BC64AFF8B48628D"
+               BuildableName = "libPods-BooksBooksBooks-FXBlurView.a"
+               BlueprintName = "Pods-BooksBooksBooks-FXBlurView"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

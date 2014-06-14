@@ -1,10 +1,10 @@
 PODS:
-  - TFBarcodeScanner (1.0.0)
+  - FXBlurView (1.6.1)
 
 DEPENDENCIES:
-  - TFBarcodeScanner
+  - FXBlurView
 
 SPEC CHECKSUMS:
-  TFBarcodeScanner: 9070a2efb751dc26a8cc82443a14abde5165acdd
+  FXBlurView: 1d01b96076d65027314d1be024c7506c292392aa
 
 COCOAPODS: 0.33.1

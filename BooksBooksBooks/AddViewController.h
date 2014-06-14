@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "TFBarcodeScannerViewController.h"
 
-@interface AddViewController : BaseViewController
+@interface AddViewController : TFBarcodeScannerViewController <UITextFieldDelegate>
 
-@property (nonatomic, weak) id<DismissPresenedViewController>dismissDelegate;
 
 @end

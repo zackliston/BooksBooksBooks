@@ -2,7 +2,7 @@
 # platform :ios, "6.0"
 
 target "BooksBooksBooks" do
-pod 'TFBarcodeScanner'
+pod 'FXBlurView'
 end
 
 target "BooksBooksBooksTests" do

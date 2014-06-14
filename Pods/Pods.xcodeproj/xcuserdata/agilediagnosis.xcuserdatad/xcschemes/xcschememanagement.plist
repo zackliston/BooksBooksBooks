@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-BooksBooksBooks-TFBarcodeScanner.xcscheme</key>
+		<key>Pods-BooksBooksBooks-FXBlurView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>55CC410E71DA4938BF2EFDAF</key>
+		<key>02496C5D3BC64AFF8B48628D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>65969EB5021B4A15A27721F5</key>
+		<key>35CB75FD2B734989A8F6E108</key>
 		<dict>
 			<key>primary</key>
 			<true/>

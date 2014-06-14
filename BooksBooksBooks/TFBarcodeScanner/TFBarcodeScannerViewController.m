@@ -70,7 +70,8 @@ static const CGFloat TFBarcodeScannerPreviewAnimationDuration = 0.2f;
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.previewLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    CGFloat shiftDownAmount = self.view.frame.size.height/3.5;
+    self.previewLayer.frame = CGRectMake(0, shiftDownAmount, self.view.frame.size.width, self.view.frame.size.height);
 }
 
 - (void)didReceiveMemoryWarning

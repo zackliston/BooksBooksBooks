@@ -8,13 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol DismissPresenedViewController <NSObject>
-
-- (void)dismissPresentedViewController;
-
-@end
-
-@interface BaseViewController : UIViewController <DismissPresenedViewController>
+@interface BaseViewController : UIViewController
 
 @property (nonatomic, assign) BOOL hasAddButton;
 
