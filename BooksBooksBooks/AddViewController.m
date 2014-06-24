@@ -9,12 +9,12 @@
 #import "AddViewController.h"
 #import "UIView+Borders.h"
 #import "SearchResultsViewController.h"
+#import <GTLBooks.h>
 #import <FXBlurView/FXBlurView.h>
 #import <QuartzCore/QuartzCore.h>
 
 @interface AddViewController ()
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImageView;
-@property (strong, nonatomic) IBOutlet UIView *mainView;
+
 @property (strong, nonatomic) IBOutlet UIButton *searchButton;
 
 @property (strong, nonatomic) IBOutlet UIView *authorView;
@@ -24,9 +24,18 @@
 @property (strong, nonatomic) IBOutlet UITextField *isbnTextField;
 @property (strong, nonatomic) IBOutlet UITextField *authorTextField;
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
+
+
+@property (nonatomic, strong) SearchResultsViewController *searchResultsViewController;
+
 @end
 
 @implementation AddViewController
+
+
+@synthesize searchResultsViewController = _searchResultsViewController;
+
+#pragma mark Initiation
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,14 +46,19 @@
     return self;
 }
 
+#pragma mark Getters Setters
+
+- (SearchResultsViewController *)searchResultsViewController
+{
+    if (!_searchResultsViewController) {
+        _searchResultsViewController = [[SearchResultsViewController alloc] init];
+    }
+    return _searchResultsViewController;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UIImage *originalImage = [UIImage imageNamed:@"books.jpg"];
-    self.backgroundImageView.image = [originalImage blurredImageWithRadius:7.5 iterations:10 tintColor:nil];
-    
-    self.mainView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
 
     [self setupSearchButton];
     [self setupLabels];
@@ -58,12 +72,6 @@
     [self setupNavigationBar];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark Barcode Stuff
 
 - (void)barcodeWasScanned:(NSSet *)barcodes
@@ -71,18 +79,66 @@
     TFBarcode *barcode = [barcodes anyObject];
     self.isbnTextField.text = barcode.string;
     [self stop];
+    [self startSearchWithISBN:barcode.string author:nil title:nil];
+  
 }
 
 #pragma mark Start Search
 - (IBAction)searchButtonClicked:(UIButton *)sender
 {
-    SearchResultsViewController *srvc = [[SearchResultsViewController alloc] init];
-    [self.navigationController pushViewController:srvc animated:YES];
+    NSString *isbn = self.isbnTextField.text;
+    NSString *errorTitle = @"";
+    NSString *errorText = @"";
+    BOOL error = NO;
+    if (!(isbn.length == 0 || isbn.length == 10 || isbn.length == 13)) {
+        error = YES;
+        errorTitle = @"Invalid ISBN";
+        errorText = @"An ISBN can only be 10 or 13 numbers";
+    } else {
+        if (self.titleTextField.text.length + self.authorTextField.text.length + self.isbnTextField.text.length < 1) {
+            error = YES;
+            errorTitle = @"What're you searching for?";
+            errorText = @"To search for a book you need to enter at least one of the three (author, title, ISBN) or scan the barcode on a book.";
+        }
+    }
+    
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:errorText delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        [self startSearchWithISBN:self.isbnTextField.text author:self.authorTextField.text title:self.titleTextField.text];
+    }
 }
 
-- (void)startSearchWithISBN:(NSString *)isnb author:(NSString *)author title:(NSString *)title
+- (void)startSearchWithISBN:(NSString *)isbn author:(NSString *)author title:(NSString *)title
 {
     
+    NSString *queryText = @"";
+    if (isbn.length >0) {
+        queryText = [queryText stringByAppendingFormat:@"isbn:%@", isbn];
+    }
+    
+    if (author.length>0) {
+        if (queryText.length >0) {
+            queryText = [queryText stringByAppendingFormat:@"&inauthor:%@", author];
+        } else {
+            queryText = [queryText stringByAppendingFormat:@"inauthor:%@", author];
+        }
+    }
+    
+    if (title.length >0) {
+        if (queryText.length >0) {
+            queryText = [queryText stringByAppendingFormat:@" intitle:%@", title];
+        } else {
+            queryText = [queryText stringByAppendingFormat:@"intitle:%@", title];
+        }
+    }
+    
+    GTLQueryBooks *query = [GTLQueryBooks queryForVolumesListWithQ:queryText];
+    query.shouldSkipAuthorization = YES;
+    query.orderBy = kGTLBooksOrderByRelevance;
+    [self.navigationController pushViewController:self.searchResultsViewController animated:YES];
+    [self.searchResultsViewController startSearchWithQuery:query];
 }
 
 #pragma mark TextField delegate
@@ -92,7 +148,7 @@
     [self stop];
 }
 
-#pragma mark Setup 
+#pragma mark Setup
 
 - (void)setupSearchButton
 {
@@ -105,10 +161,10 @@
 - (void)setupLabels
 {
     // Set the background color of the input views. Make each one succesively darker
-    self.titleView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.2];
-    self.authorView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.4];
-    self.isbnView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.6];
-    self.searchButton.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+    self.titleView.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0];
+    self.authorView.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+    self.isbnView.backgroundColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0];
+    self.searchButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
     
     // The color of the borders
     UIColor *borderColor = [UIColor lightGrayColor];
@@ -131,13 +187,6 @@
 
 - (void)setupNavigationBar
 {
-    // Make the nav bar transparent
-    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    
-    // Make the navBar items white
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    
     
     // Set up the navigationBar title attributes
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:36.0], NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -147,4 +196,5 @@
     self.navigationController.navigationBar.topItem.title = @"";
     self.navigationItem.title = @"Find a Book";
 }
+
 @end

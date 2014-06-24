@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GTLBooks.h>
 
-@interface SearchResultsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface SearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+- (void)setVolumes:(GTLBooksVolumes *)volumes;
+
+- (void)startSearchWithQuery:(GTLQueryBooks *)query;
 
 @end

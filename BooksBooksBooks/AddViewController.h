@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
 #import "TFBarcodeScannerViewController.h"
 
 @interface AddViewController : TFBarcodeScannerViewController <UITextFieldDelegate>

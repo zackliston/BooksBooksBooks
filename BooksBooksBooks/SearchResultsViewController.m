@@ -7,71 +7,95 @@
 //
 
 #import "SearchResultsViewController.h"
-#import "MiniBookView.h"
+#import "SearchResultsTableViewCell.h"
 #import "Constants.h"
+#import "BookDetailViewController.h"
+#import <GTLBooks.h>
 #import <FXBlurView/FXBlurView.h>
 
 @interface SearchResultsViewController ()
 
-@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImageView;
-@property (strong, nonatomic) IBOutlet UIView *customDimmingView;
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong) GTLServiceBooks *service;
+@property (nonatomic, strong) GTLBooksVolumes *volumes;
+@property (nonatomic, strong) GTLServiceTicket *serviceTicket;
 
 @end
 
 @implementation SearchResultsViewController
 
-static NSString *collectionCellIdentifier = @"collectionCellIdentifer";
+@synthesize service = _service;
+@synthesize serviceTicket = _serviceTicket;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+static NSString *tableCellIdentifier = @"tableCellIdentifer";
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:collectionCellIdentifier];
-    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = [self tableHeaderView];
     
-    UIImage *originalImage = [UIImage imageNamed:@"books.jpg"];
-    self.backgroundImageView.image = [originalImage blurredImageWithRadius:7.5 iterations:10 tintColor:nil];
-      self.customDimmingView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+    [self.tableView registerNib:[UINib nibWithNibName:@"SearchResultsTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:tableCellIdentifier];
     
     [self setupNavigationBar];
 }
 
+- (GTLServiceBooks *)service
+{
+    if (!_service) {
+        _service  = [[GTLServiceBooks alloc] init];
+        _service.shouldFetchNextPages = NO;
+        _service.retryEnabled = YES;
+        _service.shouldFetchInBackground = YES;
+    }
+    return _service;
+}
+
 #pragma mark Collection Data Source
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return self.volumes.items.count;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:collectionCellIdentifier forIndexPath:indexPath];
+    SearchResultsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
     if (!cell) {
-        cell = [[UICollectionViewCell alloc] init];
+        cell = [[SearchResultsTableViewCell alloc] init];
     }
     
-    MiniBookView *miniCollectionView = [[MiniBookView alloc] initWithJSONData:@{VOLUME_INFO_KEY:@{AUTHORS_KEY:@[@"Ray Bradbury"], TITLE_KEY:@"Fahrenheit 451"}, IMAGE_LINKS_KEY:@{THUMBNAIL_ADDRESS_KEY:@"http://bks0.books.google.com/books?id=y3CyRurE7P4C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"}}];
+    GTLBooksVolume *book = [self.volumes objectAtIndexedSubscript:indexPath.row];
+    cell.imageURL = book.volumeInfo.imageLinks.thumbnail;
+    cell.titleLabel.text = book.volumeInfo.title;
     
-    cell.backgroundView = miniCollectionView;
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 180.0;
+}
+
 #pragma mark Collection View Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GTLBooksVolume *book = [self.volumes objectAtIndexedSubscript:indexPath.row];
+    BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
+    bookDetailVC.book = book;
+    
+    [self.navigationController presentViewController:bookDetailVC animated:YES completion:NULL];
+}
 
 #pragma mark Setup
 
@@ -79,8 +103,68 @@ static NSString *collectionCellIdentifier = @"collectionCellIdentifer";
 {
     // Remove the 'back' text from the navBar
     self.navigationController.navigationBar.topItem.title = @"";
-    self.navigationItem.title = @"Search Results";
 }
 
+#pragma mark Search Stuff
+
+- (void)startSearchWithQuery:(GTLQueryBooks *)query
+{
+    self.serviceTicket = [self.service executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error) {
+
+        if (error) {
+            NSLog(@"Error trying to fetch book %@", error);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Problem Searching" message:@"Unfortunatley there was an error with your request. We're on it. Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [alertView show];
+            });
+            
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.volumes = object;
+                [self.tableView reloadData];
+            });
+        }
+    }];
+}
+
+
+
+
+- (UIImageView *)tableHeaderView
+{
+    // Create the frame for the tableHeaderView (which is an imageView
+    CGRect imageViewFrame = CGRectMake(0.0, 0.0, self.tableView.bounds.size.width, 100.0);
+    
+    // Create the headerView, which is an imageView, which will have the Labels on top of it
+    UIImageView *headerView = [[UIImageView alloc] initWithFrame:imageViewFrame];
+    
+    // Load the image and place it in the imageView (headerView)
+    UIImage *headerImage = [UIImage imageNamed:@"stacked_books.jpg"];
+    headerView.image = headerImage;
+
+    
+    // Create the frame for the bottom label, which contains 'Library'
+    CGRect bottomLabelFrame = CGRectMake(40.0, 13.0, self.tableView.bounds.size.width-40.0, 60.0);
+    
+    // Create the bottomLabel and set all the visual properties
+    UILabel *bottomLabel = [[UILabel alloc] initWithFrame:bottomLabelFrame];
+    bottomLabel.text = @"";
+    bottomLabel.backgroundColor = [UIColor clearColor];
+    bottomLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:36.0];
+    bottomLabel.textColor = [UIColor whiteColor];
+    
+    // Add a shadow so the text is a bit more clear
+    bottomLabel.layer.masksToBounds = NO;
+    bottomLabel.layer.shadowRadius = 10.0;
+    bottomLabel.layer.shadowOpacity = 1.0;
+    bottomLabel.layer.shadowOffset = CGSizeZero;
+    bottomLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    // Add the labels to the headerView (the imageView)
+    [headerView addSubview:bottomLabel];
+    
+    return headerView;
+}
 
 @end

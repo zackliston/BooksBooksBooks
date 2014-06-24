@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 zackliston. All rights reserved.
 //
 
+#define GOOGLE_API_BASE_URL @"https://www.googleapis.com/books/v1/volumes"
+#define GOOGLE_API_ISBN_PARAMETER @"isbn"
+#define GOOGLE_API_AUTHOR_PARAMETER @"inauthor"
+#define GOOGLE_API_TITLE_PARAMETER @"intitle"
 #define GOOGLE_API_KEY @"AIzaSyDwhj5mmiY9VmpxZhaxbrFHMwebWQrSHck"
 
 #pragma mark JSON Keys

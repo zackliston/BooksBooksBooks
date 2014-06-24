@@ -6,10 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchResultsViewController">
             <connections>
-                <outlet property="backgroundImageView" destination="6ID-fQ-RLV" id="NQX-R2-bLh"/>
-                <outlet property="collectionView" destination="eZ8-GO-8vd" id="tQj-hK-1zA"/>
-                <outlet property="customDimmingView" destination="epC-9k-7XO" id="CM6-Mp-3BD"/>
-                <outlet property="dimmingView" destination="epC-9k-7XO" id="M2Z-mW-Zd9"/>
+                <outlet property="tableView" destination="Gpy-d8-CrB" id="vJH-SA-z6g"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,41 +15,34 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6ID-fQ-RLV">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epC-9k-7XO">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Gpy-d8-CrB">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="F74-qq-6xb"/>
+                                <outlet property="delegate" destination="-1" id="nVF-a6-WSg"/>
+                            </connections>
+                        </tableView>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Gpy-d8-CrB" secondAttribute="bottom" id="1pz-1q-O8d"/>
+                        <constraint firstItem="Gpy-d8-CrB" firstAttribute="leading" secondItem="epC-9k-7XO" secondAttribute="leading" id="8lr-Id-7yy"/>
+                        <constraint firstAttribute="trailing" secondItem="Gpy-d8-CrB" secondAttribute="trailing" id="BB0-5g-y3d"/>
+                        <constraint firstItem="Gpy-d8-CrB" firstAttribute="top" secondItem="epC-9k-7XO" secondAttribute="top" id="OQT-v5-2Wa"/>
+                    </constraints>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eZ8-GO-8vd">
-                    <rect key="frame" x="20" y="64" width="440" height="416"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="Zqe-q4-7hX">
-                        <size key="itemSize" width="128" height="210"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="MO1-D4-bkI"/>
-                        <outlet property="delegate" destination="-1" id="h4F-IX-La4"/>
-                    </connections>
-                </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="eZ8-GO-8vd" secondAttribute="trailing" constant="20" id="6hu-HX-beZ"/>
                 <constraint firstItem="epC-9k-7XO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="8IZ-Qw-KI5"/>
-                <constraint firstAttribute="bottom" secondItem="6ID-fQ-RLV" secondAttribute="bottom" id="AiW-HG-Vsi"/>
-                <constraint firstAttribute="trailing" secondItem="6ID-fQ-RLV" secondAttribute="trailing" id="GVA-Jl-bYy"/>
-                <constraint firstAttribute="bottom" secondItem="eZ8-GO-8vd" secondAttribute="bottom" id="K9b-if-Isq"/>
                 <constraint firstAttribute="trailing" secondItem="epC-9k-7XO" secondAttribute="trailing" id="LBe-XY-rOp"/>
-                <constraint firstItem="6ID-fQ-RLV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LV6-s0-CHz"/>
-                <constraint firstItem="6ID-fQ-RLV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SLd-u2-e5R"/>
                 <constraint firstItem="epC-9k-7XO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bjb-fL-IRL"/>
                 <constraint firstAttribute="bottom" secondItem="epC-9k-7XO" secondAttribute="bottom" id="mQK-hX-dSS"/>
-                <constraint firstItem="eZ8-GO-8vd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="sz8-rQ-jC9"/>
-                <constraint firstItem="eZ8-GO-8vd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="uT3-WP-vFQ"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

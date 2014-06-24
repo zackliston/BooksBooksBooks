@@ -3,6 +3,7 @@
 
 target "BooksBooksBooks" do
 pod 'AFNetworking'
+pod 'Google-API-Client'
 pod 'FXBlurView'
 end
 
