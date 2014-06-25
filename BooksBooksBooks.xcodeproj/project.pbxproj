@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		131EE57D1957E2D40025F3A2 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 131EE57C1957E2D40025F3A2 /* Book.m */; };
 		133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133C71881957C37100EE6E7D /* MainScreenViewController.m */; };
 		133C718B1957C37100EE6E7D /* MainScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133C71891957C37100EE6E7D /* MainScreenViewController.xib */; };
 		133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133C718D1957CBDE00EE6E7D /* BookDetailViewController.m */; };
@@ -20,6 +19,12 @@
 		135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69D6194AA90000EC8C3D /* AddViewController.m */; };
 		135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 135D69D7194AA90000EC8C3D /* AddViewController.xib */; };
 		135D69E3194AAD9700EC8C3D /* books.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 135D69E2194AAD9700EC8C3D /* books.jpg */; };
+		135FC37E19592371007C5D1D /* Book+Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC37D19592371007C5D1D /* Book+Constants.m */; };
+		135FC381195928CD007C5D1D /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC380195928CD007C5D1D /* Book.m */; };
+		138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */; };
+		138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */; };
+		138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F919594344002DBC21 /* BookCollectionViewCell.m */; };
+		138DE7FC19594344002DBC21 /* BookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */; };
 		139C65291957D1BB009BB746 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139C65281957D1BB009BB746 /* DataController.m */; };
 		13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */; };
 		13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */; };
@@ -46,8 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		131EE57B1957E2D40025F3A2 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		131EE57C1957E2D40025F3A2 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		133C71871957C37100EE6E7D /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
 		133C71881957C37100EE6E7D /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		133C71891957C37100EE6E7D /* MainScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainScreenViewController.xib; sourceTree = "<group>"; };
@@ -69,6 +72,16 @@
 		135D69D6194AA90000EC8C3D /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		135D69D7194AA90000EC8C3D /* AddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddViewController.xib; sourceTree = "<group>"; };
 		135D69E2194AAD9700EC8C3D /* books.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = books.jpg; sourceTree = "<group>"; };
+		135FC37C19592371007C5D1D /* Book+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Constants.h"; sourceTree = "<group>"; };
+		135FC37D19592371007C5D1D /* Book+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Constants.m"; sourceTree = "<group>"; };
+		135FC37F195928CD007C5D1D /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		135FC380195928CD007C5D1D /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenTableViewCell.h; sourceTree = "<group>"; };
+		138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenTableViewCell.m; sourceTree = "<group>"; };
+		138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainScreenTableViewCell.xib; sourceTree = "<group>"; };
+		138DE7F819594344002DBC21 /* BookCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCollectionViewCell.h; sourceTree = "<group>"; };
+		138DE7F919594344002DBC21 /* BookCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCollectionViewCell.m; sourceTree = "<group>"; };
+		138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookCollectionViewCell.xib; sourceTree = "<group>"; };
 		139C65271957D1BB009BB746 /* DataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		139C65281957D1BB009BB746 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		13AEBA76194FEEF700E3B681 /* SearchResultsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsTableViewCell.h; sourceTree = "<group>"; };
@@ -119,6 +132,10 @@
 			children = (
 				133C71871957C37100EE6E7D /* MainScreenViewController.h */,
 				133C71881957C37100EE6E7D /* MainScreenViewController.m */,
+				138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */,
+				138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */,
+				138DE7F819594344002DBC21 /* BookCollectionViewCell.h */,
+				138DE7F919594344002DBC21 /* BookCollectionViewCell.m */,
 			);
 			name = "Main Screen";
 			sourceTree = "<group>";
@@ -219,6 +236,8 @@
 		135D69DA194AA93C00EC8C3D /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */,
+				138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */,
 				133C718E1957CBDE00EE6E7D /* BookDetailViewController.xib */,
 				133C71891957C37100EE6E7D /* MainScreenViewController.xib */,
 				13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */,
@@ -240,11 +259,13 @@
 		139C652A1957D1C0009BB746 /* Data Controller */ = {
 			isa = PBXGroup;
 			children = (
-				131EE57B1957E2D40025F3A2 /* Book.h */,
-				131EE57C1957E2D40025F3A2 /* Book.m */,
+				135FC37F195928CD007C5D1D /* Book.h */,
+				135FC380195928CD007C5D1D /* Book.m */,
 				135D69B3194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld */,
 				139C65271957D1BB009BB746 /* DataController.h */,
 				139C65281957D1BB009BB746 /* DataController.m */,
+				135FC37C19592371007C5D1D /* Book+Constants.h */,
+				135FC37D19592371007C5D1D /* Book+Constants.m */,
 			);
 			name = "Data Controller";
 			sourceTree = "<group>";
@@ -377,11 +398,13 @@
 				13BA9F7D194C1832007980D7 /* SearchResultsViewController.xib in Resources */,
 				135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */,
 				133C71901957CBDE00EE6E7D /* BookDetailViewController.xib in Resources */,
+				138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */,
 				13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */,
 				13AEBA7C1950012400E3B681 /* stacked_books.jpg in Resources */,
 				133C718B1957C37100EE6E7D /* MainScreenViewController.xib in Resources */,
 				135D69E3194AAD9700EC8C3D /* books.jpg in Resources */,
 				135D69B7194A9E9300EC8C3D /* Images.xcassets in Resources */,
+				138DE7FC19594344002DBC21 /* BookCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,16 +458,19 @@
 				135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */,
 				139C65291957D1BB009BB746 /* DataController.m in Sources */,
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
+				138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */,
 				133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */,
+				135FC37E19592371007C5D1D /* Book+Constants.m in Sources */,
 				13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */,
 				13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */,
 				135D69B2194A9E9300EC8C3D /* AppDelegate.m in Sources */,
 				13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */,
 				135D69AF194A9E9300EC8C3D /* main.m in Sources */,
+				135FC381195928CD007C5D1D /* Book.m in Sources */,
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
+				138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */,
 				133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */,
 				13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */,
-				131EE57D1957E2D40025F3A2 /* Book.m in Sources */,
 				135D69B5194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

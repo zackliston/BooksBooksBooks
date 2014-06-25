@@ -2,7 +2,7 @@
 //  Book.m
 //  BooksBooksBooks
 //
-//  Created by Zack Liston on 6/22/14.
+//  Created by Zack Liston on 6/23/14.
 //  Copyright (c) 2014 zackliston. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @dynamic categories;
 @dynamic imageURLs;
 @dynamic localImageLinks;
+@dynamic mainAuthor;
 @dynamic mainCategory;
 @dynamic pageCount;
 @dynamic publishDate;
@@ -25,6 +26,7 @@
 @dynamic ratingsCount;
 @dynamic subtitle;
 @dynamic title;
-@dynamic mainAuthor;
+@dynamic doesOwn;
+@dynamic readStatus;
 
 @end

@@ -173,7 +173,7 @@
     [self.titleView addTopBorderWithHeight:0.5 andColor:borderColor];
     [self.authorView addTopBorderWithHeight:0.5 andColor:borderColor];
     [self.isbnView addTopBorderWithHeight:0.5 andColor:borderColor];
-    [self.isbnView addBottomBorderWithHeight:1.0 andColor:borderColor];
+    [self.searchButton addTopBorderWithHeight:1.0 andColor:borderColor];
 }
 
 - (void)setupTextFields

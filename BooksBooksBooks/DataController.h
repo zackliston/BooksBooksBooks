@@ -13,5 +13,6 @@
 
 + (DataController *)sharedInstance;
 - (void)saveContext;
+- (NSManagedObjectContext *)managedObjectContext;
 
 @end
