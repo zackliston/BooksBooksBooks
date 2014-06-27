@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" rowHeight="130" id="KGk-i7-Jjw" customClass="SearchResultsTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="160" id="KGk-i7-Jjw" customClass="SearchResultsTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="159"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="158"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x1N-BJ-vNF">
-                        <rect key="frame" x="15" y="0.0" width="100" height="130.5"/>
+                        <rect key="frame" x="15" y="4" width="105" height="150"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="130" id="2fb-G8-wVn"/>
-                            <constraint firstAttribute="width" constant="100" id="tkz-V8-Y9q"/>
+                            <constraint firstAttribute="height" constant="150" id="2fb-G8-wVn"/>
+                            <constraint firstAttribute="width" constant="105" id="tkz-V8-Y9q"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is the name of a book and it's called something" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="SQO-PI-CX4">
-                        <rect key="frame" x="130" y="0.0" width="180" height="36"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is the name of a book and it's called something This is the name of a book and it's called something" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="SQO-PI-CX4">
+                        <rect key="frame" x="130" y="4" width="180" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="36" id="G6e-FB-orX"/>
+                            <constraint firstAttribute="height" constant="40" id="G6e-FB-orX"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" This is a label and I want to se ehow long" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="Ts4-ll-Fs1">
+                        <rect key="frame" x="130" y="49" width="180" height="35"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="ixn-dB-PaG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="x1N-BJ-vNF" firstAttribute="top" secondItem="SQO-PI-CX4" secondAttribute="top" id="0Gy-rH-MnM"/>
-                    <constraint firstItem="SQO-PI-CX4" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="15" id="KBz-GR-NXb"/>
+                    <constraint firstAttribute="trailing" secondItem="Ts4-ll-Fs1" secondAttribute="trailing" constant="10" id="1ff-UL-6L0"/>
+                    <constraint firstItem="SQO-PI-CX4" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="10" id="KBz-GR-NXb"/>
                     <constraint firstAttribute="centerY" secondItem="x1N-BJ-vNF" secondAttribute="centerY" id="Nus-9u-68F"/>
                     <constraint firstAttribute="trailing" secondItem="SQO-PI-CX4" secondAttribute="trailing" constant="10" id="Vbc-SF-avF"/>
+                    <constraint firstItem="Ts4-ll-Fs1" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="10" id="aKI-I4-3O3"/>
                     <constraint firstItem="x1N-BJ-vNF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jX8-iu-m0F"/>
+                    <constraint firstItem="Ts4-ll-Fs1" firstAttribute="top" secondItem="SQO-PI-CX4" secondAttribute="bottom" constant="5" id="pOr-j4-Yft"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="authorLabel" destination="Ts4-ll-Fs1" id="lX9-bd-LJy"/>
+                <outlet property="authorLabelHeight" destination="ixn-dB-PaG" id="hV0-vH-VNG"/>
                 <outlet property="coverImageView" destination="x1N-BJ-vNF" id="M0l-XV-LtZ"/>
-                <outlet property="titleLabel" destination="SQO-PI-CX4" id="X4v-6n-YCn"/>
+                <outlet property="titleLabel" destination="SQO-PI-CX4" id="jo2-7N-1mP"/>
+                <outlet property="titleLabelHeight" destination="G6e-FB-orX" id="Xsf-Rc-pZE"/>
             </connections>
-            <point key="canvasLocation" x="453" y="304"/>
         </tableViewCell>
     </objects>
 </document>

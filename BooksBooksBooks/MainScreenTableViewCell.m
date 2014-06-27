@@ -52,14 +52,7 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MainScreenCollectionViewCellIdentifier forIndexPath:indexPath];
     
     cell.backgroundColor = [UIColor darkGrayColor];
-    NSDictionary *imageUrls = book.imageURLs;
-    NSLog(@"imageURLS = %@", imageUrls);
-    if ([imageUrls objectForKey:smallImageKey]) {
-        [cell setImageURL:[imageUrls objectForKey:smallImageKey]];
-    } else {
-        [cell setImageURL:[imageUrls objectForKey:thumbnailImageKey]];
-    } 
-    
+    [cell setupWithBook:book];
     
     return cell;
 }

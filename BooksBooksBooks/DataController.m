@@ -7,6 +7,7 @@
 //
 
 #import "DataController.h"
+#import "DownloadManager.h"
 
 @interface DataController ()
 
@@ -123,4 +124,96 @@ static DataController *sharedInstance;
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+
+#pragma mark - Add Book
+
+- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus doesOwn:(BOOL)doesOwn
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:context];
+    newBook.authors = gtlBook.volumeInfo.authors;
+    newBook.averageRating = gtlBook.volumeInfo.averageRating;
+    newBook.bookDescription = gtlBook.volumeInfo.descriptionProperty;
+    newBook.bookID = gtlBook.identifier;
+    newBook.categories = gtlBook.volumeInfo.categories;
+    newBook.mainAuthor = [gtlBook.volumeInfo.authors firstObject];
+    newBook.mainCategory = gtlBook.volumeInfo.mainCategory;
+    newBook.pageCount = gtlBook.volumeInfo.pageCount;
+    newBook.publisher = gtlBook.volumeInfo.publisher;
+    newBook.publishDate = gtlBook.volumeInfo.publishedDate;
+    newBook.ratingsCount = gtlBook.volumeInfo.ratingsCount;
+    newBook.subtitle = gtlBook.volumeInfo.subtitle;
+    newBook.title = gtlBook.volumeInfo.title;
+    newBook.doesOwn = [NSNumber numberWithBool:doesOwn];
+    newBook.readStatus = [NSNumber numberWithInteger:readStatus];
+    
+    newBook.imageURLs = [self convertImageLinksPropertyToDictionary:gtlBook.volumeInfo.imageLinks];
+    newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:newBook.imageURLs bookID:newBook.bookID];
+    
+    NSError *saveError;
+    
+    [context save:&saveError];
+    if (saveError) {
+        NSLog(@"Error saving context after adding book. %@", saveError);
+    } else {
+        NSLog(@"Successfully added a book to CoreData!");
+    }
+}
+
+#pragma mark Add Book Helpers
+
+- (NSDictionary *)convertImageLinksPropertyToDictionary:(GTLBooksVolumeVolumeInfoImageLinks *)imageLinks
+{
+    NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
+    if (imageLinks.large) [tempDictionary setObject:imageLinks.large forKey:largeImageKey];
+    if (imageLinks.medium) [tempDictionary setObject:imageLinks.medium forKey:mediumImageKey];
+    if (imageLinks.small) [tempDictionary setObject:imageLinks.small forKey:smallImageKey];
+    if (imageLinks.thumbnail) [tempDictionary setObject:imageLinks.thumbnail forKey:thumbnailImageKey];
+    
+    return [NSDictionary dictionaryWithDictionary:tempDictionary];
+}
+
+- (NSDictionary *)localImageLinksFromExternalImageLinks:(NSDictionary *)externalLinks bookID:(NSString *)bookID
+{
+    NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
+    NSString *imageDirectoryPath = [DownloadManager getImageDirectoryLocation];
+    
+    for (NSString *key in externalLinks.allKeys) {
+        NSString *localLink = [NSString stringWithFormat:@"%@/%@-%@.png", imageDirectoryPath, bookID, key];
+        [tempDictionary setObject:localLink forKey:key];
+        
+        [DownloadManager downloadImageFrom:[externalLinks objectForKey:key] to:localLink];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:tempDictionary];
+}
+
+
+#pragma mark - Fetch Book
+
+- (Book *)fetchBookWithBookID:(NSString *)bookID
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"Book" inManagedObjectContext:[self managedObjectContext]]];
+    
+    NSPredicate *fetchPredicate = [NSPredicate predicateWithFormat:@"bookID == %@", bookID];
+    [fetchRequest setPredicate:fetchPredicate];
+    
+    NSError *fetchError = nil;
+    
+    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (fetchError) {
+        NSLog(@"Error fetching book with ID = %@ \n%@", bookID, fetchError);
+        return nil;
+    }
+    
+    if ([results count] > 1) {
+        NSLog(@"Error! There should only be one or less results for any bookID");
+        return nil;
+    } else {
+        return [results lastObject];
+    }
+    
+}
 @end

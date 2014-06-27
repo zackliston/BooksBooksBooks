@@ -240,6 +240,12 @@
 #define COCOAPODS_VERSION_MINOR_Google_API_Client_YouTubeAnalytics 1
 #define COCOAPODS_VERSION_PATCH_Google_API_Client_YouTubeAnalytics 1
 
+// MBProgressHUD
+#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
+#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
+#define COCOAPODS_VERSION_MINOR_MBProgressHUD 8
+#define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
+
 // gtm-oauth2
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2
 #define COCOAPODS_VERSION_MAJOR_gtm_oauth2 0

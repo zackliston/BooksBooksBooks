@@ -171,11 +171,13 @@ PODS:
   - gtm-oauth2 (0.1.0):
     - GTMHTTPFetcher
   - GTMHTTPFetcher (0.1.0)
+  - MBProgressHUD (0.8)
 
 DEPENDENCIES:
   - AFNetworking
   - FXBlurView
   - Google-API-Client
+  - MBProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
@@ -183,5 +185,6 @@ SPEC CHECKSUMS:
   Google-API-Client: 69cd2a04c649abe9f3fa6695bc4bb8965373f204
   gtm-oauth2: 64f2d404a50676ab63b5437a02a7567da8f8b7fa
   GTMHTTPFetcher: 0f02d5a5803dd08736462981064de6a7f59cf9bd
+  MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
 
 COCOAPODS: 0.33.1

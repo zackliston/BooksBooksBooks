@@ -10,11 +10,13 @@
 #import "SearchResultsTableViewCell.h"
 #import "Constants.h"
 #import "BookDetailViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 #import <GTLBooks.h>
 #import <FXBlurView/FXBlurView.h>
 
 @interface SearchResultsViewController ()
 
+@property (strong, nonatomic) IBOutlet UIView *navigationView;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
@@ -34,14 +36,16 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = [self tableHeaderView];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"SearchResultsTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:tableCellIdentifier];
-    
+    [self setupTableView];
     [self setupNavigationBar];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.topItem.title = @"";
+}
 - (GTLServiceBooks *)service
 {
     if (!_service) {
@@ -74,7 +78,8 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     
     GTLBooksVolume *book = [self.volumes objectAtIndexedSubscript:indexPath.row];
     cell.imageURL = book.volumeInfo.imageLinks.thumbnail;
-    cell.titleLabel.text = book.volumeInfo.title;
+    cell.title = book.volumeInfo.title;
+    cell.author = [book.volumeInfo.authors firstObject];
     
     cell.backgroundColor = [UIColor clearColor];
     
@@ -92,7 +97,7 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 {
     GTLBooksVolume *book = [self.volumes objectAtIndexedSubscript:indexPath.row];
     BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
-    bookDetailVC.book = book;
+    bookDetailVC.gtlBook = book;
     
     [self.navigationController presentViewController:bookDetailVC animated:YES completion:NULL];
 }
@@ -103,18 +108,32 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 {
     // Remove the 'back' text from the navBar
     self.navigationController.navigationBar.topItem.title = @"";
+    self.navigationView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+
+    self.navigationItem.title = @"Search Results";
+}
+
+- (void)setupTableView
+{
+    self.tableView.tableHeaderView = [UIView new];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.tableView registerNib:[UINib nibWithNibName:@"SearchResultsTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:tableCellIdentifier];
 }
 
 #pragma mark Search Stuff
 
 - (void)startSearchWithQuery:(GTLQueryBooks *)query
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     self.serviceTicket = [self.service executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error) {
 
         if (error) {
             NSLog(@"Error trying to fetch book %@", error);
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Problem Searching" message:@"Unfortunatley there was an error with your request. We're on it. Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                 [alertView show];
             });
@@ -123,48 +142,11 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.volumes = object;
                 [self.tableView reloadData];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
         }
     }];
 }
 
-
-
-
-- (UIImageView *)tableHeaderView
-{
-    // Create the frame for the tableHeaderView (which is an imageView
-    CGRect imageViewFrame = CGRectMake(0.0, 0.0, self.tableView.bounds.size.width, 100.0);
-    
-    // Create the headerView, which is an imageView, which will have the Labels on top of it
-    UIImageView *headerView = [[UIImageView alloc] initWithFrame:imageViewFrame];
-    
-    // Load the image and place it in the imageView (headerView)
-    UIImage *headerImage = [UIImage imageNamed:@"stacked_books.jpg"];
-    headerView.image = headerImage;
-
-    
-    // Create the frame for the bottom label, which contains 'Library'
-    CGRect bottomLabelFrame = CGRectMake(40.0, 13.0, self.tableView.bounds.size.width-40.0, 60.0);
-    
-    // Create the bottomLabel and set all the visual properties
-    UILabel *bottomLabel = [[UILabel alloc] initWithFrame:bottomLabelFrame];
-    bottomLabel.text = @"";
-    bottomLabel.backgroundColor = [UIColor clearColor];
-    bottomLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:36.0];
-    bottomLabel.textColor = [UIColor whiteColor];
-    
-    // Add a shadow so the text is a bit more clear
-    bottomLabel.layer.masksToBounds = NO;
-    bottomLabel.layer.shadowRadius = 10.0;
-    bottomLabel.layer.shadowOpacity = 1.0;
-    bottomLabel.layer.shadowOffset = CGSizeZero;
-    bottomLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    
-    // Add the labels to the headerView (the imageView)
-    [headerView addSubview:bottomLabel];
-    
-    return headerView;
-}
 
 @end

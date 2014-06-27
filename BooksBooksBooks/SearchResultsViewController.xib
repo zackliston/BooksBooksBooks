@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchResultsViewController">
             <connections>
+                <outlet property="navigationView" destination="NZi-hv-Hcx" id="BVE-c7-AYh"/>
                 <outlet property="tableView" destination="Gpy-d8-CrB" id="vJH-SA-z6g"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epC-9k-7XO">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Gpy-d8-CrB">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
@@ -27,13 +28,24 @@
                                 <outlet property="delegate" destination="-1" id="nVF-a6-WSg"/>
                             </connections>
                         </tableView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NZi-hv-Hcx">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="64" id="vHZ-qu-6F8"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Gpy-d8-CrB" secondAttribute="bottom" id="1pz-1q-O8d"/>
                         <constraint firstItem="Gpy-d8-CrB" firstAttribute="leading" secondItem="epC-9k-7XO" secondAttribute="leading" id="8lr-Id-7yy"/>
+                        <constraint firstAttribute="trailing" secondItem="NZi-hv-Hcx" secondAttribute="trailing" id="A5M-Kh-xGr"/>
                         <constraint firstAttribute="trailing" secondItem="Gpy-d8-CrB" secondAttribute="trailing" id="BB0-5g-y3d"/>
-                        <constraint firstItem="Gpy-d8-CrB" firstAttribute="top" secondItem="epC-9k-7XO" secondAttribute="top" id="OQT-v5-2Wa"/>
+                        <constraint firstItem="Gpy-d8-CrB" firstAttribute="top" secondItem="NZi-hv-Hcx" secondAttribute="bottom" id="Y1f-kY-7H0"/>
+                        <constraint firstItem="NZi-hv-Hcx" firstAttribute="leading" secondItem="epC-9k-7XO" secondAttribute="leading" id="haU-22-OLP"/>
+                        <constraint firstItem="NZi-hv-Hcx" firstAttribute="top" secondItem="epC-9k-7XO" secondAttribute="top" id="qM6-ra-6OM"/>
                     </constraints>
                 </view>
             </subviews>
@@ -45,8 +57,7 @@
                 <constraint firstAttribute="bottom" secondItem="epC-9k-7XO" secondAttribute="bottom" id="mQK-hX-dSS"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="AbstractSizeClassScreen[default]"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
 </document>

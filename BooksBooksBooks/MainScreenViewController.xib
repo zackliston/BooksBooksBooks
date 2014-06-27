@@ -6,33 +6,62 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainScreenViewController">
             <connections>
+                <outlet property="actionBarView" destination="2hl-uM-t4o" id="Xe2-Vk-Jsz"/>
+                <outlet property="addButton" destination="FDE-3L-mMP" id="jTx-an-SXx"/>
                 <outlet property="tableView" destination="dlL-gq-jgx" id="YA0-GP-P2o"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dlL-gq-jgx">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Cdd-5H-bhR"/>
                         <outlet property="delegate" destination="-1" id="Axh-bb-UZI"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2hl-uM-t4o">
+                    <rect key="frame" x="0.0" y="420" width="480" height="60"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FDE-3L-mMP">
+                            <rect key="frame" x="210" y="0.0" width="60" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="BTy-aw-LUS"/>
+                                <constraint firstAttribute="width" constant="60" id="lfc-64-tRG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="71"/>
+                            <state key="normal" title="+"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="-1" eventType="touchUpInside" id="RLD-W5-Dil"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="2iq-sy-lIX"/>
+                        <constraint firstItem="FDE-3L-mMP" firstAttribute="top" secondItem="2hl-uM-t4o" secondAttribute="top" id="LI7-FE-K6P"/>
+                        <constraint firstAttribute="centerX" secondItem="FDE-3L-mMP" secondAttribute="centerX" id="MuJ-go-t0d"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="dlL-gq-jgx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2Tc-UB-jou"/>
+                <constraint firstAttribute="trailing" secondItem="2hl-uM-t4o" secondAttribute="trailing" id="7fL-x6-mR6"/>
                 <constraint firstAttribute="bottom" secondItem="dlL-gq-jgx" secondAttribute="bottom" id="AiB-Y4-0EB"/>
+                <constraint firstItem="2hl-uM-t4o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="AxD-Uh-tjK"/>
                 <constraint firstAttribute="trailing" secondItem="dlL-gq-jgx" secondAttribute="trailing" id="Rvn-qc-guT"/>
+                <constraint firstAttribute="bottom" secondItem="2hl-uM-t4o" secondAttribute="bottom" id="hM5-mO-rg7"/>
                 <constraint firstItem="dlL-gq-jgx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zTK-ha-Eay"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="AbstractSizeClassScreen[default]"/>
         </view>
     </objects>
 </document>

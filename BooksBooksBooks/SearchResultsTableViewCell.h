@@ -11,6 +11,8 @@
 @interface SearchResultsTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) NSString *imageURL;
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, strong) NSString *author;
+@property (nonatomic, strong) NSString *title;
 
 @end

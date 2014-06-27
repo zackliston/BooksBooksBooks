@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Book.h"
 
 @interface BookCollectionViewCell : UICollectionViewCell
 
-- (void)setImageURL:(NSString *)imageURL;
+- (void)setupWithBook:(Book *)book;
 
 @end

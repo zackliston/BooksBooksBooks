@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-BooksBooksBooks-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-BooksBooksBooks-gtm-oauth2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>55820321B924468387CA3CEF</key>
+		<key>141B06DB189F45AEAE72878A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6F9EE61564DC4B38BB2FD316</key>
+		<key>15B3BBBD7BAF4306B3CF79FB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9DE0EF718E30478CB49DC302</key>
+		<key>174CD23E20AB4732A26DFC86</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C4236CEFB8404574B59B500B</key>
+		<key>181AFCF4C022419DA118AD9D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCFC190380024485B5E972AD</key>
+		<key>5865161821134E3BAABE709B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ED29E9CA909C436A9CE78829</key>
+		<key>A4D0B2AB60A64496A09C3D92</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CB32B38E1F204C20B949DAE9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

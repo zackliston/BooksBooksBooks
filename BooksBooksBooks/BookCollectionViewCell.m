@@ -7,15 +7,21 @@
 //
 
 #import "BookCollectionViewCell.h"
+#import "DownloadManager.h"
 #import <UIImageView+AFNetworking.h>
+#import "Book+Constants.h"
 
 @interface BookCollectionViewCell ()
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
+@property (nonatomic, weak) Book *book;
+
 @end
 
 @implementation BookCollectionViewCell
+
+@synthesize book = _book;
 
 - (void)awakeFromNib
 {
@@ -24,7 +30,7 @@
 
 #pragma mark Image stuff
 
-- (void)setImageURL:(NSString *)imageURL
+- (void)setRemoteImageURL:(NSString *)imageURL
 {
     [self downloadImageAtAddress:imageURL toImageView:self.imageView];
 }
@@ -80,8 +86,66 @@
     return activityIndicator;
 }
 
-#pragma mark Setup
+#pragma mark - Setup
 
+- (void)setupWithBook:(Book *)book
+{
+    self.book = book;
+    [self setupImage];
+}
+
+- (void)setupImage
+{
+    UIImage *image = [self getLocalImage];
+    if (image) {
+        self.imageView.image = image;
+    } else {
+        NSString *remoteURL = [self getBiggestImagePathInDictionary:self.book.imageURLs];
+        [self setRemoteImageURL:remoteURL];
+    }
+}
+
+- (UIImage *)getLocalImage
+{
+    NSMutableDictionary *availableLocalImages = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *key in [self.book.localImageLinks allKeys]) {
+        NSString *path = [self.book.localImageLinks objectForKey:key];
+        
+        if ([DownloadManager doesImageExistAtPath:path]) {
+            [availableLocalImages setObject:path forKey:key];
+        } else {
+            NSString *remoteURL = [self.book.imageURLs objectForKey:key];
+            
+            if (remoteURL) {
+                [DownloadManager downloadImageFrom:remoteURL to:path];
+            }
+        }
+    }
+    
+    NSString *pathToImage = [self getBiggestImagePathInDictionary:availableLocalImages];
+    
+    if (pathToImage) {
+        return [[UIImage alloc] initWithContentsOfFile:pathToImage];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)getBiggestImagePathInDictionary:(NSDictionary *)dictionary
+{
+    NSString *pathToImage;
+    
+    if ([dictionary objectForKey:mediumImageKey]) {
+        pathToImage = [dictionary objectForKey:mediumImageKey];
+    } else if ([dictionary objectForKey:smallImageKey]) {
+        pathToImage = [dictionary objectForKey:smallImageKey];
+    } else if ([dictionary objectForKey:thumbnailImageKey]) {
+        pathToImage = [dictionary objectForKey:thumbnailImageKey];
+    }
+    
+    return pathToImage;
+}
 - (void)setupShadow
 {
     self.layer.masksToBounds = NO;

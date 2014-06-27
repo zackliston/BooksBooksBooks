@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <GTLBooks.h>
+#import "Book.h"
+#import "Book+Constants.h"
 
 @interface DataController : NSObject
 
 + (DataController *)sharedInstance;
 - (void)saveContext;
 - (NSManagedObjectContext *)managedObjectContext;
+
+- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus doesOwn:(BOOL)doesOwn;
+- (Book *)fetchBookWithBookID:(NSString *)bookID;
 
 @end

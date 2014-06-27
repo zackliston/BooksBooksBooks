@@ -9,6 +9,7 @@
 #import "BookDetailViewController.h"
 #import "Book+Constants.h"
 #import "DataController.h"
+#import "DownloadManager.h"
 
 static NSInteger const ownActionSheetTag = 111;
 static NSInteger const readActionSheetTag = 112;
@@ -17,23 +18,28 @@ static NSInteger const readActionSheetTag = 112;
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *addToLibraryButton;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UIView *topBarView;
 
 @property (nonatomic, assign) BOOL doesOwn;
 @property (nonatomic, assign) NSInteger readStatus;
 
+@property (nonatomic, strong) Book *coreDataBook;
 @end
 
 @implementation BookDetailViewController
 
-@synthesize book = _book;
+@synthesize gtlBook = _gtlBook;
 
 #pragma mark Getters and setters
 
-- (void)setBook:(GTLBooksVolume *)book
+- (void)setGtlBook:(GTLBooksVolume *)gtlBook
 {
-    if (_book != book) {
-        _book = book;
-        [self setupWithBook];
+    if (_gtlBook != gtlBook) {
+        _gtlBook = gtlBook;
+        
+        self.coreDataBook = [[DataController sharedInstance] fetchBookWithBookID:_gtlBook.identifier];
+        
+        [self setupBookView];
     }
 }
 
@@ -44,7 +50,7 @@ static NSInteger const readActionSheetTag = 112;
     [super viewDidLoad];
     
     [self setupUI];
-    [self setupWithBook];
+    [self setupBookView];
 }
 
 - (IBAction)addToLibraryClicked:(UIButton *)sender
@@ -54,19 +60,36 @@ static NSInteger const readActionSheetTag = 112;
     [actionSheet showInView:self.view];
 }
 
-#pragma mark Setup
+#pragma mark - Setup
 
-- (void)setupWithBook
+#pragma mark Setup Book View
+- (void)setupBookView
 {
-    if (self.book) {
-        self.authorLabel.text = [self.book.volumeInfo.authors lastObject];
-        self.titleLabel.text = self.book.volumeInfo.title;
+    if (self.coreDataBook) {
+        [self setupBookViewForCoreDataBook];
+    } else if (self.gtlBook) {
+        [self setupBookViewForGTLBook];
     }
+}
+
+- (void)setupBookViewForGTLBook
+{
+    self.authorLabel.text = [self.gtlBook.volumeInfo.authors lastObject];
+    self.titleLabel.text = self.gtlBook.volumeInfo.title;
+    self.addToLibraryButton.hidden = NO;
+}
+
+- (void)setupBookViewForCoreDataBook
+{
+    self.authorLabel.text = self.coreDataBook.mainAuthor;
+    self.titleLabel.text = self.coreDataBook.title;
+    self.addToLibraryButton.hidden = YES;
 }
 
 - (void)setupUI
 {
     self.addToLibraryButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    self.topBarView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
 }
 
 #pragma mark Add to library Methods
@@ -117,46 +140,16 @@ static NSInteger const readActionSheetTag = 112;
 
 - (void)addBookToCoreData
 {
-    NSManagedObjectContext *context = [[DataController sharedInstance] managedObjectContext];
-    Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:context];
-    newBook.authors = self.book.volumeInfo.authors;
-    newBook.averageRating = self.book.volumeInfo.averageRating;
-    newBook.bookDescription = self.book.volumeInfo.descriptionProperty;
-    newBook.bookID = self.book.identifier;
-    newBook.categories = self.book.volumeInfo.categories;
-    newBook.imageURLs = [self convertImageLinksPropertyToDictionary:self.book.volumeInfo.imageLinks];
-    newBook.mainAuthor = [self.book.volumeInfo.authors firstObject];
-    newBook.mainCategory = self.book.volumeInfo.mainCategory;
-    newBook.pageCount = self.book.volumeInfo.pageCount;
-    newBook.publisher = self.book.volumeInfo.publisher;
-    newBook.publishDate = self.book.volumeInfo.publishedDate;
-    newBook.ratingsCount = self.book.volumeInfo.ratingsCount;
-    newBook.subtitle = self.book.volumeInfo.subtitle;
-    newBook.title = self.book.volumeInfo.title;
-    newBook.doesOwn = [NSNumber numberWithBool:self.doesOwn];
-    newBook.readStatus = [NSNumber numberWithInteger:self.readStatus];
-    
-    NSError *saveError;
-    
-    [context save:&saveError];
-    if (saveError) {
-        NSLog(@"Error saving context after adding book. %@", saveError);
-    } else {
-        NSLog(@"Successfully added a book to CoreData!");
-    }
+    [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withReadStatus:self.readStatus doesOwn:self.doesOwn];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#pragma mark Helpers
+#pragma mark - Button Listeners
 
-- (NSDictionary *)convertImageLinksPropertyToDictionary:(GTLBooksVolumeVolumeInfoImageLinks *)imageLinks
+- (IBAction)closeButtonPressed:(UIButton *)sender
 {
-    NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
-    if (imageLinks.large) [tempDictionary setObject:imageLinks.large forKey:largeImageKey];
-    if (imageLinks.medium) [tempDictionary setObject:imageLinks.medium forKey:mediumImageKey];
-    if (imageLinks.small) [tempDictionary setObject:imageLinks.small forKey:smallImageKey];
-    if (imageLinks.thumbnail) [tempDictionary setObject:imageLinks.thumbnail forKey:thumbnailImageKey];
     
-    return [NSDictionary dictionaryWithDictionary:tempDictionary];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

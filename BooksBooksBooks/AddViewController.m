@@ -20,10 +20,15 @@
 @property (strong, nonatomic) IBOutlet UIView *authorView;
 @property (strong, nonatomic) IBOutlet UIView *isbnView;
 @property (strong, nonatomic) IBOutlet UIView *titleView;
+@property (strong, nonatomic) IBOutlet UIView *navigationView;
 
 @property (strong, nonatomic) IBOutlet UITextField *isbnTextField;
 @property (strong, nonatomic) IBOutlet UITextField *authorTextField;
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
+
+@property (strong, nonatomic) IBOutlet UILabel *authorLabel;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *isbnLabel;
 
 
 @property (nonatomic, strong) SearchResultsViewController *searchResultsViewController;
@@ -86,6 +91,11 @@
 #pragma mark Start Search
 - (IBAction)searchButtonClicked:(UIButton *)sender
 {
+    [self startSearch];
+}
+
+- (void)startSearch
+{
     NSString *isbn = self.isbnTextField.text;
     NSString *errorTitle = @"";
     NSString *errorText = @"";
@@ -109,7 +119,6 @@
         [self startSearchWithISBN:self.isbnTextField.text author:self.authorTextField.text title:self.titleTextField.text];
     }
 }
-
 - (void)startSearchWithISBN:(NSString *)isbn author:(NSString *)author title:(NSString *)title
 {
     
@@ -148,6 +157,31 @@
     [self stop];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self startSearch];
+    return YES;
+}
+
+- (void)textFieldTextDidChange:(UITextField *)textField
+{
+    UIColor *textColor;
+    
+    if (textField.text.length > 0) {
+        textColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    } else {
+        textColor = [UIColor whiteColor];
+    }
+    
+    if (textField == self.titleTextField) {
+        self.titleLabel.textColor = textColor;
+    } else if (textField == self.authorTextField) {
+        self.authorLabel.textColor = textColor;
+    } else if (textField == self.isbnTextField) {
+        self.isbnLabel.textColor = textColor;
+    }
+}
+
 #pragma mark Setup
 
 - (void)setupSearchButton
@@ -173,21 +207,33 @@
     [self.titleView addTopBorderWithHeight:0.5 andColor:borderColor];
     [self.authorView addTopBorderWithHeight:0.5 andColor:borderColor];
     [self.isbnView addTopBorderWithHeight:0.5 andColor:borderColor];
-    [self.searchButton addTopBorderWithHeight:1.0 andColor:borderColor];
+    [self.searchButton addTopBorderWithHeight:0.5 andColor:borderColor];
 }
 
 - (void)setupTextFields
 {
     // Set the color of the placeholder texts in all the placeholders
-    UIColor *color = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0];
-    self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Into the Wild" attributes:@{NSForegroundColorAttributeName: color}];
-    self.authorTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Jon Krakauer" attributes:@{NSForegroundColorAttributeName: color}];
-    self.isbnTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"938409837" attributes:@{NSForegroundColorAttributeName: color}];
+    UIColor *color = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:20.0];
+    
+    self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Into the Wild" attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName:font}];
+    self.authorTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Jon Krakauer" attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName:font}];
+    self.isbnTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"938409837" attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName:font}];
+    
+    self.titleTextField.textColor = [UIColor whiteColor];
+    self.authorTextField.textColor = [UIColor whiteColor];
+    self.isbnTextField.textColor = [UIColor whiteColor];
+    
+    [self.titleTextField addTarget:self action:@selector(textFieldTextDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.authorTextField addTarget:self action:@selector(textFieldTextDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.isbnTextField addTarget:self action:@selector(textFieldTextDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)setupNavigationBar
 {
-    
+    self.navigationView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     // Set up the navigationBar title attributes
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:36.0], NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:7.5 forBarMetrics:UIBarMetricsDefault];

@@ -9,16 +9,33 @@
 #import "SearchResultsTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 
+static CGFloat const MaxTitleHeight = 60.0;
+static CGFloat const MaxAuthorHeight = 35.0;
+static CGFloat const Margins = 140.0;
+
 @interface SearchResultsTableViewCell ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (strong, nonatomic) IBOutlet UILabel *authorLabel;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *authorLabelHeight;
 
 @end
 
 @implementation SearchResultsTableViewCell
 
 @synthesize imageURL = _imageURL;
+@synthesize title = _title;
+@synthesize author = _author;
+
+#pragma mark Getters and Setters
+
+- (void)awakeFromNib
+{
+    [self setupShadow];
+}
 
 - (void)setImageURL:(NSString *)imageURL
 {
@@ -27,6 +44,34 @@
         [self setupActivityIndicator];
         [self.activityIndicator startAnimating];
         [self downloadImageAtAddress:_imageURL];
+    }
+}
+
+- (void)setTitle:(NSString *)title
+{
+    if (_title != title) {
+        _title = title;
+        
+        CGSize maxSize = CGSizeMake(self.bounds.size.width-Margins, MAXFLOAT);
+        CGRect boundingRect = [_title boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0]} context:nil];
+        CGFloat height = boundingRect.size.height+5.0;
+        
+        self.titleLabelHeight.constant = MIN(height, MaxTitleHeight);
+        self.titleLabel.text = _title;
+    }
+}
+
+- (void)setAuthor:(NSString *)author
+{
+    if (_author != author) {
+        _author = author;
+        
+        CGSize maxSize = CGSizeMake(self.bounds.size.width-Margins, MAXFLOAT);
+        CGRect boundingRect = [_author boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:13.0]} context:nil];
+        CGFloat height = boundingRect.size.height+5.0;
+        
+        self.authorLabelHeight.constant = MIN(height, MaxAuthorHeight);
+        self.authorLabel.text = _author;
     }
 }
 
@@ -77,5 +122,12 @@
     [self.coverImageView addSubview:failureLabel];
 }
 
-
+- (void)setupShadow
+{
+    self.coverImageView.layer.masksToBounds = NO;
+    self.coverImageView.layer.shadowRadius = 5.0;
+    self.coverImageView.layer.shadowOpacity = 0.8;
+    self.coverImageView.layer.shadowOffset = CGSizeZero;
+    self.coverImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+}
 @end

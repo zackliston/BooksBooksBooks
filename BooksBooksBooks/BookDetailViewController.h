@@ -11,6 +11,6 @@
 
 @interface BookDetailViewController : UIViewController <UIActionSheetDelegate>
 
-@property (nonatomic, strong) GTLBooksVolume *book;
+@property (nonatomic, strong) GTLBooksVolume *gtlBook;
 
 @end
