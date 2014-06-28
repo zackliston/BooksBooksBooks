@@ -146,8 +146,13 @@
     GTLQueryBooks *query = [GTLQueryBooks queryForVolumesListWithQ:queryText];
     query.shouldSkipAuthorization = YES;
     query.orderBy = kGTLBooksOrderByRelevance;
-    [self.navigationController pushViewController:self.searchResultsViewController animated:YES];
-    [self.searchResultsViewController startSearchWithQuery:query];
+    query.maxResults = 10;
+    query.startIndex = 0;
+    
+    SearchResultsViewController *searchResultsVC = [[SearchResultsViewController alloc] init];
+    
+    [self.navigationController pushViewController:searchResultsVC animated:YES];
+    [searchResultsVC startSearchWithQuery:query];
 }
 
 #pragma mark TextField delegate

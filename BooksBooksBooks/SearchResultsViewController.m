@@ -80,7 +80,8 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     cell.imageURL = book.volumeInfo.imageLinks.thumbnail;
     cell.title = book.volumeInfo.title;
     cell.author = [book.volumeInfo.authors firstObject];
-    
+    cell.rating = [book.volumeInfo.averageRating floatValue];
+    cell.numberOfRatings = [book.volumeInfo.ratingsCount integerValue];
     cell.backgroundColor = [UIColor clearColor];
     
     return cell;
@@ -118,8 +119,16 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     self.tableView.tableHeaderView = [UIView new];
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchResultsTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:tableCellIdentifier];
+
 }
 
+- (UIView *)activityIdicatorFooterView
+{
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 20.0, self.tableView.bounds.size.width/2.0)];
+    activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [activityView startAnimating];
+    return activityView;
+}
 #pragma mark Search Stuff
 
 - (void)startSearchWithQuery:(GTLQueryBooks *)query
@@ -141,6 +150,11 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.volumes = object;
+                
+                if ([self.volumes.totalItems integerValue] > 10) {
+                    self.tableView.tableFooterView = [self activityIdicatorFooterView];
+                }
+                
                 [self.tableView reloadData];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             });

@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.3.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - DJWStarRatingView (0.0.1)
   - FXBlurView (1.6.1)
   - Google-API-Client (0.1.1):
     - Google-API-Client/AdSense
@@ -175,12 +176,14 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - DJWStarRatingView
   - FXBlurView
   - Google-API-Client
   - MBProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
+  DJWStarRatingView: 86c66ce228fe7aa636ab426c4c29b9a8fc68680d
   FXBlurView: 1d01b96076d65027314d1be024c7506c292392aa
   Google-API-Client: 69cd2a04c649abe9f3fa6695bc4bb8965373f204
   gtm-oauth2: 64f2d404a50676ab63b5437a02a7567da8f8b7fa

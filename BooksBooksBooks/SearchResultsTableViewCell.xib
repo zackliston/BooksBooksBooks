@@ -21,8 +21,8 @@
                             <constraint firstAttribute="width" constant="105" id="tkz-V8-Y9q"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is the name of a book and it's called something This is the name of a book and it's called something" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="SQO-PI-CX4">
-                        <rect key="frame" x="130" y="4" width="180" height="40"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is the name of a book and it's called something This is the name of a book and it's called something" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="175" translatesAutoresizingMaskIntoConstraints="NO" id="SQO-PI-CX4">
+                        <rect key="frame" x="135" y="4" width="175" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="G6e-FB-orX"/>
                         </constraints>
@@ -30,8 +30,8 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" This is a label and I want to se ehow long" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="Ts4-ll-Fs1">
-                        <rect key="frame" x="130" y="49" width="180" height="35"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" This is a label and I want to se ehow long" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="175" translatesAutoresizingMaskIntoConstraints="NO" id="Ts4-ll-Fs1">
+                        <rect key="frame" x="135" y="49" width="175" height="35"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="35" id="ixn-dB-PaG"/>
@@ -40,23 +40,47 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dib-Vq-KQi">
+                        <rect key="frame" x="135" y="92" width="115" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="115" id="6Lj-iZ-wY5"/>
+                            <constraint firstAttribute="height" constant="25" id="8Ah-Ua-CxN"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(56)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-gj-8cR">
+                        <rect key="frame" x="255" y="90" width="60" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="x1N-BJ-vNF" firstAttribute="top" secondItem="SQO-PI-CX4" secondAttribute="top" id="0Gy-rH-MnM"/>
+                    <constraint firstItem="Dib-Vq-KQi" firstAttribute="height" secondItem="3zq-gj-8cR" secondAttribute="height" id="1LB-nq-2EJ"/>
                     <constraint firstAttribute="trailing" secondItem="Ts4-ll-Fs1" secondAttribute="trailing" constant="10" id="1ff-UL-6L0"/>
-                    <constraint firstItem="SQO-PI-CX4" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="10" id="KBz-GR-NXb"/>
+                    <constraint firstItem="3zq-gj-8cR" firstAttribute="centerY" secondItem="Dib-Vq-KQi" secondAttribute="centerY" priority="999" constant="-2" id="5cq-2J-avo"/>
+                    <constraint firstItem="Dib-Vq-KQi" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="15" id="7Sz-gA-8S3"/>
+                    <constraint firstItem="Dib-Vq-KQi" firstAttribute="top" secondItem="Ts4-ll-Fs1" secondAttribute="bottom" constant="8" id="Cnb-0A-CFr"/>
+                    <constraint firstItem="SQO-PI-CX4" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="15" id="KBz-GR-NXb"/>
                     <constraint firstAttribute="centerY" secondItem="x1N-BJ-vNF" secondAttribute="centerY" id="Nus-9u-68F"/>
                     <constraint firstAttribute="trailing" secondItem="SQO-PI-CX4" secondAttribute="trailing" constant="10" id="Vbc-SF-avF"/>
-                    <constraint firstItem="Ts4-ll-Fs1" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="10" id="aKI-I4-3O3"/>
+                    <constraint firstAttribute="trailing" secondItem="3zq-gj-8cR" secondAttribute="trailing" constant="5" id="WwF-Nn-EEe"/>
+                    <constraint firstItem="Ts4-ll-Fs1" firstAttribute="leading" secondItem="x1N-BJ-vNF" secondAttribute="trailing" constant="15" id="aKI-I4-3O3"/>
                     <constraint firstItem="x1N-BJ-vNF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jX8-iu-m0F"/>
                     <constraint firstItem="Ts4-ll-Fs1" firstAttribute="top" secondItem="SQO-PI-CX4" secondAttribute="bottom" constant="5" id="pOr-j4-Yft"/>
+                    <constraint firstItem="3zq-gj-8cR" firstAttribute="leading" secondItem="Dib-Vq-KQi" secondAttribute="trailing" constant="5" id="ss7-T0-Jth"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="authorLabel" destination="Ts4-ll-Fs1" id="lX9-bd-LJy"/>
                 <outlet property="authorLabelHeight" destination="ixn-dB-PaG" id="hV0-vH-VNG"/>
                 <outlet property="coverImageView" destination="x1N-BJ-vNF" id="M0l-XV-LtZ"/>
+                <outlet property="numberOfRatingsLabel" destination="3zq-gj-8cR" id="vkf-nv-zsa"/>
+                <outlet property="starView" destination="Dib-Vq-KQi" id="J4o-NN-jSs"/>
                 <outlet property="titleLabel" destination="SQO-PI-CX4" id="jo2-7N-1mP"/>
                 <outlet property="titleLabelHeight" destination="G6e-FB-orX" id="Xsf-Rc-pZE"/>
             </connections>

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-BooksBooksBooks-DJWStarRatingView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-BooksBooksBooks-FXBlurView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,37 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>141B06DB189F45AEAE72878A</key>
+		<key>4BDC0705C0D8489698D0D8FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>15B3BBBD7BAF4306B3CF79FB</key>
+		<key>506C535D79604558B7A12257</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>174CD23E20AB4732A26DFC86</key>
+		<key>78C27DCC295C4255B914D1B4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>181AFCF4C022419DA118AD9D</key>
+		<key>7A1698DDCD3E4FC7852297FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5865161821134E3BAABE709B</key>
+		<key>A7A418E760554930BE55DAFD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A4D0B2AB60A64496A09C3D92</key>
+		<key>BB33F7639AB748548A4C9D5C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CB32B38E1F204C20B949DAE9</key>
+		<key>C47BAD9CAE1E4050AA2C7C7F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DA47003B3AE7404AA8C93174</key>
 		<dict>
 			<key>primary</key>
 			<true/>

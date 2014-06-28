@@ -8,10 +8,11 @@
 
 #import "SearchResultsTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import <DJWStarRatingView/DJWStarRatingView.h>
 
 static CGFloat const MaxTitleHeight = 60.0;
 static CGFloat const MaxAuthorHeight = 35.0;
-static CGFloat const Margins = 140.0;
+static CGFloat const Margins = 145.0;
 
 @interface SearchResultsTableViewCell ()
 
@@ -22,6 +23,9 @@ static CGFloat const Margins = 140.0;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *authorLabelHeight;
 
+@property (strong, nonatomic) IBOutlet UILabel *numberOfRatingsLabel;
+@property (strong, nonatomic) IBOutlet UIView *starView;
+
 @end
 
 @implementation SearchResultsTableViewCell
@@ -29,12 +33,15 @@ static CGFloat const Margins = 140.0;
 @synthesize imageURL = _imageURL;
 @synthesize title = _title;
 @synthesize author = _author;
+@synthesize rating = _rating;
+@synthesize numberOfRatings = _numberOfRatings;
 
 #pragma mark Getters and Setters
 
 - (void)awakeFromNib
 {
     [self setupShadow];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setImageURL:(NSString *)imageURL
@@ -73,6 +80,24 @@ static CGFloat const Margins = 140.0;
         self.authorLabelHeight.constant = MIN(height, MaxAuthorHeight);
         self.authorLabel.text = _author;
     }
+}
+
+- (void)setRating:(CGFloat)rating
+{
+   
+    _rating = rating;
+        
+        DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor lightGrayColor]];
+        stars.editable = NO;
+        
+        [self.starView addSubview:stars];
+}
+
+- (void)setNumberOfRatings:(NSInteger)numberOfRatings
+{
+    _numberOfRatings = numberOfRatings;
+    
+    self.numberOfRatingsLabel.text = [NSString stringWithFormat:@"(%i)", numberOfRatings];
 }
 
 - (void)setupActivityIndicator
@@ -129,5 +154,14 @@ static CGFloat const Margins = 140.0;
     self.coverImageView.layer.shadowOpacity = 0.8;
     self.coverImageView.layer.shadowOffset = CGSizeZero;
     self.coverImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+}
+
+- (void)prepareForReuse
+{
+    self.imageView.image = nil;
+    self.titleLabel.text = @"";
+    self.authorLabel.text = @"";
+    self.rating = 0.0;
+    self.numberOfRatings = 0;
 }
 @end

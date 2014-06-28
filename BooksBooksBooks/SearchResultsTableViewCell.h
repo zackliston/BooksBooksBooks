@@ -14,5 +14,7 @@
 
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, assign) CGFloat rating;
+@property (nonatomic, assign) NSInteger numberOfRatings;
 
 @end

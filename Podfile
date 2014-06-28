@@ -6,6 +6,7 @@ pod 'AFNetworking'
 pod 'Google-API-Client'
 pod 'FXBlurView'
 pod 'MBProgressHUD'
+pod 'DJWStarRatingView'
 end
 
 target "BooksBooksBooksTests" do
