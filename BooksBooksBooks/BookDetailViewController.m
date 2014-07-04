@@ -24,24 +24,11 @@ static NSInteger const readActionSheetTag = 112;
 @property (nonatomic, assign) NSInteger readStatus;
 
 @property (nonatomic, strong) Book *coreDataBook;
+@property (nonatomic, strong) GTLBooksVolume *gtlBook;
+
 @end
 
 @implementation BookDetailViewController
-
-@synthesize gtlBook = _gtlBook;
-
-#pragma mark Getters and setters
-
-- (void)setGtlBook:(GTLBooksVolume *)gtlBook
-{
-    if (_gtlBook != gtlBook) {
-        _gtlBook = gtlBook;
-        
-        self.coreDataBook = [[DataController sharedInstance] fetchBookWithBookID:_gtlBook.identifier];
-        
-        [self setupBookView];
-    }
-}
 
 #pragma mark Lifecycle
 
@@ -61,6 +48,22 @@ static NSInteger const readActionSheetTag = 112;
 }
 
 #pragma mark - Setup
+
+#pragma mark Setup With Book
+
+- (void)setupWithGTLBook:(GTLBooksVolume *)book
+{
+    self.gtlBook = book;
+    
+    self.coreDataBook = [[DataController sharedInstance] fetchBookWithBookID:_gtlBook.identifier];
+    [self setupBookView];
+}
+
+- (void)setupWithCoreDataBook:(Book *)book
+{
+    self.coreDataBook = book;
+    [self setupBookView];
+}
 
 #pragma mark Setup Book View
 - (void)setupBookView
@@ -148,7 +151,6 @@ static NSInteger const readActionSheetTag = 112;
 
 - (IBAction)closeButtonPressed:(UIButton *)sender
 {
-    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 

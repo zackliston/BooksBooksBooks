@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <GTLBooks.h>
 
+
+@class Book;
+
 @interface BookDetailViewController : UIViewController <UIActionSheetDelegate>
 
-@property (nonatomic, strong) GTLBooksVolume *gtlBook;
+- (void)setupWithGTLBook:(GTLBooksVolume *)book;
+- (void)setupWithCoreDataBook:(Book *)book;
 
 @end

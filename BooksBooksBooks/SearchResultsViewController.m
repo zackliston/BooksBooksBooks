@@ -98,7 +98,7 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 {
     GTLBooksVolume *book = [self.volumes objectAtIndexedSubscript:indexPath.row];
     BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
-    bookDetailVC.gtlBook = book;
+    [bookDetailVC setupWithGTLBook:book];
     
     [self.navigationController presentViewController:bookDetailVC animated:YES completion:NULL];
 }

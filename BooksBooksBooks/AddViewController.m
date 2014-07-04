@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *isbnLabel;
 
+@property (strong, nonatomic) IBOutlet UIView *scanOverlayView;
 
 @property (nonatomic, strong) SearchResultsViewController *searchResultsViewController;
 
@@ -69,6 +70,7 @@
     [self setupLabels];
     [self setupNavigationBar];
     [self setupTextFields];
+    [self setupScanOverlayView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -248,4 +250,41 @@
     self.navigationItem.title = @"Find a Book";
 }
 
+- (void)setupScanOverlayView
+{
+    self.scanOverlayView.backgroundColor = [UIColor clearColor];
+    
+    [self.scanOverlayView addSubview:[self craftScanLabel]];
+    [self.scanOverlayView addSubview:[self craftScanOutlineView]];
+}
+
+- (UILabel *)craftScanLabel
+{
+    CGRect scanLabelRect = CGRectMake(10.0, 25.0, self.scanOverlayView.bounds.size.width-20.0, 30.0);
+    UILabel *scanLabel = [[UILabel alloc] initWithFrame:scanLabelRect];
+    scanLabel.textColor = [UIColor whiteColor];
+    scanLabel.textAlignment = NSTextAlignmentCenter;
+    scanLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0];
+    scanLabel.backgroundColor = [UIColor clearColor];
+    scanLabel.text = @"Scan ISBN Barcode";
+    
+    scanLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    scanLabel.layer.shadowOpacity = 0.5;
+    scanLabel.layer.shadowRadius = 5.0;
+    
+    return scanLabel;
+}
+
+- (UIView *)craftScanOutlineView
+{
+    CGRect scanOutlineFrame = CGRectMake(50.0, 75.0, self.scanOverlayView.bounds.size.width-100.0, self.scanOverlayView.bounds.size.height-120.0);
+    UIView *scanOutlineView = [[UIView alloc] initWithFrame:scanOutlineFrame];
+    scanOutlineView.backgroundColor = [UIColor clearColor];
+    
+    scanOutlineView.layer.borderColor = [UIColor greenColor].CGColor;
+    scanOutlineView.layer.borderWidth = 3.0;
+    scanOutlineView.layer.cornerRadius = 5.0;
+    
+    return scanOutlineView;
+}
 @end

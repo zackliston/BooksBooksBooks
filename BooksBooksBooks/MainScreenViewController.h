@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PushViewControllerProtocol.h"
 
-@interface MainScreenViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MainScreenViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PushViewControllerProtocol>
 
 @end

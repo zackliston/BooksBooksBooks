@@ -10,6 +10,8 @@
 #import "BookCollectionViewCell.h"
 #import "Book.h"
 #import "Book+Constants.h"
+#import "BookDetailViewController.h"
+
 
 static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenCollectionViewIdentifer";
 
@@ -33,7 +35,7 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     // Configure the view for the selected state
 }
 
-#pragma mark CollectionView DataSource
+#pragma mark - CollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -57,7 +59,19 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     return cell;
 }
 
-#pragma mark Setup
+#pragma mark - Collection View Delegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    Book *book = [self.books objectAtIndex:indexPath.row];
+    
+    BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
+    [bookDetailVC setupWithCoreDataBook:book];
+    
+    [self.delegate presentViewController:bookDetailVC];
+}
+
+#pragma mark - Setup
 
 - (void)setupWithArrayOfBooks:(NSArray *)books
 {

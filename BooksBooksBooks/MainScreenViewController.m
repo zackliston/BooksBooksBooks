@@ -70,18 +70,21 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MainScreenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MainScreenTableViewCellIdentifier forIndexPath:indexPath];
-    
     BookShelf *shelfForRow = [bookShelves objectAtIndex:indexPath.row];
     
+    
+    MainScreenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MainScreenTableViewCellIdentifier forIndexPath:indexPath];
+    
+    cell.delegate = self;
     cell.titleLabel.text = shelfForRow.title;
     [cell setupWithArrayOfBooks:shelfForRow.books];
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 200.0;
+    return 225.0;
 }
 
 #pragma mark - Setup
@@ -247,6 +250,13 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [self setupBooks];
     [self.tableView reloadData];
     
+}
+
+#pragma mark - Delegate Methods
+
+- (void)presentViewController:(UIViewController *)viewController
+{
+    [self presentViewController:viewController animated:YES completion:NULL];
 }
 
 @end

@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft1-dc-K7U">
-                        <rect key="frame" x="10" y="0.0" width="300" height="30.5"/>
+                        <rect key="frame" x="10" y="10.5" width="300" height="30.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="CLY-Eb-xT9"/>
                         </constraints>
@@ -23,7 +23,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="8Dx-bl-aSf">
-                        <rect key="frame" x="0.0" y="30" width="320" height="168.5"/>
+                        <rect key="frame" x="0.0" y="36" width="320" height="163.5"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="22" minimumInteritemSpacing="10" id="wEW-cB-kRq">
                             <size key="itemSize" width="105" height="150"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -38,10 +38,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="8Dx-bl-aSf" secondAttribute="bottom" id="5ou-V7-pwT"/>
-                    <constraint firstItem="Ft1-dc-K7U" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="KMZ-bp-wcX"/>
+                    <constraint firstItem="Ft1-dc-K7U" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="KMZ-bp-wcX"/>
                     <constraint firstAttribute="trailing" secondItem="8Dx-bl-aSf" secondAttribute="trailing" id="KeL-5y-x4M"/>
                     <constraint firstItem="Ft1-dc-K7U" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="VNM-aL-MSx"/>
-                    <constraint firstItem="8Dx-bl-aSf" firstAttribute="top" secondItem="Ft1-dc-K7U" secondAttribute="bottom" id="uXb-Ta-hRn"/>
+                    <constraint firstItem="8Dx-bl-aSf" firstAttribute="top" secondItem="Ft1-dc-K7U" secondAttribute="bottom" constant="-5" id="uXb-Ta-hRn"/>
                     <constraint firstAttribute="trailing" secondItem="Ft1-dc-K7U" secondAttribute="trailing" constant="10" id="ulU-2j-Km1"/>
                     <constraint firstItem="8Dx-bl-aSf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xi9-bl-N5L"/>
                 </constraints>

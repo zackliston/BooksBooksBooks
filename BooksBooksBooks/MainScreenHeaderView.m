@@ -8,9 +8,11 @@
 
 #import "MainScreenHeaderView.h"
 
+#define NUMBER_OF_BANNER_IMAGES 24
+
 static CGFloat const HeaderHeight = 140.0;
 static CGFloat const AuthorLabelHeight = 30.0;
-static CGFloat const QuoteLabelHeight = 90.0;
+static CGFloat const QuoteLabelHeight = 80.0;
 
 static NSString *const AuthorKey = @"author";
 static NSString *const QuoteKey = @"quote";
@@ -86,7 +88,7 @@ static NSString *const QuoteKey = @"quote";
 
 - (UILabel *)craftQuoteLabel
 {
-    CGRect quoteLabelRect = CGRectMake(10.0, 10.0, labelWidths, QuoteLabelHeight);
+    CGRect quoteLabelRect = CGRectMake(10.0, 20.0, labelWidths, QuoteLabelHeight);
     self.quoteLabel = [[UILabel alloc] initWithFrame:quoteLabelRect];
     
     self.quoteLabel.textColor = [UIColor whiteColor];
@@ -121,12 +123,28 @@ static NSString *const QuoteKey = @"quote";
 
 - (UIImage *)fetchRandomImage
 {
-    return [UIImage imageNamed:@"background_1.jpg"];
+    NSInteger bannerImageNumber = (arc4random()%NUMBER_OF_BANNER_IMAGES)+1;
+    NSString *imageName = [NSString stringWithFormat:@"bannerImage%i.jpg", bannerImageNumber];
+    
+    return [UIImage imageNamed:imageName];
 }
 
 - (NSDictionary *)fetchRandomQuote
 {
-    return @{AuthorKey:@"Zack Liston", QuoteKey:@"This is a quote by me"};
+    NSString *libraryPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"quotes.json"];
+    NSData *rawLibrary = [NSData dataWithContentsOfFile:libraryPath];
+    NSError *ddtErr = nil;
+    NSArray *libraryJSON = [NSJSONSerialization JSONObjectWithData:rawLibrary
+                                                                options:NSJSONReadingAllowFragments
+                                                                  error:&ddtErr];
+    
+    if (ddtErr) {
+        NSLog(@"Error %@", ddtErr);
+    } else {
+        NSUInteger randomIndex = arc4random() % [libraryJSON count];
+        return libraryJSON[randomIndex];
+    }
+    return @{AuthorKey:@"Jorge Luis Borges", QuoteKey:@"I have always imagined that Paradise will be a kind of library."};
 }
 
 @end
