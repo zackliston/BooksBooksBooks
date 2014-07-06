@@ -124,7 +124,7 @@ static NSString *const QuoteKey = @"quote";
 - (UIImage *)fetchRandomImage
 {
     NSInteger bannerImageNumber = (arc4random()%NUMBER_OF_BANNER_IMAGES)+1;
-    NSString *imageName = [NSString stringWithFormat:@"bannerImage%i.jpg", bannerImageNumber];
+    NSString *imageName = [NSString stringWithFormat:@"bannerImage%li.jpg", (long)bannerImageNumber];
     
     return [UIImage imageNamed:imageName];
 }

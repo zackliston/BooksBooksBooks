@@ -97,7 +97,7 @@ static CGFloat const Margins = 145.0;
 {
     _numberOfRatings = numberOfRatings;
     
-    self.numberOfRatingsLabel.text = [NSString stringWithFormat:@"(%i)", numberOfRatings];
+    self.numberOfRatingsLabel.text = [NSString stringWithFormat:@"(%li)", (long)numberOfRatings];
 }
 
 - (void)setupActivityIndicator

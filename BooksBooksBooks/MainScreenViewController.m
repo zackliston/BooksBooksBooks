@@ -118,7 +118,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (void)setupStatusBar
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)setupNotificationObservers
@@ -258,5 +258,6 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 {
     [self presentViewController:viewController animated:YES completion:NULL];
 }
+
 
 @end

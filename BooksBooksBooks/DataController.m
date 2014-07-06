@@ -127,7 +127,7 @@ static DataController *sharedInstance;
 
 #pragma mark - Add Book
 
-- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus doesOwn:(BOOL)doesOwn
+- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus ownStatus:(BookOwnStatus)ownStatus
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:context];
@@ -144,7 +144,7 @@ static DataController *sharedInstance;
     newBook.ratingsCount = gtlBook.volumeInfo.ratingsCount;
     newBook.subtitle = gtlBook.volumeInfo.subtitle;
     newBook.title = gtlBook.volumeInfo.title;
-    newBook.doesOwn = [NSNumber numberWithBool:doesOwn];
+    newBook.doesOwn = [NSNumber numberWithInteger:ownStatus];
     newBook.readStatus = [NSNumber numberWithInteger:readStatus];
     
     newBook.imageURLs = [self convertImageLinksPropertyToDictionary:gtlBook.volumeInfo.imageLinks];

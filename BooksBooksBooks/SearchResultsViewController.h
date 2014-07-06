@@ -11,8 +11,6 @@
 
 @interface SearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (void)setVolumes:(GTLBooksVolumes *)volumes;
-
 - (void)startSearchWithQuery:(GTLQueryBooks *)query;
 
 @end

@@ -18,7 +18,7 @@
 - (void)saveContext;
 - (NSManagedObjectContext *)managedObjectContext;
 
-- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus doesOwn:(BOOL)doesOwn;
+- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus ownStatus:(BookOwnStatus)ownStatus;
 - (Book *)fetchBookWithBookID:(NSString *)bookID;
 
 @end

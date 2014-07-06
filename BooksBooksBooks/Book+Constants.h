@@ -15,6 +15,12 @@ typedef enum {
     BookDoesNotWantToRead
 } BookReadStatus;
 
+typedef enum {
+    BookIsOwned =0,
+    BookWantsToOwn,
+    BookDoesNotOwn
+} BookOwnStatus;
+
 extern NSString *const largeImageKey;
 extern NSString *const mediumImageKey;
 extern NSString *const smallImageKey;

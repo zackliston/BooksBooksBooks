@@ -14,7 +14,7 @@
 
 @interface BookDetailViewController : UIViewController <UIActionSheetDelegate>
 
-- (void)setupWithGTLBook:(GTLBooksVolume *)book;
-- (void)setupWithCoreDataBook:(Book *)book;
+- (id)initWithBook:(id)book width:(CGFloat)width;
+- (void)setupBookExistsInLibrary:(BOOL)existsInLibrary;
 
 @end

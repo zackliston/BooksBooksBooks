@@ -125,23 +125,24 @@
 {
     
     NSString *queryText = @"";
-    if (isbn.length >0) {
-        queryText = [queryText stringByAppendingFormat:@"isbn:%@", isbn];
+    
+    if (title && title.length>0) {
+        queryText = title;
     }
     
-    if (author.length>0) {
-        if (queryText.length >0) {
-            queryText = [queryText stringByAppendingFormat:@"&inauthor:%@", author];
+    if (author && author.length>0) {
+        if  (queryText.length>0) {
+            queryText = [queryText stringByAppendingString:[NSString stringWithFormat:@"+%@", author]];
         } else {
-            queryText = [queryText stringByAppendingFormat:@"inauthor:%@", author];
+            queryText = author;
         }
     }
     
-    if (title.length >0) {
-        if (queryText.length >0) {
-            queryText = [queryText stringByAppendingFormat:@" intitle:%@", title];
+    if (isbn.length >0) {
+        if  (queryText.length>0) {
+            queryText = [queryText stringByAppendingString:[NSString stringWithFormat:@"+isbn:%@", isbn]];
         } else {
-            queryText = [queryText stringByAppendingFormat:@"intitle:%@", title];
+            queryText = [NSString stringWithFormat:@"isbn:%@", isbn];
         }
     }
     
