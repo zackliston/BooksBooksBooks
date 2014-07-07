@@ -87,7 +87,7 @@ static CGFloat const Margins = 145.0;
    
     _rating = rating;
         
-        DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor lightGrayColor]];
+    DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor lightGrayColor]];
         stars.editable = NO;
         
         [self.starView addSubview:stars];

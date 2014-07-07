@@ -23,6 +23,8 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 @property (strong, nonatomic) IBOutlet UIView *actionBarView;
 @property (strong, nonatomic) IBOutlet UIButton *addButton;
 
+@property (nonatomic, strong, getter = getNewBook) Book *newBook;
+
 @end
 
 @implementation MainScreenViewController {
@@ -56,6 +58,19 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [self setupNotificationObservers];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.newBook) {
+        [self scrollToWhereNewInsertedObjectIs:self.newBook];
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 #pragma mark TableView DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -74,7 +89,6 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     
     
     MainScreenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MainScreenTableViewCellIdentifier forIndexPath:indexPath];
-    
     cell.delegate = self;
     cell.titleLabel.text = shelfForRow.title;
     [cell setupWithArrayOfBooks:shelfForRow.books];
@@ -124,7 +138,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 - (void)setupNotificationObservers
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(contextDidSave)
+                                             selector:@selector(contextDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:nil];
 }
@@ -166,6 +180,9 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 {
     NSArray *filteredArray = [books filteredArrayUsingPredicate:predicate];
     
+    NSSortDescriptor *sortByTimeModified = [NSSortDescriptor sortDescriptorWithKey:@"dateModifiedInSecondsSinceEpoch" ascending:NO];
+    filteredArray = [filteredArray sortedArrayUsingDescriptors:@[sortByTimeModified]];
+    
     BookShelf *shelf = [[BookShelf alloc] init];
     shelf.title = title;
     shelf.books = filteredArray;
@@ -189,14 +206,14 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (BookShelf *)setupWishlistShelf
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", NO];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", BookWantsToOwn];
     
     return [self setupBookSelfWithPredicate:predicate title:@"Your wishlist"];
 }
 
 - (BookShelf *)setupPersonalLibrary
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", YES];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", BookIsOwned];
     
     return [self setupBookSelfWithPredicate:predicate title:@"All the books you own"];
 }
@@ -240,16 +257,35 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     }
 }
 
-- (void)contextDidSave
+- (void)contextDidSave:(NSNotification *)notification
 {
     if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(contextDidSave) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(contextDidSave:) withObject:notification waitUntilDone:NO];
         return;
     }
     
     [self setupBooks];
     [self.tableView reloadData];
     
+    // If there is just one new book (e.g. User added new book) then we want to handle that by scrolling to where it is visible
+    NSSet *insertedObjects = [notification.userInfo objectForKey:NSInsertedObjectsKey];
+    if (insertedObjects.count == 1) {
+        id object = [insertedObjects anyObject];
+        if ([object isKindOfClass:[Book class]]) {
+          self.newBook = [insertedObjects anyObject];   
+        }
+    }
+}
+
+- (void)scrollToWhereNewInsertedObjectIs:(Book *)book
+{
+    NSInteger index = [bookShelves indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        BookShelf *shelf = (BookShelf *)obj;
+        return [shelf.books containsObject:book];
+    }];
+    
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.newBook = nil;
 }
 
 #pragma mark - Delegate Methods

@@ -10,10 +10,9 @@
 #import "Book+Constants.h"
 #import "DataController.h"
 #import "DownloadManager.h"
+#import "ChangeBookDetailsViewController.h"
 #import <DJWStarRatingView/DJWStarRatingView.h>
 
-static NSInteger const ownActionSheetTag = 111;
-static NSInteger const readActionSheetTag = 112;
 static double const AddButtonHeight = 50.0;
 static double const ReadOwnButtonHeights = 50.0;
 
@@ -28,9 +27,6 @@ static double const margin = 15.0;
 @property (strong, nonatomic) IBOutlet UIView *starView;
 @property (strong, nonatomic) IBOutlet UILabel *ratingCountLabel;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionLabel;
-
-@property (nonatomic, assign) BookOwnStatus ownStatus;
-@property (nonatomic, assign) BookReadStatus readStatus;
 
 @property (nonatomic, strong) Book *coreDataBook;
 @property (nonatomic, strong) GTLBooksVolume *gtlBook;
@@ -64,11 +60,17 @@ static double const margin = 15.0;
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];    
     [self setupUI];
     [self setupBookView];
+    [self setupNotificationObservers];
 }
 
 #pragma mark - Setup
@@ -99,6 +101,11 @@ static double const margin = 15.0;
 - (void)setupForExistsInLibrary
 {
     self.buttonViewHeight.constant = ReadOwnButtonHeights;
+    
+    for (UIView *subView in self.buttonView.subviews) {
+        [subView removeFromSuperview];
+    }
+    
     [self.buttonView addSubview:[self craftReadButton]];
     [self.buttonView addSubview:[self craftOwnButton]];
 }
@@ -128,7 +135,7 @@ static double const margin = 15.0;
             break;
     }
     [readButton setTitle:readButtonText forState:UIControlStateNormal];
-    
+    [readButton addTarget:self action:@selector(readButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     return readButton;
 }
 
@@ -157,6 +164,8 @@ static double const margin = 15.0;
     }
     
     [ownButton setTitle:ownButtonText forState:UIControlStateNormal];
+    [ownButton addTarget:self action:@selector(ownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
     return ownButton;
 }
 - (void)setupForDoesNotExistInLibrary
@@ -225,55 +234,14 @@ static double const margin = 15.0;
     [self.starView addSubview:stars];
 }
 
-#pragma mark Add to library Methods
+#pragma mark Setup Notification Obsevers
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)setupNotificationObservers
 {
-    if (actionSheet.tag == ownActionSheetTag) {
-        if (buttonIndex < 3) {
-            [self clickedOwnOption:buttonIndex];
-        }
-    } else if (actionSheet.tag == readActionSheetTag) {
-        if (buttonIndex < 4) {
-            [self clickedReadOption:buttonIndex];
-        }
-    }
-}
-
-- (void)clickedOwnOption:(NSInteger)ownOption
-{
-    if (ownOption == 0) {
-        self.ownStatus = BookIsOwned;
-    } else if (ownOption == 1) {
-        self.ownStatus = BookWantsToOwn;
-    } else if (ownOption == 2) {
-        self.ownStatus = BookDoesNotOwn;
-    }
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I have read it", @"I want to read it", @"I am currently reading it", @"None of the above", nil];
-    actionSheet.tag = readActionSheetTag;
-    [actionSheet showInView:self.view];
-}
-
-- (void)clickedReadOption:(NSInteger)readOption
-{
-    if (readOption == 0) {
-        self.readStatus = BookHasBeenRead;
-    } else if (readOption == 1) {
-        self.readStatus = BookWantsToRead;
-    } else if (readOption == 2) {
-        self.readStatus = BookIsCurrentlyReading;
-    } else if (readOption == 3) {
-        self.readStatus = BookDoesNotWantToRead;
-    }
-    
-    [self addBookToCoreData];
-}
-
-- (void)addBookToCoreData
-{
-    [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withReadStatus:self.readStatus ownStatus:self.ownStatus];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contextDidSave)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:nil];
 }
 
 #pragma mark - Button Listeners
@@ -285,9 +253,23 @@ static double const margin = 15.0;
 
 - (void)addToLibraryClicked:(UIButton *)button
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I own this book", @"I want to own this book", @"Neither", nil];
-    actionSheet.tag = ownActionSheetTag;
-    [actionSheet showInView:self.view];
+    ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initWithResultsDelegate:self];
+    [self.view addSubview:changeVC.view];
+    [self addChildViewController:changeVC];
+}
+
+- (void)readButtonPressed:(UIButton *)button
+{
+    ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initForExistingBook:self.coreDataBook WithOption:ChangeBookReadStatusOption];
+    [self.view addSubview:changeVC.view];
+    [self addChildViewController:changeVC];
+}
+
+- (void)ownButtonPressed:(UIButton *)button
+{
+    ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initForExistingBook:self.coreDataBook WithOption:ChangeBookOwnershipOption];
+    [self.view addSubview:changeVC.view];
+    [self addChildViewController:changeVC];
 }
 
 #pragma mark - Set Heights and Labels
@@ -338,4 +320,26 @@ static double const margin = 15.0;
     self.descriptionLabel.text = description;
 }
 
+#pragma mark Notification Listeners
+
+- (void)contextDidSave
+{
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(contextDidSave) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    [self setupBookView];
+}
+
+#pragma mark - Delegate Methods
+
+- (void)handleResults:(NSDictionary *)results
+{
+    BookReadStatus readStatus = (BookReadStatus)[[results objectForKey:BookDetailsChangeResultReadKey] integerValue];
+    BookOwnStatus ownStatus = (BookOwnStatus)[[results objectForKey:BookDetailsChangeResultOwnKey] integerValue];
+    
+    [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withReadStatus:readStatus ownStatus:ownStatus];
+
+    [self.dismissDelegate dismissBookDetailViewController];
+}
 @end

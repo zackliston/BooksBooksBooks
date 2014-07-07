@@ -91,10 +91,7 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchResultsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
-    if (!cell) {
-        cell = [[SearchResultsTableViewCell alloc] init];
-    }
+    SearchResultsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:tableCellIdentifier forIndexPath:indexPath];
     
     GTLBooksVolume *book = [self.books objectAtIndex:indexPath.row];
     cell.imageURL = book.volumeInfo.imageLinks.thumbnail;
@@ -118,8 +115,9 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 {
     GTLBooksVolume *book = [self.books objectAtIndex:indexPath.row];
     BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] initWithBook:book width:self.view.bounds.size.width];
+    bookDetailVC.dismissDelegate = self;
     
-    [self presentViewController:bookDetailVC animated:YES completion:NULL];
+    [self.navigationController presentViewController:bookDetailVC animated:YES completion:NULL];
 }
 
 #pragma mark Setup
@@ -200,7 +198,6 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
         query.orderBy = kGTLBooksOrderByRelevance;
         query.maxResults = 10;
         query.startIndex = self.startIndex;
-        NSLog(@"start index %i", self.startIndex);
         [self startSearchWithQuery:query];
     }
 }
@@ -215,5 +212,14 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     {
         [self loadNextResultsIfNeeded];
     }
+}
+
+#pragma mark - Delegate Methods
+
+- (void)dismissBookDetailViewController
+{
+    [self dismissViewControllerAnimated:NO completion:^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 }
 @end

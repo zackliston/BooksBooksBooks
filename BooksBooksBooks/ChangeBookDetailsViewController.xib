@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChangeBookDetailsViewController">
+            <connections>
+                <outlet property="cancelButton" destination="uvx-Qm-kMC" id="IXf-tF-u5d"/>
+                <outlet property="nextButton" destination="WKc-9z-5Vp" id="ZxS-oQ-3mO"/>
+                <outlet property="saveButton" destination="5qY-Ia-aRY" id="syb-8d-7Un"/>
+                <outlet property="selectionView" destination="jqU-Xt-KRB" id="8Nm-3K-Nq1"/>
+                <outlet property="selectionViewHeight" destination="kz8-cn-jSx" id="KO1-5p-Xuh"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jqU-Xt-KRB">
+                    <rect key="frame" x="48" y="114" width="225" height="300"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qY-Ia-aRY">
+                            <rect key="frame" x="113" y="250" width="112" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="LRL-cH-S52"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Save">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="-1" eventType="touchUpInside" id="cKy-OR-8pK"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvx-Qm-kMC">
+                            <rect key="frame" x="0.0" y="250" width="113" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="4Ug-iI-gMo"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="Juo-AB-UeA"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKc-9z-5Vp">
+                            <rect key="frame" x="113" y="250" width="112" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Next">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="nextButtonPressed:" destination="-1" eventType="touchUpInside" id="vyw-XB-hGK"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="WKc-9z-5Vp" secondAttribute="trailing" id="16d-M3-grh"/>
+                        <constraint firstItem="5qY-Ia-aRY" firstAttribute="width" secondItem="WKc-9z-5Vp" secondAttribute="width" id="Jbn-yC-keU"/>
+                        <constraint firstAttribute="bottom" secondItem="5qY-Ia-aRY" secondAttribute="bottom" id="LmR-B7-gyF"/>
+                        <constraint firstAttribute="trailing" secondItem="5qY-Ia-aRY" secondAttribute="trailing" id="QTy-el-VLw"/>
+                        <constraint firstAttribute="width" constant="225" id="W1o-nB-2w7"/>
+                        <constraint firstItem="5qY-Ia-aRY" firstAttribute="leading" secondItem="uvx-Qm-kMC" secondAttribute="trailing" id="YU2-cq-lyN"/>
+                        <constraint firstAttribute="height" constant="300" id="kz8-cn-jSx"/>
+                        <constraint firstItem="uvx-Qm-kMC" firstAttribute="leading" secondItem="jqU-Xt-KRB" secondAttribute="leading" id="mVY-xZ-2OI"/>
+                        <constraint firstAttribute="bottom" secondItem="uvx-Qm-kMC" secondAttribute="bottom" id="oyP-Ov-wXn"/>
+                        <constraint firstItem="5qY-Ia-aRY" firstAttribute="width" secondItem="uvx-Qm-kMC" secondAttribute="width" id="row-Pm-g9q"/>
+                        <constraint firstItem="5qY-Ia-aRY" firstAttribute="height" secondItem="WKc-9z-5Vp" secondAttribute="height" id="wo9-hS-ng8"/>
+                        <constraint firstAttribute="bottom" secondItem="WKc-9z-5Vp" secondAttribute="bottom" id="xbC-f8-cZy"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="jqU-Xt-KRB" secondAttribute="centerX" id="0G8-Yn-Iew"/>
+                <constraint firstAttribute="centerY" secondItem="jqU-Xt-KRB" secondAttribute="centerY" constant="20" id="ASc-6V-nCq"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>

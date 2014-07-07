@@ -46,7 +46,6 @@
 		135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69D6194AA90000EC8C3D /* AddViewController.m */; };
 		135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 135D69D7194AA90000EC8C3D /* AddViewController.xib */; };
 		135FC37E19592371007C5D1D /* Book+Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC37D19592371007C5D1D /* Book+Constants.m */; };
-		135FC381195928CD007C5D1D /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC380195928CD007C5D1D /* Book.m */; };
 		138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */; };
 		138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */; };
 		138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F919594344002DBC21 /* BookCollectionViewCell.m */; };
@@ -62,6 +61,9 @@
 		13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */; };
 		13C53F4B194AC0BF00705DE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C53F4A194AC0BF00705DE1 /* CoreGraphics.framework */; };
 		13C53F4D194AC8E700705DE1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C53F4C194AC8E700705DE1 /* QuartzCore.framework */; };
+		13D685351968DA78005C16F1 /* ChangeBookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */; };
+		13D685361968DA78005C16F1 /* ChangeBookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */; };
+		13D685451969F66B005C16F1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13D685441969F66B005C16F1 /* Book.m */; };
 		13DB17F9195A9DDC00BB23F6 /* bannerImage11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 13DB17F8195A9DDC00BB23F6 /* bannerImage11.jpg */; };
 		9B6CCFD4ADEB43F3AB5D0602 /* libPods-BooksBooksBooks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FAF38A810564B1AADA94EE8 /* libPods-BooksBooksBooks.a */; };
 /* End PBXBuildFile section */
@@ -129,8 +131,6 @@
 		135D69D7194AA90000EC8C3D /* AddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddViewController.xib; sourceTree = "<group>"; };
 		135FC37C19592371007C5D1D /* Book+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Constants.h"; sourceTree = "<group>"; };
 		135FC37D19592371007C5D1D /* Book+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Constants.m"; sourceTree = "<group>"; };
-		135FC37F195928CD007C5D1D /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		135FC380195928CD007C5D1D /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushViewControllerProtocol.h; sourceTree = "<group>"; };
 		138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenTableViewCell.h; sourceTree = "<group>"; };
 		138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenTableViewCell.m; sourceTree = "<group>"; };
@@ -157,6 +157,13 @@
 		13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBarcodeScannerViewController.m; sourceTree = "<group>"; };
 		13C53F4A194AC0BF00705DE1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		13C53F4C194AC8E700705DE1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		13D685321968DA78005C16F1 /* ChangeBookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBookDetailsViewController.h; sourceTree = "<group>"; };
+		13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeBookDetailsViewController.m; sourceTree = "<group>"; };
+		13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeBookDetailsViewController.xib; sourceTree = "<group>"; };
+		13D6853B1969E064005C16F1 /* ChangeBookDetailsResultsProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBookDetailsResultsProtocol.h; sourceTree = "<group>"; };
+		13D6853C1969EB74005C16F1 /* DismissBookDetailProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissBookDetailProtocol.h; sourceTree = "<group>"; };
+		13D685431969F66B005C16F1 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		13D685441969F66B005C16F1 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		13DB17F8195A9DDC00BB23F6 /* bannerImage11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bannerImage11.jpg; sourceTree = "<group>"; };
 		1FAF38A810564B1AADA94EE8 /* libPods-BooksBooksBooks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksBooksBooks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B308640D4424061861B54E1 /* Pods-BooksBooksBooks.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksBooksBooks.xcconfig"; path = "Pods/Pods-BooksBooksBooks.xcconfig"; sourceTree = "<group>"; };
@@ -272,6 +279,7 @@
 		135D69AB194A9E9300EC8C3D /* BooksBooksBooks */ = {
 			isa = PBXGroup;
 			children = (
+				13D685371968DA80005C16F1 /* Change Book Details Controller */,
 				133C71911957CBE300EE6E7D /* Book Detail Controller */,
 				133C71861957C35A00EE6E7D /* Main Screen */,
 				135D69CD194AA5ED00EC8C3D /* App Delegate */,
@@ -338,6 +346,7 @@
 		135D69DA194AA93C00EC8C3D /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */,
 				138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */,
 				138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */,
 				133C718E1957CBDE00EE6E7D /* BookDetailViewController.xib */,
@@ -362,6 +371,8 @@
 			isa = PBXGroup;
 			children = (
 				1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */,
+				13D6853B1969E064005C16F1 /* ChangeBookDetailsResultsProtocol.h */,
+				13D6853C1969EB74005C16F1 /* DismissBookDetailProtocol.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -369,9 +380,9 @@
 		139C652A1957D1C0009BB746 /* Data Controller */ = {
 			isa = PBXGroup;
 			children = (
-				135FC37F195928CD007C5D1D /* Book.h */,
-				135FC380195928CD007C5D1D /* Book.m */,
 				135D69B3194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld */,
+				13D685431969F66B005C16F1 /* Book.h */,
+				13D685441969F66B005C16F1 /* Book.m */,
 				139C65271957D1BB009BB746 /* DataController.h */,
 				139C65281957D1BB009BB746 /* DataController.m */,
 				135FC37C19592371007C5D1D /* Book+Constants.h */,
@@ -412,6 +423,15 @@
 				13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */,
 			);
 			path = TFBarcodeScanner;
+			sourceTree = "<group>";
+		};
+		13D685371968DA80005C16F1 /* Change Book Details Controller */ = {
+			isa = PBXGroup;
+			children = (
+				13D685321968DA78005C16F1 /* ChangeBookDetailsViewController.h */,
+				13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */,
+			);
+			name = "Change Book Details Controller";
 			sourceTree = "<group>";
 		};
 		D54EC05822D747759BF2D001 /* Frameworks */ = {
@@ -523,6 +543,7 @@
 				13416F3E195FBE6F00F653DF /* bannerImage17.jpg in Resources */,
 				13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */,
 				133C718B1957C37100EE6E7D /* MainScreenViewController.xib in Resources */,
+				13D685361968DA78005C16F1 /* ChangeBookDetailsViewController.xib in Resources */,
 				13416F16195FAB4700F653DF /* quotes.json in Resources */,
 				13416F29195FB89600F653DF /* bannerImage8.jpg in Resources */,
 				13416F3C195FBE6F00F653DF /* bannerImage15.jpg in Resources */,
@@ -600,13 +621,14 @@
 				13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */,
 				135D69B2194A9E9300EC8C3D /* AppDelegate.m in Sources */,
 				13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */,
+				13D685351968DA78005C16F1 /* ChangeBookDetailsViewController.m in Sources */,
 				135D69AF194A9E9300EC8C3D /* main.m in Sources */,
-				135FC381195928CD007C5D1D /* Book.m in Sources */,
 				13159D5C195BB69F007B9218 /* MainScreenHeaderView.m in Sources */,
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
 				138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */,
 				133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */,
 				13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */,
+				13D685451969F66B005C16F1 /* Book.m in Sources */,
 				135D69B5194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

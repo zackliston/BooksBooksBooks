@@ -40,11 +40,18 @@ static DataController *sharedInstance;
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+        if ([managedObjectContext hasChanges]) {
+            [managedObjectContext save:&error];
+        } else {
+            NSLog(@"No changes to save. Not saving context");
+        }
+        if (error) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
+        } else {
+            NSLog(@"Successfully saved context!");
         }
     }
 }
@@ -149,6 +156,10 @@ static DataController *sharedInstance;
     
     newBook.imageURLs = [self convertImageLinksPropertyToDictionary:gtlBook.volumeInfo.imageLinks];
     newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:newBook.imageURLs bookID:newBook.bookID];
+    
+    double currentTime = (double)[[NSDate date] timeIntervalSince1970];
+    newBook.dateAddedToLibraryInSecondsSinceEpoch = [NSNumber numberWithDouble:currentTime];
+    newBook.dateModifiedInSecondsSinceEpoch = [NSNumber numberWithDouble:currentTime];
     
     NSError *saveError;
     
