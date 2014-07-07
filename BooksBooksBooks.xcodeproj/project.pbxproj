@@ -490,6 +490,7 @@
 		135D69A1194A9E9300EC8C3D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = ZLB;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = zackliston;
 				TargetAttributes = {

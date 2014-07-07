@@ -15,7 +15,6 @@
 @interface BookDetailViewController : UIViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol>
 
 - (id)initWithBook:(id)book width:(CGFloat)width;
-- (void)setupBookExistsInLibrary:(BOOL)existsInLibrary;
 
 @property (nonatomic, weak) id<DismissBookDetailProtocol>dismissDelegate;
 

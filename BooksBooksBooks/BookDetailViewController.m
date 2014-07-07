@@ -13,10 +13,10 @@
 #import "ChangeBookDetailsViewController.h"
 #import <DJWStarRatingView/DJWStarRatingView.h>
 
-static double const AddButtonHeight = 50.0;
-static double const ReadOwnButtonHeights = 50.0;
-
-static double const margin = 15.0;
+static double const kAddButtonHeight = 50.0;
+static double const kReadOwnButtonHeights = 50.0;
+static double const kEditPersonalDetailsButtonHeight = 50.0;
+static double const kMargin = 15.0;
 
 @interface BookDetailViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
@@ -82,25 +82,27 @@ static double const margin = 15.0;
     self.gtlBook = book;
     
     self.coreDataBook = [[DataController sharedInstance] fetchBookWithBookID:_gtlBook.identifier];
+   
+    if (self.coreDataBook) {
+        self.existsInLibrary = YES;
+    }
+    
     [self setupBookView];
 }
 
 - (void)setupWithCoreDataBook:(Book *)book
 {
     self.coreDataBook = book;
+    self.existsInLibrary = YES;
+    
     [self setupBookView];
-}
-
-- (void)setupBookExistsInLibrary:(BOOL)existsInLibrary
-{
-    self.existsInLibrary = existsInLibrary;
 }
 
 #pragma mark Setup buttons
 
 - (void)setupForExistsInLibrary
 {
-    self.buttonViewHeight.constant = ReadOwnButtonHeights;
+    self.buttonViewHeight.constant = kReadOwnButtonHeights+kEditPersonalDetailsButtonHeight;
     
     for (UIView *subView in self.buttonView.subviews) {
         [subView removeFromSuperview];
@@ -108,13 +110,30 @@ static double const margin = 15.0;
     
     [self.buttonView addSubview:[self craftReadButton]];
     [self.buttonView addSubview:[self craftOwnButton]];
+    [self.buttonView addSubview:[self craftEditPersonalDetailsButton]];
+}
+
+- (UIButton *)craftEditPersonalDetailsButton
+{
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, kReadOwnButtonHeights, self.width, kEditPersonalDetailsButtonHeight)];
+    editButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9];
+    editButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
+    [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [editButton setTitle:@"What you think about this book." forState:UIControlStateNormal];
+    
+    CALayer *topBorder = [CALayer layer];
+    topBorder.frame = CGRectMake(0.0, 0.0, editButton.bounds.size.width, 0.5);
+    topBorder.backgroundColor = [UIColor whiteColor].CGColor;
+    [editButton.layer addSublayer:topBorder];
+    
+    return editButton;
 }
 
 - (UIButton *)craftReadButton
 {
     CGFloat buttonWidth = (self.width-1.0)/2.0;
-    UIButton *readButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonWidth, ReadOwnButtonHeights)];
-    readButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    UIButton *readButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonWidth, kReadOwnButtonHeights)];
+    readButton.backgroundColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:0.85];
     readButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
     [readButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     NSString *readButtonText;
@@ -143,8 +162,8 @@ static double const margin = 15.0;
 {
     CGFloat buttonWidth = (self.width-1.0)/2.0;
     
-    UIButton *ownButton = [[UIButton alloc] initWithFrame:CGRectMake(self.width-buttonWidth, 0.0, buttonWidth, ReadOwnButtonHeights)];
-    ownButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    UIButton *ownButton = [[UIButton alloc] initWithFrame:CGRectMake(self.width-buttonWidth, 0.0, buttonWidth, kReadOwnButtonHeights)];
+    ownButton.backgroundColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:0.85];
     ownButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
     [ownButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
@@ -168,9 +187,10 @@ static double const margin = 15.0;
     
     return ownButton;
 }
+
 - (void)setupForDoesNotExistInLibrary
 {
-    UIButton *addToLibraryButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, self.width, AddButtonHeight)];
+    UIButton *addToLibraryButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, self.width, kAddButtonHeight)];
     addToLibraryButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
     [addToLibraryButton setTitle:@"Add To Library" forState:UIControlStateNormal];
     addToLibraryButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
@@ -178,7 +198,7 @@ static double const margin = 15.0;
     
     [addToLibraryButton addTarget:self action:@selector(addToLibraryClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.buttonViewHeight.constant = AddButtonHeight;
+    self.buttonViewHeight.constant = kAddButtonHeight;
     [self.buttonView addSubview:addToLibraryButton];
 }
 
@@ -223,6 +243,7 @@ static double const margin = 15.0;
 - (void)setupUI
 {
     self.topBarView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    self.buttonView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setRating:(CGFloat)rating ratingCount:(NSInteger)ratingCount
@@ -278,7 +299,7 @@ static double const margin = 15.0;
     UIFont *titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0];
     self.titleLabel.font = titleFont;
     
-    CGSize maxSize = CGSizeMake(self.width-(margin*2.0), MAXFLOAT);
+    CGSize maxSize = CGSizeMake(self.width-(kMargin*2.0), MAXFLOAT);
     CGRect boundingRect = [title boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:titleFont} context:nil];
     self.titleLabelHeight.constant = boundingRect.size.height;
     
@@ -290,7 +311,7 @@ static double const margin = 15.0;
     UIFont *titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
     self.authorLabel.font = titleFont;
     
-    CGSize maxSize = CGSizeMake(self.width-(margin*2.0), MAXFLOAT);
+    CGSize maxSize = CGSizeMake(self.width-(kMargin*2.0), MAXFLOAT);
     CGRect boundingRect = [author boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:titleFont} context:nil];
     self.authorLabelHeight.constant = boundingRect.size.height;
     
@@ -317,7 +338,8 @@ static double const margin = 15.0;
         self.descriptionLabel.scrollEnabled = NO;
     }
     
-    self.descriptionLabel.text = description;
+    // Hacky way to add more space at the end
+    self.descriptionLabel.text = [NSString stringWithFormat:@"%@\n\n\n", description];
 }
 
 #pragma mark Notification Listeners
@@ -342,4 +364,5 @@ static double const margin = 15.0;
 
     [self.dismissDelegate dismissBookDetailViewController];
 }
+
 @end

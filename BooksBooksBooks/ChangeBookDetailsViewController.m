@@ -21,9 +21,11 @@ static double const ButtonHeight = 50.0;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *selectionViewHeight;
 @property (nonatomic, assign) ChangeBookDetailsOptions option;
 @property (nonatomic, strong) NSMutableArray *selectionButtons;
+
 @property (strong, nonatomic) IBOutlet UIButton *saveButton;
 @property (strong, nonatomic) IBOutlet UIButton *cancelButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
+@property (strong, nonatomic) IBOutlet UIButton *backButton;
 
 
 @property (nonatomic, assign) NSInteger tagSelected;
@@ -127,17 +129,30 @@ static double const ButtonHeight = 50.0;
     self.saveButton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.9];
     self.nextButton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.9];
     self.cancelButton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.9];
+    self.backButton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.9];
+    
+    [self.nextButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+    [self.saveButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
     
     CALayer *middleBorder = [CALayer layer];
     middleBorder.frame = CGRectMake(self.cancelButton.bounds.size.width-0.5, 0.0, 0.5, self.cancelButton.bounds.size.height);
     middleBorder.backgroundColor = [UIColor whiteColor].CGColor;
     [self.cancelButton.layer addSublayer:middleBorder];
+    
+    CALayer *backMiddleBorder = [CALayer layer];
+    backMiddleBorder.frame = CGRectMake(self.backButton.bounds.size.width-0.5, 0.0, 0.5, self.backButton.bounds.size.height);
+    backMiddleBorder.backgroundColor = [UIColor whiteColor].CGColor;
+    [self.backButton.layer addSublayer:backMiddleBorder];
 }
 
 - (void)setupButtons
 {
     [self removeExistingSelectionButtons];
     [self showSaveOrNextButton];
+    [self showCancelOrBackButton];
+    self.saveButton.enabled = NO;
+    self.nextButton.enabled = NO;
+    
     
     switch (self.option) {
         case ChangeBookOwnershipOption:
@@ -169,6 +184,17 @@ static double const ButtonHeight = 50.0;
     } else {
         self.nextButton.hidden = YES;
         self.saveButton.hidden = NO;
+    }
+}
+
+- (void)showCancelOrBackButton
+{
+    if (self.isNewBook && self.option == ChangeBookReadStatusOption) {
+        self.backButton.hidden = NO;
+        self.cancelButton.hidden = YES;
+    } else {
+        self.backButton.hidden = YES;
+        self.cancelButton.hidden = NO;
     }
 }
 
@@ -246,6 +272,8 @@ static double const ButtonHeight = 50.0;
 - (void)buttonPressed:(UIButton *)button
 {
     self.tagSelected = button.tag;
+    self.nextButton.enabled = YES;
+    self.saveButton.enabled = YES;
 }
 
 - (IBAction)cancelButtonPressed:(UIButton *)sender
@@ -267,6 +295,14 @@ static double const ButtonHeight = 50.0;
 {
     self.option = ChangeBookReadStatusOption;
     [self setupButtons];
+    
+    self.saveButton.enabled = NO;
 }
 
+- (IBAction)backButtonPressed:(UIButton *)sender
+{
+    self.option = ChangeBookOwnershipOption;
+    [self setupButtons];
+    self.tagSelected = [[self.results objectForKey:BookDetailsChangeResultOwnKey] integerValue];
+}
 @end

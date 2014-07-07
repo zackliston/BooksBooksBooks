@@ -221,7 +221,7 @@ static DataController *sharedInstance;
     
     if ([results count] > 1) {
         NSLog(@"Error! There should only be one or less results for any bookID");
-        return nil;
+        return [results firstObject];
     } else {
         return [results lastObject];
     }
