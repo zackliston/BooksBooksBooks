@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <GTLBooks.h>
 #import "DismissBookDetailProtocol.h"
+#import <GAITrackedViewController.h>
 
-@interface SearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, DismissBookDetailProtocol>
+@interface SearchResultsViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, DismissBookDetailProtocol>
 
 - (void)startSearchWithQuery:(GTLQueryBooks *)query;
 

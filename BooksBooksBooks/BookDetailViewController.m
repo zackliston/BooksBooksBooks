@@ -73,6 +73,13 @@ static double const kMargin = 15.0;
     [self setupNotificationObservers];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.screenName = @"Book Details";
+    
+}
+
 #pragma mark - Setup
 
 #pragma mark Setup With Book
@@ -248,7 +255,7 @@ static double const kMargin = 15.0;
 
 - (void)setRating:(CGFloat)rating ratingCount:(NSInteger)ratingCount
 {
-    DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor lightGrayColor]];
+    DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
     stars.editable = NO;
     
     self.ratingCountLabel.text = [NSString stringWithFormat:@"(%li)", (long)ratingCount];
@@ -262,7 +269,7 @@ static double const kMargin = 15.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(contextDidSave)
                                                  name:NSManagedObjectContextDidSaveNotification
-                                               object:nil];
+                                               object:[[DataController sharedInstance] managedObjectContext]];
 }
 
 #pragma mark - Button Listeners

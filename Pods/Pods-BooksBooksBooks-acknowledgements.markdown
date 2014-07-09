@@ -106,6 +106,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
+## GoogleAnalytics-iOS-SDK
+
+Copyright 2009 - 2014 Google, Inc. All rights reserved.
+
+
 ## MBProgressHUD
 
 Copyright (c) 2013 Matej Bukovinski

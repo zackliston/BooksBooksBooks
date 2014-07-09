@@ -169,6 +169,7 @@ PODS:
     - Google-API-Client/Common
     - gtm-oauth2
     - GTMHTTPFetcher
+  - GoogleAnalytics-iOS-SDK (3.0.7)
   - gtm-oauth2 (0.1.0):
     - GTMHTTPFetcher
   - GTMHTTPFetcher (0.1.0)
@@ -179,6 +180,7 @@ DEPENDENCIES:
   - DJWStarRatingView
   - FXBlurView
   - Google-API-Client
+  - GoogleAnalytics-iOS-SDK
   - MBProgressHUD
 
 SPEC CHECKSUMS:
@@ -186,6 +188,7 @@ SPEC CHECKSUMS:
   DJWStarRatingView: 86c66ce228fe7aa636ab426c4c29b9a8fc68680d
   FXBlurView: 1d01b96076d65027314d1be024c7506c292392aa
   Google-API-Client: 69cd2a04c649abe9f3fa6695bc4bb8965373f204
+  GoogleAnalytics-iOS-SDK: bb285d8eef15a682f1b82971becd0d22edd0e53b
   gtm-oauth2: 64f2d404a50676ab63b5437a02a7567da8f8b7fa
   GTMHTTPFetcher: 0f02d5a5803dd08736462981064de6a7f59cf9bd
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be

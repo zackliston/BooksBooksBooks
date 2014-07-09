@@ -3,6 +3,7 @@
 
 target "BooksBooksBooks" do
 pod 'AFNetworking'
+pod 'GoogleAnalytics-iOS-SDK'
 pod 'Google-API-Client'
 pod 'FXBlurView'
 pod 'MBProgressHUD'

@@ -10,6 +10,7 @@
 #import "MainScreenViewController.h"
 #import "AddViewController.h"
 #import "DataController.h"
+#import <GAI.h>
 
 @interface AppDelegate ()
             
@@ -18,7 +19,29 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [self setupGoogleAnalytics];
+    [self setupWindow];
+    return YES;
+}
+
+- (void)setupGoogleAnalytics
+{
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-52655255-1"];
+}
+
+- (void)setupWindow
+{
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     MainScreenViewController *mainScreen = [[MainScreenViewController alloc] init];
     
@@ -28,7 +51,6 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

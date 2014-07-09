@@ -58,6 +58,12 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [self setupNotificationObservers];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.screenName = @"Main Screen";
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -140,7 +146,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(contextDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
-                                               object:nil];
+                                               object:[[DataController sharedInstance] managedObjectContext]];
 }
 
 #pragma mark Setup Bookshelves

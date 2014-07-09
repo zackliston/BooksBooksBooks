@@ -45,6 +45,7 @@
 		135D69C3194A9E9300EC8C3D /* BooksBooksBooksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69C2194A9E9300EC8C3D /* BooksBooksBooksTests.m */; };
 		135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69D6194AA90000EC8C3D /* AddViewController.m */; };
 		135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 135D69D7194AA90000EC8C3D /* AddViewController.xib */; };
+		135E7301196CFEEE001B24D9 /* ZLBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */; };
 		135FC37E19592371007C5D1D /* Book+Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC37D19592371007C5D1D /* Book+Constants.m */; };
 		138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */; };
 		138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */; };
@@ -129,6 +130,8 @@
 		135D69D5194AA90000EC8C3D /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		135D69D6194AA90000EC8C3D /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		135D69D7194AA90000EC8C3D /* AddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddViewController.xib; sourceTree = "<group>"; };
+		135E72FF196CFEEE001B24D9 /* ZLBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBAnalytics.h; sourceTree = "<group>"; };
+		135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBAnalytics.m; sourceTree = "<group>"; };
 		135FC37C19592371007C5D1D /* Book+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Constants.h"; sourceTree = "<group>"; };
 		135FC37D19592371007C5D1D /* Book+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Constants.m"; sourceTree = "<group>"; };
 		1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushViewControllerProtocol.h; sourceTree = "<group>"; };
@@ -295,6 +298,7 @@
 		135D69AC194A9E9300EC8C3D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				135E72FE196CFED6001B24D9 /* Analytics Helpers */,
 				1361557E195F58B9004B8095 /* Protocols */,
 				13159D5D195BBFAA007B9218 /* Download Manager */,
 				139C652A1957D1C0009BB746 /* Data Controller */,
@@ -365,6 +369,15 @@
 				13416F15195FAB4700F653DF /* quotes.json */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		135E72FE196CFED6001B24D9 /* Analytics Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				135E72FF196CFEEE001B24D9 /* ZLBAnalytics.h */,
+				135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */,
+			);
+			name = "Analytics Helpers";
 			sourceTree = "<group>";
 		};
 		1361557E195F58B9004B8095 /* Protocols */ = {
@@ -615,6 +628,7 @@
 				139C65291957D1BB009BB746 /* DataController.m in Sources */,
 				13159D60195BBFC0007B9218 /* DownloadManager.m in Sources */,
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
+				135E7301196CFEEE001B24D9 /* ZLBAnalytics.m in Sources */,
 				138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */,
 				133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */,
 				135FC37E19592371007C5D1D /* Book+Constants.m in Sources */,

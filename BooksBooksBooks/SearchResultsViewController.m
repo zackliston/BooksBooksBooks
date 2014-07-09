@@ -64,8 +64,10 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.screenName = @"New Book Search Results";
     self.navigationController.navigationBar.topItem.title = @"";
 }
+
 - (GTLServiceBooks *)service
 {
     if (!_service) {

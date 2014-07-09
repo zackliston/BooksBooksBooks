@@ -76,6 +76,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.screenName = @"Search New Book";
     [self setupNavigationBar];
 }
 

@@ -10,9 +10,10 @@
 #import <GTLBooks.h>
 #import "ChangeBookDetailsResultsProtocol.h"
 #import "DismissBookDetailProtocol.h"
+#import <GAITrackedViewController.h>
 @class Book;
 
-@interface BookDetailViewController : UIViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol>
+@interface BookDetailViewController : GAITrackedViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol>
 
 - (id)initWithBook:(id)book width:(CGFloat)width;
 

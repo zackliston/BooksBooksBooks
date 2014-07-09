@@ -32,6 +32,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "TFBarcode.h"
+#import <GAITrackedViewController.h>
 
 /**
  *  A view controller that sets up the device for scanning, provides a preview,
@@ -42,7 +43,7 @@
  *  the preview to show through, make sure that some portion of your subviews are
  *  transparent. See the demo for an example.
  */
-@interface TFBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
+@interface TFBarcodeScannerViewController : GAITrackedViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 /**
  *  A bit flag of TFBarcodeTypes. Only barcodes of these types will be returned by the

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ChangeBookDetailsResultsProtocol.h"
+#import <GAITrackedViewController.h>
 
 FOUNDATION_EXPORT NSString *const BookDetailsChangeResultOwnKey;
 FOUNDATION_EXPORT NSString *const BookDetailsChangeResultReadKey;
@@ -19,7 +20,7 @@ typedef NS_ENUM(NSInteger, ChangeBookDetailsOptions) {
     ChangeBookReadStatusOption
 };
 
-@interface ChangeBookDetailsViewController : UIViewController
+@interface ChangeBookDetailsViewController : GAITrackedViewController
 
 - (id)initForExistingBook:(Book *)book WithOption:(ChangeBookDetailsOptions)option;
 - (id)initWithResultsDelegate:(id<ChangeBookDetailsResultsProtocol>)delegate;

@@ -9,6 +9,7 @@
 #import "ChangeBookDetailsViewController.h"
 #import "DataController.h"
 #import "Book+Constants.h"
+#import "ZLBAnalytics.h"
 
 NSString *const BookDetailsChangeResultOwnKey = @"ownKey";
 NSString *const BookDetailsChangeResultReadKey = @"readKey";
@@ -109,6 +110,12 @@ static double const ButtonHeight = 50.0;
     [super viewDidLoad];
     [self setupUI];
     [self setupButtons];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.screenName = @"Change Book Details";
 }
 
 - (void)remove
@@ -256,14 +263,19 @@ static double const ButtonHeight = 50.0;
 {
     switch (self.option) {
         case ChangeBookOwnershipOption:
+            [ZLBAnalytics logBookOwnStatusChangedEvent:(BookOwnStatus)self.tagSelected];
+            
             self.book.doesOwn = [NSNumber numberWithInteger:self.tagSelected];
             break;
         case ChangeBookReadStatusOption:
+            [ZLBAnalytics logBookReadStatusChangedEvent:(BookReadStatus)self.tagSelected];
+            
             self.book.readStatus = [NSNumber numberWithInteger:self.tagSelected];
             break;
         default:
             break;
     }
+    
     [[DataController sharedInstance] saveContext];
 }
 
@@ -284,6 +296,7 @@ static double const ButtonHeight = 50.0;
 - (IBAction)saveButtonPressed:(UIButton *)sender
 {
     if (self.isNewBook) {
+        [ZLBAnalytics logBookAddedEvent];
         [self.resultsDelegate handleResults:self.results];
     } else {
         [self saveForBook];
