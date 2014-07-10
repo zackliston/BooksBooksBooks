@@ -1,0 +1,8 @@
+.DS_Store
+xcuserdata
+profile
+DerivedData
+
+#CocoaPods
+Pods
+Podfile.lock
