@@ -190,6 +190,7 @@ static DataController *sharedInstance;
     NSString *imageDirectoryPath = [DownloadManager getImageDirectoryLocation];
     
     for (NSString *key in externalLinks.allKeys) {
+        
         NSString *localLink = [NSString stringWithFormat:@"%@/%@-%@.png", imageDirectoryPath, bookID, key];
         [tempDictionary setObject:localLink forKey:key];
         

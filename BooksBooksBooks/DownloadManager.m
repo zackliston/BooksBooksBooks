@@ -59,7 +59,6 @@ static NSString *const ImageDirectory = @"localImageDirectory";
 + (BOOL)doesImageExistAtPath:(NSString *)path
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
     return [fileManager fileExistsAtPath:path];
 }
 @end

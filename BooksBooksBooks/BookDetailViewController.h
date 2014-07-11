@@ -13,7 +13,7 @@
 #import <GAITrackedViewController.h>
 @class Book;
 
-@interface BookDetailViewController : GAITrackedViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol>
+@interface BookDetailViewController : GAITrackedViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol, UIScrollViewDelegate>
 
 - (id)initWithBook:(id)book width:(CGFloat)width;
 

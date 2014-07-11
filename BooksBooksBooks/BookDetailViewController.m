@@ -11,28 +11,44 @@
 #import "DataController.h"
 #import "DownloadManager.h"
 #import "ChangeBookDetailsViewController.h"
+#import <UIImageView+AFNetworking.h>
 #import <DJWStarRatingView/DJWStarRatingView.h>
 
 static double const kAddButtonHeight = 50.0;
 static double const kReadOwnButtonHeights = 50.0;
-static double const kEditPersonalDetailsButtonHeight = 50.0;
 static double const kMargin = 15.0;
+static double const kDefaultDescriptionHeight = 50.0;
+static double const kMaxTitleFontSize = 40.0;
+static double const kMaxAuthorFontSize = 20.0;
+static double const kMaxTitleLabelHeight = 60.0;
+static double const kMaxAuthorLabelHeight = 40.0;
+static double const kDefaultTitleAuthorLabelWidth = 250;
 
 @interface BookDetailViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
+@property (strong, nonatomic) IBOutlet UIButton *moreButton;
 
 @property (strong, nonatomic) IBOutlet UIView *buttonView;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UIView *topBarView;
 @property (strong, nonatomic) IBOutlet UIView *starView;
+@property (strong, nonatomic) IBOutlet UIView *personalRatingView;
+@property (strong, nonatomic) IBOutlet UITextView *notesTextView;
+
 @property (strong, nonatomic) IBOutlet UILabel *ratingCountLabel;
-@property (strong, nonatomic) IBOutlet UITextView *descriptionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (strong, nonatomic) IBOutlet UIImageView *bookImageView;
 
 @property (nonatomic, strong) Book *coreDataBook;
 @property (nonatomic, strong) GTLBooksVolume *gtlBook;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *buttonViewHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *descriptionLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *authorLabelHeight;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *buttonViewHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenMainViewAndBottomOrScreen;
 
 
 @property (nonatomic, assign) BOOL existsInLibrary;
@@ -41,7 +57,9 @@ static double const kMargin = 15.0;
 
 @end
 
-@implementation BookDetailViewController
+@implementation BookDetailViewController {
+    CGFloat expandedDescriptionHeight;
+}
 
 #pragma mark Lifecycle
 
@@ -69,8 +87,10 @@ static double const kMargin = 15.0;
 {
     [super viewDidLoad];    
     [self setupUI];
+    [self setupKeyboardListeners];
     [self setupBookView];
     [self setupNotificationObservers];
+    [self setupImageView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -109,7 +129,7 @@ static double const kMargin = 15.0;
 
 - (void)setupForExistsInLibrary
 {
-    self.buttonViewHeight.constant = kReadOwnButtonHeights+kEditPersonalDetailsButtonHeight;
+    self.buttonViewHeight.constant = kReadOwnButtonHeights;
     
     for (UIView *subView in self.buttonView.subviews) {
         [subView removeFromSuperview];
@@ -117,23 +137,6 @@ static double const kMargin = 15.0;
     
     [self.buttonView addSubview:[self craftReadButton]];
     [self.buttonView addSubview:[self craftOwnButton]];
-    [self.buttonView addSubview:[self craftEditPersonalDetailsButton]];
-}
-
-- (UIButton *)craftEditPersonalDetailsButton
-{
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, kReadOwnButtonHeights, self.width, kEditPersonalDetailsButtonHeight)];
-    editButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9];
-    editButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
-    [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [editButton setTitle:@"What you think about this book." forState:UIControlStateNormal];
-    
-    CALayer *topBorder = [CALayer layer];
-    topBorder.frame = CGRectMake(0.0, 0.0, editButton.bounds.size.width, 0.5);
-    topBorder.backgroundColor = [UIColor whiteColor].CGColor;
-    [editButton.layer addSublayer:topBorder];
-    
-    return editButton;
 }
 
 - (UIButton *)craftReadButton
@@ -230,8 +233,8 @@ static double const kMargin = 15.0;
     NSString *author = [self.gtlBook.volumeInfo.authors lastObject];
     NSString *title = self.gtlBook.volumeInfo.title;
     
-    [self setTitleLabelAndHeightForTitle:title];
-    [self setAuthorLabelAndHeightForAuthor:author];
+    [self setTitleAndHeightForTitle:title];
+    [self setAuthorAndHeightForAuthor:author];
     [self setBookDescriptionAndHeightForDescription:self.gtlBook.volumeInfo.descriptionProperty];
     [self setRating:[self.gtlBook.volumeInfo.averageRating floatValue] ratingCount:[self.gtlBook.volumeInfo.ratingsCount integerValue]];
 }
@@ -241,25 +244,207 @@ static double const kMargin = 15.0;
     NSString *author = self.coreDataBook.mainAuthor;
     NSString *title = self.coreDataBook.title;
 
-    [self setTitleLabelAndHeightForTitle:title];
-    [self setAuthorLabelAndHeightForAuthor:author];
+    [self setTitleAndHeightForTitle:title];
+    [self setAuthorAndHeightForAuthor:author];
     [self setBookDescriptionAndHeightForDescription:self.coreDataBook.bookDescription];
     [self setRating:[self.coreDataBook.averageRating floatValue] ratingCount:[self.coreDataBook.ratingsCount integerValue]];
 }
 
 - (void)setupUI
 {
+    [self setupPersonalRating];
+    [self setupNotesTextView];
+    
     self.topBarView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
     self.buttonView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setRating:(CGFloat)rating ratingCount:(NSInteger)ratingCount
 {
-    DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(20.0, 20.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
+    DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(15.0, 15.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
     stars.editable = NO;
     
     self.ratingCountLabel.text = [NSString stringWithFormat:@"(%li)", (long)ratingCount];
     [self.starView addSubview:stars];
+}
+
+- (void)setupPersonalRating
+{
+    DJWStarRatingView *personalStars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(30.0, 30.0) numberOfStars:5 rating:0.0 fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
+    personalStars.editable = YES;
+    [self.personalRatingView addSubview:personalStars];
+    
+    CGPoint newCenter = personalStars.center;
+    newCenter.x = self.personalRatingView.bounds.size.width/2.0;
+    personalStars.center = newCenter;
+}
+
+- (void)setupNotesTextView
+{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapScrollView:)];
+    gesture.numberOfTapsRequired = 1;
+    [self.scrollView addGestureRecognizer:gesture];
+    
+    self.notesTextView.layer.cornerRadius = 5.0;
+    self.notesTextView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+    self.notesTextView.layer.shadowOpacity = 9.0;
+    self.notesTextView.layer.shadowRadius = 2.0;
+    self.notesTextView.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+    self.notesTextView.layer.masksToBounds = NO;
+}
+
+- (void)tapScrollView:(UITapGestureRecognizer *)tap
+{
+    [self.notesTextView resignFirstResponder];
+}
+
+- (void)setupKeyboardListeners
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+#pragma mark Setup Image Stuff
+
+- (void)setupImageView
+{
+    [self setupImageShadow];
+    
+    UIImage *image = [self getLocalImage];
+    if (image) {
+        self.bookImageView.image = image;
+    } else if (self.coreDataBook) {
+        NSString *remoteURL = [self getBiggestImagePathInDictionary:self.coreDataBook.imageURLs];
+        [self setRemoteImageURL:remoteURL];
+    } else {
+        NSString *remoteURL = [self getBiggestImageInGTLImageLinks:self.gtlBook.volumeInfo.imageLinks];
+        [self setRemoteImageURL:remoteURL];
+    }
+}
+
+- (UIImage *)getLocalImage
+{
+    NSMutableDictionary *availableLocalImages = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *key in [self.coreDataBook.localImageLinks allKeys]) {
+        NSString *path = [self.coreDataBook.localImageLinks objectForKey:key];
+        
+        if ([DownloadManager doesImageExistAtPath:path]) {
+            
+            [availableLocalImages setObject:path forKey:key];
+        } else {
+            NSString *remoteURL = [self.coreDataBook.imageURLs objectForKey:key];
+            
+            if (remoteURL) {
+                [DownloadManager downloadImageFrom:remoteURL to:path];
+                
+            }
+        }
+    }
+    
+    NSString *pathToImage = [self getBiggestImagePathInDictionary:availableLocalImages];
+    
+    if (pathToImage) {
+        return [[UIImage alloc] initWithContentsOfFile:pathToImage];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)getBiggestImagePathInDictionary:(NSDictionary *)dictionary
+{
+    NSString *pathToImage;
+    
+    if ([dictionary objectForKey:mediumImageKey]) {
+        pathToImage = [dictionary objectForKey:mediumImageKey];
+    } else if ([dictionary objectForKey:smallImageKey]) {
+        pathToImage = [dictionary objectForKey:smallImageKey];
+    } else if ([dictionary objectForKey:thumbnailImageKey]) {
+        pathToImage = [dictionary objectForKey:thumbnailImageKey];
+    }
+    
+    return pathToImage;
+}
+
+- (NSString *)getBiggestImageInGTLImageLinks:(GTLBooksVolumeVolumeInfoImageLinks *)imageLinks
+{
+    if (imageLinks.medium) {
+        return imageLinks.medium;
+    } else if (imageLinks.small) {
+        return imageLinks.small;
+    } else if (imageLinks.thumbnail) {
+        return imageLinks.thumbnail;
+    } else {
+        return imageLinks.smallThumbnail;
+    }
+}
+
+- (void)setRemoteImageURL:(NSString *)imageURL
+{
+    [self downloadImageAtAddress:imageURL toImageView:self.bookImageView];
+}
+
+- (void)downloadImageAtAddress:(NSString *)address toImageView:(UIImageView *)imageView
+{
+    UIActivityIndicatorView *activityIndicator = [self craftActivityIndicatorInView:imageView];
+    [activityIndicator startAnimating];
+    
+    // Craft the request based on the provided address
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:address]];
+    
+    // Create a weak reference to the coverImageView and activityView so we can add the image and stop the spinner from inside the block
+    __weak UIImageView *weakCoverImageView = imageView;
+    __weak UIActivityIndicatorView *weakActivityView = activityIndicator;
+    __weak BookDetailViewController *weakSelf = self;
+    
+    [self.bookImageView setImageWithURLRequest:imageRequest placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        
+        // If the image is successfully downloaded, set it as the coverImageView
+        weakCoverImageView.image = image;
+        [weakActivityView stopAnimating];
+        [weakActivityView removeFromSuperview];
+        
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        [weakActivityView stopAnimating];
+        [weakSelf performSelectorOnMainThread:@selector(failedImageDownload) withObject:nil waitUntilDone:NO];
+        [weakActivityView removeFromSuperview];
+    }];
+}
+
+- (void)failedImageDownload
+{
+    UILabel *failureLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.bookImageView.frame, 5.0, 5.0)];
+    failureLabel.backgroundColor = [UIColor clearColor];
+    failureLabel.textColor = [UIColor darkGrayColor];
+    failureLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
+    failureLabel.text = @"Could not download image at this time.";
+    failureLabel.textAlignment = NSTextAlignmentCenter;
+    failureLabel.numberOfLines = 0;
+    failureLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    [self.bookImageView addSubview:failureLabel];
+}
+
+- (UIActivityIndicatorView *)craftActivityIndicatorInView:(UIView *)view
+{
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicator.center = CGPointMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds));
+    activityIndicator.hidesWhenStopped = YES;
+    [view addSubview:activityIndicator];
+    
+    return activityIndicator;
+}
+
+- (void)setupImageShadow
+{
+    
+    self.bookImageView.layer.masksToBounds = NO;
+    self.bookImageView.layer.shadowRadius = 8.0;
+    self.bookImageView.layer.shadowOpacity = 0.9;
+    self.bookImageView.layer.shadowOffset = CGSizeZero;
+    self.bookImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.bookImageView.layer.cornerRadius = 5.0;
 }
 
 #pragma mark Setup Notification Obsevers
@@ -300,53 +485,58 @@ static double const kMargin = 15.0;
     [self addChildViewController:changeVC];
 }
 
+- (IBAction)moreButtonPressed:(UIButton *)sender
+{
+    if (self.descriptionLabelHeight.constant < expandedDescriptionHeight) {
+        self.descriptionLabelHeight.constant = expandedDescriptionHeight;
+        [self.moreButton setTitle:@"Less" forState:UIControlStateNormal];
+    } else {
+        self.descriptionLabelHeight.constant = kDefaultDescriptionHeight;
+        [self.moreButton setTitle:@"More" forState:UIControlStateNormal];
+    }
+}
 #pragma mark - Set Heights and Labels
-- (void)setTitleLabelAndHeightForTitle:(NSString *)title
-{
-    UIFont *titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0];
-    self.titleLabel.font = titleFont;
-    
-    CGSize maxSize = CGSizeMake(self.width-(kMargin*2.0), MAXFLOAT);
-    CGRect boundingRect = [title boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:titleFont} context:nil];
-    self.titleLabelHeight.constant = boundingRect.size.height;
-    
-    self.titleLabel.text = title;
-}
-
-- (void)setAuthorLabelAndHeightForAuthor:(NSString *)author
-{
-    UIFont *titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
-    self.authorLabel.font = titleFont;
-    
-    CGSize maxSize = CGSizeMake(self.width-(kMargin*2.0), MAXFLOAT);
-    CGRect boundingRect = [author boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:titleFont} context:nil];
-    self.authorLabelHeight.constant = boundingRect.size.height;
-    
-    self.authorLabel.text = author;
-}
 
 - (void)setBookDescriptionAndHeightForDescription:(NSString *)description
 {
     if (!description || description.length < 1) {
         description = @"No description available for this book";
     }
-    UIFont *descriptionFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
+    
+    UIFont *descriptionFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
     self.descriptionLabel.font = descriptionFont;
     
-    CGSize maxSize = CGSizeMake(self.width-50.0, MAXFLOAT);
+    CGSize maxSize = CGSizeMake(self.width-(kMargin*2.0), MAXFLOAT);
     CGRect boundingRect = [description boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:descriptionFont} context:nil];
-    CGFloat height = boundingRect.size.height+20.0;
+    CGFloat height = boundingRect.size.height;
     
-    CGFloat maxHeight = self.descriptionLabel.bounds.size.height;
-
-    if (height > maxHeight) {
-        self.descriptionLabel.scrollEnabled = YES;
+    if (height > kDefaultDescriptionHeight) {
+        self.moreButton.hidden = NO;
     } else {
-        self.descriptionLabel.scrollEnabled = NO;
+        self.moreButton.hidden = YES;
     }
     
-    // Hacky way to add more space at the end
-    self.descriptionLabel.text = [NSString stringWithFormat:@"%@\n\n\n", description];
+    expandedDescriptionHeight = height;
+    self.descriptionLabelHeight.constant = kDefaultDescriptionHeight;
+    self.descriptionLabel.text = description;
+}
+
+- (void)setTitleAndHeightForTitle:(NSString *)title
+{
+    CGSize maxSize = CGSizeMake(kDefaultTitleAuthorLabelWidth, kMaxTitleLabelHeight);
+    CGRect boundingRect = [title boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:kMaxTitleFontSize]} context:nil];
+    
+    self.titleLabelHeight.constant = boundingRect.size.height;
+    self.titleLabel.text = title;
+}
+
+- (void)setAuthorAndHeightForAuthor:(NSString *)author
+{
+    CGSize maxSize = CGSizeMake(kDefaultTitleAuthorLabelWidth, kMaxAuthorLabelHeight);
+    CGRect boundingRect = [author boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:kMaxAuthorFontSize]} context:nil];
+    
+    self.authorLabelHeight.constant = boundingRect.size.height;
+    self.authorLabel.text = author;
 }
 
 #pragma mark Notification Listeners
@@ -370,6 +560,36 @@ static double const kMargin = 15.0;
     [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withReadStatus:readStatus ownStatus:ownStatus];
 
     [self.dismissDelegate dismissBookDetailViewController];
+}
+
+#pragma mark - Keyboard Show Notifications
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    CGFloat height = 0.0;
+    CGRect keyboardFrame = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        height = keyboardFrame.size.height;
+    } else if (UIInterfaceOrientationIsLandscape(orientation)) {
+        height = keyboardFrame.size.width;
+    }
+    
+    [UIView animateWithDuration:0.33 animations:^{
+        
+        self.verticalSpaceBetweenMainViewAndBottomOrScreen.constant = height;
+        
+    } completion:^(BOOL finished) {
+        [self.scrollView scrollRectToVisible:self.notesTextView.frame animated:YES];
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    [UIView animateWithDuration:0.33 animations:^{
+        self.verticalSpaceBetweenMainViewAndBottomOrScreen.constant = 0.0;
+    }];
 }
 
 @end
