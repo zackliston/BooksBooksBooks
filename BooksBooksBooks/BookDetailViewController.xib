@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -16,6 +16,7 @@
                 <outlet property="descriptionLabelHeight" destination="5fV-dO-6Nz" id="0DU-H7-qP9"/>
                 <outlet property="moreButton" destination="HIq-qU-csd" id="qk7-Eb-Kw4"/>
                 <outlet property="notesTextView" destination="CCZ-gm-4AJ" id="tS3-Os-CMW"/>
+                <outlet property="notesTextViewHeight" destination="lS1-FA-mhx" id="9jC-Rn-OSu"/>
                 <outlet property="personalRatingView" destination="Oux-YG-hVO" id="x2A-DI-YGg"/>
                 <outlet property="ratingCountLabel" destination="0rK-iO-sVO" id="uF0-sP-fuG"/>
                 <outlet property="scrollView" destination="dNG-dI-t2B" id="HWL-kd-Zvz"/>
@@ -36,10 +37,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wAQ-hr-A14">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+                            <rect key="frame" x="0.0" y="-150" width="320" height="280"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hn5-Mt-oBz">
-                                    <rect key="frame" x="10" y="10" width="30" height="63"/>
+                                    <rect key="frame" x="10" y="160" width="30" height="63"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="44"/>
                                     <state key="normal" title="X">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,9 +54,8 @@
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="hn5-Mt-oBz" firstAttribute="leading" secondItem="wAQ-hr-A14" secondAttribute="leading" constant="10" id="6ci-z2-oZe"/>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="130" id="9bu-XT-ZaV"/>
-                                <constraint firstAttribute="height" constant="130" id="PLb-3y-X9t"/>
-                                <constraint firstItem="hn5-Mt-oBz" firstAttribute="top" secondItem="wAQ-hr-A14" secondAttribute="top" constant="10" id="fZu-E1-6WU"/>
+                                <constraint firstAttribute="height" constant="280" id="PLb-3y-X9t"/>
+                                <constraint firstItem="hn5-Mt-oBz" firstAttribute="top" secondItem="wAQ-hr-A14" secondAttribute="top" constant="160" id="fZu-E1-6WU"/>
                             </constraints>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Walk" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="cIL-ss-oaN">
@@ -153,12 +153,15 @@
                             </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="CDr-4c-FiN"/>
+                            </connections>
                         </textView>
                     </subviews>
                     <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="YZA-ZY-KWC" firstAttribute="top" secondItem="HPW-4J-DWe" secondAttribute="bottom" constant="10" id="3f5-oo-w8V"/>
-                        <constraint firstItem="wAQ-hr-A14" firstAttribute="top" secondItem="dNG-dI-t2B" secondAttribute="top" id="59S-iu-5VM"/>
+                        <constraint firstItem="wAQ-hr-A14" firstAttribute="top" secondItem="dNG-dI-t2B" secondAttribute="top" constant="-150" id="59S-iu-5VM"/>
                         <constraint firstAttribute="centerX" secondItem="cIL-ss-oaN" secondAttribute="centerX" id="5Aq-QX-XTw"/>
                         <constraint firstAttribute="bottom" secondItem="CCZ-gm-4AJ" secondAttribute="bottom" constant="10" id="6VW-IQ-T56"/>
                         <constraint firstAttribute="trailing" secondItem="WKb-iB-1dc" secondAttribute="trailing" constant="10" id="7si-q9-QZx"/>
@@ -202,7 +205,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.23137254901960785" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Fyt-UL-kiA" firstAttribute="top" secondItem="dNG-dI-t2B" secondAttribute="bottom" id="2WL-Wy-LOn"/>
                 <constraint firstAttribute="trailing" secondItem="dNG-dI-t2B" secondAttribute="trailing" id="5F1-3u-crU"/>

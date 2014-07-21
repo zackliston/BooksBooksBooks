@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, ChangeBookDetailsOptions) {
 
 @interface ChangeBookDetailsViewController : GAITrackedViewController
 
+@property (nonatomic, weak) id<ChangeBookDetailsResultsProtocol>resultsDelegate;
+
 - (id)initForExistingBook:(Book *)book WithOption:(ChangeBookDetailsOptions)option;
-- (id)initWithResultsDelegate:(id<ChangeBookDetailsResultsProtocol>)delegate;
 
 @end

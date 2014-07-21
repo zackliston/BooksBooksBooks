@@ -8,6 +8,17 @@
 
 #import "DataController.h"
 #import "DownloadManager.h"
+#import "Book+Constants.h"
+#import "ZLBCloudManager.h"
+#import "Book.h"
+#import "Book+Constants.h"
+#import "ZLBCloudConstants.h"
+
+NSString *const kBookReadStatusKey = @"bookReadStatusKey";
+NSString *const kBookOwnStatusKey = @"bookOwnStatusKey";
+NSString *const kBookPersonalRatingKey = @"bookPersonalRatingKey";
+NSString *const kBookPersonalNotesKey = @"bookPersonalNotesKey";
+
 
 @interface DataController ()
 
@@ -36,23 +47,31 @@ static DataController *sharedInstance;
 
 #pragma mark - Core Data stack
 
-- (void)saveContext {
+- (void)saveContextUpdateCloud:(BOOL)shouldUpdateCloud
+{
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    
+    NSSet *insertedObjects = managedObjectContext.insertedObjects;
+    NSSet *updatedObjects = managedObjectContext.updatedObjects;
+    NSSet *deletedObjects = managedObjectContext.deletedObjects;
+    
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges]) {
             [managedObjectContext save:&error];
         } else {
             NSLog(@"No changes to save. Not saving context");
         }
+        
         if (error) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
         } else {
             NSLog(@"Successfully saved context!");
         }
+    }
+    
+    if (shouldUpdateCloud) {
+        [[ZLBCloudManager sharedInstance] updateCloudWithInsertedObjects:insertedObjects updatedObjects:updatedObjects deletedObjects:deletedObjects];
     }
 }
 
@@ -134,7 +153,7 @@ static DataController *sharedInstance;
 
 #pragma mark - Add Book
 
-- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withReadStatus:(BookReadStatus)readStatus ownStatus:(BookOwnStatus)ownStatus
+- (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withUserInfo:(NSDictionary *)userInfo
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:context];
@@ -151,24 +170,25 @@ static DataController *sharedInstance;
     newBook.ratingsCount = gtlBook.volumeInfo.ratingsCount;
     newBook.subtitle = gtlBook.volumeInfo.subtitle;
     newBook.title = gtlBook.volumeInfo.title;
-    newBook.doesOwn = [NSNumber numberWithInteger:ownStatus];
-    newBook.readStatus = [NSNumber numberWithInteger:readStatus];
-    
     newBook.imageURLs = [self convertImageLinksPropertyToDictionary:gtlBook.volumeInfo.imageLinks];
     newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:newBook.imageURLs bookID:newBook.bookID];
     
-    double currentTime = (double)[[NSDate date] timeIntervalSince1970];
-    newBook.dateAddedToLibraryInSecondsSinceEpoch = [NSNumber numberWithDouble:currentTime];
-    newBook.dateModifiedInSecondsSinceEpoch = [NSNumber numberWithDouble:currentTime];
+    newBook.doesOwn = [userInfo objectForKey:kBookOwnStatusKey];
+    newBook.readStatus = [userInfo objectForKey:kBookReadStatusKey];
+    newBook.personalNotes = [userInfo objectForKey:kBookPersonalNotesKey];
+    newBook.personalRating = [userInfo objectForKey:kBookPersonalRatingKey];
     
-    NSError *saveError;
+    float currentTime = [[NSDate date] timeIntervalSince1970];
+    newBook.dateAddedToLibraryInSecondsSinceEpoch = [NSNumber numberWithFloat:currentTime];
+    newBook.dateModifiedInSecondsSinceEpoch = [NSNumber numberWithFloat:currentTime];
     
-    [context save:&saveError];
-    if (saveError) {
-        NSLog(@"Error saving context after adding book. %@", saveError);
-    } else {
-        NSLog(@"Successfully added a book to CoreData!");
-    }
+    [self saveContextUpdateCloud:YES];
+}
+
+- (void)saveBook:(Book *)book
+{
+    book.dateModifiedInSecondsSinceEpoch = [NSNumber numberWithFloat:[[NSDate date] timeIntervalSince1970]];
+    [self saveContextUpdateCloud:YES];
 }
 
 #pragma mark Add Book Helpers
@@ -228,4 +248,112 @@ static DataController *sharedInstance;
     }
     
 }
+
+#pragma mark - Handle CKRecords
+
+- (void)addBookToCoreDataWithCKRecord:(CKRecord *)record
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:context];
+    newBook.authors = [record objectForKey:kBookAuthorsKey];
+    newBook.averageRating = [record objectForKey:kBookAverageRatingKey];
+    newBook.bookDescription = [record objectForKey:kBookDescriptionKey];
+    newBook.bookID = [record objectForKey:kBookIDKey];
+    newBook.categories = [record objectForKey:kBookCategoriesKey];
+    newBook.mainAuthor = [record objectForKey:kBookMainAuthorKey];
+    newBook.mainCategory = [record objectForKey:kBookMainAuthorKey];
+    newBook.pageCount = [record objectForKey:kBookPageCountKey];
+    newBook.publisher = [record objectForKey:kBookPublisherKey];
+    newBook.publishDate = [record objectForKey:kBookPublishDateKey];
+    newBook.ratingsCount = [record objectForKey:kBookRatingsCountKey];
+    newBook.subtitle = [record objectForKey:kBookSubtitleKey];
+    newBook.title = [record objectForKey:kBookTitleKey];
+
+    if ([record objectForKey:kBookImageURLKey]) {
+        NSDictionary *imageURLs = @{thumbnailImageKey:[record objectForKey:kBookImageURLKey]};
+        newBook.imageURLs = imageURLs;
+        newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:imageURLs bookID:newBook.bookID];
+    }
+    newBook.doesOwn = [record objectForKey:kPrivateBookOwnStatusKey];
+    newBook.readStatus = [record objectForKey:kPrivateBookReadStatusKey];
+    newBook.personalNotes = [record objectForKey:kPrivateBookPersonalNotesKey];
+    newBook.personalRating = [record objectForKey:kPrivateBookPersonalRatingKey];
+    newBook.dateAddedToLibraryInSecondsSinceEpoch = [record objectForKey:kPrivateBookDateAddedKey];
+    newBook.dateModifiedInSecondsSinceEpoch = [record objectForKey:kPrivateBookModifiedKey];
+    
+    newBook.privateCloudRecordID = record.recordID;
+    
+    [self saveContextUpdateCloud:NO];
+}
+
+- (void)updateBook:(Book *)book withCKRecord:(CKRecord *)record
+{
+    if ( [record objectForKey:kBookAuthorsKey]) {
+        book.authors = [record objectForKey:kBookAuthorsKey];
+    }
+    if ([record objectForKey:kBookAverageRatingKey]) {
+        book.averageRating = [record objectForKey:kBookAverageRatingKey];
+    }
+    if ([record objectForKey:kBookDescriptionKey]) {
+        book.bookDescription = [record objectForKey:kBookDescriptionKey];
+    }
+    if ([record objectForKey:kBookIDKey]) {
+        book.bookID = [record objectForKey:kBookIDKey];
+    }
+    if ([record objectForKey:kBookCategoriesKey]) {
+        book.categories = [record objectForKey:kBookCategoriesKey];
+    }
+    if ([record objectForKey:kBookMainAuthorKey]) {
+        book.mainAuthor = [record objectForKey:kBookMainAuthorKey];
+    }
+    if ([record objectForKey:kBookMainAuthorKey]) {
+        book.mainCategory = [record objectForKey:kBookMainAuthorKey];
+    }
+    if ([record objectForKey:kBookPageCountKey]) {
+        book.pageCount = [record objectForKey:kBookPageCountKey];
+    }
+    if ([record objectForKey:kBookPublisherKey]) {
+        book.publisher = [record objectForKey:kBookPublisherKey];
+    }
+    if ([record objectForKey:kBookPublishDateKey]) {
+        book.publishDate = [record objectForKey:kBookPublishDateKey];
+    }
+    if ([record objectForKey:kBookRatingsCountKey]) {
+        book.ratingsCount = [record objectForKey:kBookRatingsCountKey];
+    }
+    if ([record objectForKey:kBookSubtitleKey]) {
+        book.subtitle = [record objectForKey:kBookSubtitleKey];
+    }
+    if ([record objectForKey:kBookTitleKey]) {
+        book.title = [record objectForKey:kBookTitleKey];
+    }
+    
+    if ([record objectForKey:kBookImageURLKey]) {
+        NSDictionary *imageURLs = @{thumbnailImageKey:[record objectForKey:kBookImageURLKey]};
+        book.imageURLs = imageURLs;
+        book.localImageLinks = [self localImageLinksFromExternalImageLinks:imageURLs bookID:book.bookID];
+    }
+    
+    if ([record objectForKey:kPrivateBookOwnStatusKey]) {
+        book.doesOwn = [record objectForKey:kPrivateBookOwnStatusKey];
+    }
+    if ([record objectForKey:kPrivateBookReadStatusKey]) {
+        book.readStatus = [record objectForKey:kPrivateBookReadStatusKey];
+    }
+    if ([record objectForKey:kPrivateBookPersonalNotesKey]) {
+        book.personalNotes = [record objectForKey:kPrivateBookPersonalNotesKey];
+    }
+    if ([record objectForKey:kPrivateBookPersonalRatingKey]) {
+        book.personalRating = [record objectForKey:kPrivateBookPersonalRatingKey];
+    }
+    if ([record objectForKey:kPrivateBookDateAddedKey]) {
+        book.dateAddedToLibraryInSecondsSinceEpoch = [record objectForKey:kPrivateBookDateAddedKey];
+    }
+    if ([record objectForKey:kPrivateBookModifiedKey]) {
+        book.dateModifiedInSecondsSinceEpoch = [record objectForKey:kPrivateBookModifiedKey];
+    }
+    
+    [self saveContextUpdateCloud:NO];
+}
+
 @end

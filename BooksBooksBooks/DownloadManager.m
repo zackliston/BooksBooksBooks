@@ -61,4 +61,5 @@ static NSString *const ImageDirectory = @"localImageDirectory";
     NSFileManager *fileManager = [NSFileManager defaultManager];
     return [fileManager fileExistsAtPath:path];
 }
+
 @end

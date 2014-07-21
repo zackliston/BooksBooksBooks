@@ -33,7 +33,6 @@ static double const ButtonHeight = 50.0;
 @property (nonatomic, strong) NSMutableDictionary *results;
 
 @property (nonatomic, weak) Book *book;
-@property (nonatomic, weak) id<ChangeBookDetailsResultsProtocol>resultsDelegate;
 @property (nonatomic, assign, readonly) BOOL isNewBook;
 
 @end
@@ -92,11 +91,10 @@ static double const ButtonHeight = 50.0;
     return self;
 }
 
-- (id)initWithResultsDelegate:(id<ChangeBookDetailsResultsProtocol>)delegate
+- (id)init
 {
     self = [super init];
     if (self) {
-        self.resultsDelegate = delegate;
         self.option = ChangeBookOwnershipOption;
         _isNewBook = YES;
     }
@@ -257,28 +255,6 @@ static double const ButtonHeight = 50.0;
     return button;
 }
 
-#pragma mark - Save Changes
-
-- (void)saveForBook
-{
-    switch (self.option) {
-        case ChangeBookOwnershipOption:
-            [ZLBAnalytics logBookOwnStatusChangedEvent:(BookOwnStatus)self.tagSelected];
-            
-            self.book.doesOwn = [NSNumber numberWithInteger:self.tagSelected];
-            break;
-        case ChangeBookReadStatusOption:
-            [ZLBAnalytics logBookReadStatusChangedEvent:(BookReadStatus)self.tagSelected];
-            
-            self.book.readStatus = [NSNumber numberWithInteger:self.tagSelected];
-            break;
-        default:
-            break;
-    }
-    
-    [[DataController sharedInstance] saveContext];
-}
-
 #pragma mark - Button Responders
 
 - (void)buttonPressed:(UIButton *)button
@@ -297,10 +273,13 @@ static double const ButtonHeight = 50.0;
 {
     if (self.isNewBook) {
         [ZLBAnalytics logBookAddedEvent];
-        [self.resultsDelegate handleResults:self.results];
-    } else {
-        [self saveForBook];
+    } else if (self.option == ChangeBookOwnershipOption) {
+        [ZLBAnalytics logBookOwnStatusChangedEvent:(BookOwnStatus)self.tagSelected];
+    } else if (self.option == ChangeBookReadStatusOption) {
+        [ZLBAnalytics logBookReadStatusChangedEvent:(BookReadStatus)self.tagSelected];
     }
+    
+    [self.resultsDelegate handleResults:self.results newBook:self.isNewBook];
     [self remove];
 }
 

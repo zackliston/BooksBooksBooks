@@ -10,6 +10,6 @@
 
 @protocol ChangeBookDetailsResultsProtocol <NSObject>
 
-- (void)handleResults:(NSDictionary *)results;
+- (void)handleResults:(NSDictionary *)results newBook:(BOOL)isNewBook;
 
 @end

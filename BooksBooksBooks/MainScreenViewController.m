@@ -273,7 +273,6 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [self setupBooks];
     [self.tableView reloadData];
     
-    // If there is just one new book (e.g. User added new book) then we want to handle that by scrolling to where it is visible
     NSSet *insertedObjects = [notification.userInfo objectForKey:NSInsertedObjectsKey];
     if (insertedObjects.count == 1) {
         id object = [insertedObjects anyObject];

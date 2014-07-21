@@ -23,6 +23,7 @@ static double const kMaxAuthorFontSize = 20.0;
 static double const kMaxTitleLabelHeight = 60.0;
 static double const kMaxAuthorLabelHeight = 40.0;
 static double const kDefaultTitleAuthorLabelWidth = 250;
+static double const kDefaultNotesTextViewHeight = 100.0;
 
 @interface BookDetailViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
@@ -33,6 +34,8 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 @property (strong, nonatomic) IBOutlet UIView *topBarView;
 @property (strong, nonatomic) IBOutlet UIView *starView;
 @property (strong, nonatomic) IBOutlet UIView *personalRatingView;
+@property (nonatomic, strong) DJWStarRatingView *personalStars;
+
 @property (strong, nonatomic) IBOutlet UITextView *notesTextView;
 
 @property (strong, nonatomic) IBOutlet UILabel *ratingCountLabel;
@@ -49,6 +52,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *authorLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenMainViewAndBottomOrScreen;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeight;
 
 
 @property (nonatomic, assign) BOOL existsInLibrary;
@@ -59,6 +63,8 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 
 @implementation BookDetailViewController {
     CGFloat expandedDescriptionHeight;
+    CGFloat personalRating;
+    BOOL personalDetailsDidChange;
 }
 
 #pragma mark Lifecycle
@@ -67,6 +73,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 {
     self = [super init];
     if (self) {
+        personalDetailsDidChange = NO;
         self.width = width;
         
         if ([book isKindOfClass:[Book class]]) {
@@ -81,6 +88,10 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+        @try {
+            [self.personalStars removeObserver:self forKeyPath:NSStringFromSelector(@selector(isFinished))];
+        }
+        @catch (NSException * __unused exception) {}
 }
 
 - (void)viewDidLoad
@@ -91,6 +102,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     [self setupBookView];
     [self setupNotificationObservers];
     [self setupImageView];
+    personalDetailsDidChange = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -202,7 +214,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 {
     UIButton *addToLibraryButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, self.width, kAddButtonHeight)];
     addToLibraryButton.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
-    [addToLibraryButton setTitle:@"Add To Library" forState:UIControlStateNormal];
+    [addToLibraryButton setTitle:@"Add Book" forState:UIControlStateNormal];
     addToLibraryButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
     [addToLibraryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
@@ -213,6 +225,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 }
 
 #pragma mark Setup Book View
+
 - (void)setupBookView
 {
     if (self.existsInLibrary) {
@@ -244,6 +257,8 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     NSString *author = self.coreDataBook.mainAuthor;
     NSString *title = self.coreDataBook.title;
 
+    self.personalStars.rating = [self.coreDataBook.personalRating floatValue];
+    self.notesTextView.text = self.coreDataBook.personalNotes;
     [self setTitleAndHeightForTitle:title];
     [self setAuthorAndHeightForAuthor:author];
     [self setBookDescriptionAndHeightForDescription:self.coreDataBook.bookDescription];
@@ -264,19 +279,23 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     DJWStarRatingView *stars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(15.0, 15.0) numberOfStars:5 rating:rating fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
     stars.editable = NO;
     
+    
+    
     self.ratingCountLabel.text = [NSString stringWithFormat:@"(%li)", (long)ratingCount];
     [self.starView addSubview:stars];
 }
 
 - (void)setupPersonalRating
 {
-    DJWStarRatingView *personalStars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(30.0, 30.0) numberOfStars:5 rating:0.0 fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
-    personalStars.editable = YES;
-    [self.personalRatingView addSubview:personalStars];
+    self.personalStars = [[DJWStarRatingView alloc] initWithStarSize:CGSizeMake(30.0, 30.0) numberOfStars:5 rating:0.0 fillColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0] unfilledColor:[UIColor clearColor] strokeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
+    self.personalStars.editable = YES;
+    [self.personalRatingView addSubview:self.personalStars];
     
-    CGPoint newCenter = personalStars.center;
+    CGPoint newCenter = self.personalStars.center;
     newCenter.x = self.personalRatingView.bounds.size.width/2.0;
-    personalStars.center = newCenter;
+    self.personalStars.center = newCenter;
+    
+    [self.personalStars addObserver:self forKeyPath:@"rating" options:0 context:NULL];
 }
 
 - (void)setupNotesTextView
@@ -285,6 +304,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     gesture.numberOfTapsRequired = 1;
     [self.scrollView addGestureRecognizer:gesture];
     
+    self.notesTextView.scrollEnabled = NO;
     self.notesTextView.layer.cornerRadius = 5.0;
     self.notesTextView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
     self.notesTextView.layer.shadowOpacity = 9.0;
@@ -457,16 +477,51 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
                                                object:[[DataController sharedInstance] managedObjectContext]];
 }
 
+#pragma mark - Save Book
+
+- (void)setNewBookValuesAndSave
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.coreDataBook.personalRating = [NSNumber numberWithDouble:personalRating];
+    self.coreDataBook.personalNotes = self.notesTextView.text;
+    
+    [[DataController sharedInstance] saveBook:self.coreDataBook];
+}
+
+- (void)promptAddBook
+{
+    NSString *message = @"";
+    if (self.notesTextView.text.length >0 && personalRating >0.4) {
+        message = @"If you want to save your notes and rating for this book you must add it. Would you like to add this book?";
+    } else if (self.notesTextView.text.length>0) {
+        message = @"If you want to save your notes for this book you must add it. Would you like to add this book?";
+    } else {
+        message = @"If you want to save your rating for this book you must add it. Would you like to add this book?";
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Book" message:message delegate:self cancelButtonTitle:@"Don't Add" otherButtonTitles:@"Add Book", nil];
+    [alert show];
+}
+
 #pragma mark - Button Listeners
 
 - (IBAction)closeButtonPressed:(UIButton *)sender
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    if (personalDetailsDidChange) {
+        if (!self.coreDataBook) {
+            [self promptAddBook];
+        } else {
+            [self setNewBookValuesAndSave];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        }
+    } else {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    }
 }
 
 - (void)addToLibraryClicked:(UIButton *)button
 {
-    ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initWithResultsDelegate:self];
+    ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] init];
+    changeVC.resultsDelegate = self;
     [self.view addSubview:changeVC.view];
     [self addChildViewController:changeVC];
 }
@@ -474,6 +529,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 - (void)readButtonPressed:(UIButton *)button
 {
     ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initForExistingBook:self.coreDataBook WithOption:ChangeBookReadStatusOption];
+    changeVC.resultsDelegate = self;
     [self.view addSubview:changeVC.view];
     [self addChildViewController:changeVC];
 }
@@ -481,6 +537,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
 - (void)ownButtonPressed:(UIButton *)button
 {
     ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] initForExistingBook:self.coreDataBook WithOption:ChangeBookOwnershipOption];
+    changeVC.resultsDelegate = self;
     [self.view addSubview:changeVC.view];
     [self addChildViewController:changeVC];
 }
@@ -516,7 +573,7 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
         self.moreButton.hidden = YES;
     }
     
-    expandedDescriptionHeight = height;
+    expandedDescriptionHeight = height+15.0;
     self.descriptionLabelHeight.constant = kDefaultDescriptionHeight;
     self.descriptionLabel.text = description;
 }
@@ -550,16 +607,41 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     [self setupBookView];
 }
 
-#pragma mark - Delegate Methods
+#pragma mark - Chage Book Details Delegate Methods
 
-- (void)handleResults:(NSDictionary *)results
+- (void)handleResults:(NSDictionary *)results newBook:(BOOL)isNewBook
 {
-    BookReadStatus readStatus = (BookReadStatus)[[results objectForKey:BookDetailsChangeResultReadKey] integerValue];
-    BookOwnStatus ownStatus = (BookOwnStatus)[[results objectForKey:BookDetailsChangeResultOwnKey] integerValue];
+    NSNumber *readStatus = [results objectForKey:BookDetailsChangeResultReadKey];
+    NSNumber *ownStatus = [results objectForKey:BookDetailsChangeResultOwnKey];
     
-    [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withReadStatus:readStatus ownStatus:ownStatus];
+    if (isNewBook) {
+        NSDictionary *userInfo = @{kBookPersonalRatingKey: [NSNumber numberWithFloat:personalRating], kBookPersonalNotesKey:self.notesTextView.text, kBookOwnStatusKey:ownStatus, kBookReadStatusKey:readStatus};
+        [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withUserInfo:userInfo];
+    } else {
+        personalDetailsDidChange = YES;
+        if (readStatus) {
+            self.coreDataBook.readStatus = readStatus;
+        }
+        if (ownStatus) {
+            self.coreDataBook.doesOwn = ownStatus;
+        }
+    }
 
     [self.dismissDelegate dismissBookDetailViewController];
+}
+
+#pragma mark - AlertView Delegate Methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    } else if (buttonIndex == 1) {
+        ChangeBookDetailsViewController *changeVC = [[ChangeBookDetailsViewController alloc] init];
+        changeVC.resultsDelegate = self;
+        [self.view addSubview:changeVC.view];
+        [self addChildViewController:changeVC];
+    }
 }
 
 #pragma mark - Keyboard Show Notifications
@@ -590,6 +672,47 @@ static double const kDefaultTitleAuthorLabelWidth = 250;
     [UIView animateWithDuration:0.33 animations:^{
         self.verticalSpaceBetweenMainViewAndBottomOrScreen.constant = 0.0;
     }];
+}
+
+#pragma mark - UITextView Delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"Your notes here"]) {
+        textView.text = @"";
+    }
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    personalDetailsDidChange = YES;
+    
+    CGSize maxSize = CGSizeMake(self.notesTextView.bounds.size.width, MAXFLOAT);
+    CGRect boundingRect = [textView.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]} context:nil];
+    
+    CGFloat height = MAX(kDefaultNotesTextViewHeight, boundingRect.size.height);
+    CGFloat difference = self.notesTextViewHeight.constant-height;
+    difference = fabs(difference);
+    
+    if (difference > 1.0) {
+        self.notesTextViewHeight.constant = height;
+        [self.scrollView scrollRectToVisible:CGRectMake(1.0, self.scrollView.contentSize.height, 1.0, 1.0) animated:YES];
+    }
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"rating"]) {
+        DJWStarRatingView *stars = (DJWStarRatingView *)object;
+        CGFloat difference = fabs(stars.rating-personalRating);
+        
+        if (difference > 0.49 && stars.rating >= 0.0 && stars.rating <= 5.0) {
+            personalRating = stars.rating;
+            personalDetailsDidChange = YES;
+        }
+    }
 }
 
 @end
