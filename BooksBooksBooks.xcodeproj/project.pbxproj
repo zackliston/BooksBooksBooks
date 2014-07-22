@@ -12,6 +12,10 @@
 		1324713E197AF98B00914FF1 /* ZLBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324713D197AF98B00914FF1 /* ZLBCloudManager.m */; };
 		13247144197B40C100914FF1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13247143197B40C100914FF1 /* Book.m */; };
 		1327758D195A896700C96B5F /* BookShelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 1327758C195A896700C96B5F /* BookShelf.m */; };
+		133A3DB8197E10A5003BB890 /* ZLBSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133A3DB6197E10A5003BB890 /* ZLBSearchViewController.m */; };
+		133A3DB9197E10A5003BB890 /* ZLBSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133A3DB7197E10A5003BB890 /* ZLBSearchViewController.xib */; };
+		133A3DBD197E126A003BB890 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A3DBB197E126A003BB890 /* search.png */; };
+		133A3DBE197E126A003BB890 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A3DBC197E126A003BB890 /* search@2x.png */; };
 		133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133C71881957C37100EE6E7D /* MainScreenViewController.m */; };
 		133C718B1957C37100EE6E7D /* MainScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133C71891957C37100EE6E7D /* MainScreenViewController.xib */; };
 		133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133C718D1957CBDE00EE6E7D /* BookDetailViewController.m */; };
@@ -93,6 +97,11 @@
 		13247143197B40C100914FF1 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		1327758B195A896700C96B5F /* BookShelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelf.h; sourceTree = "<group>"; };
 		1327758C195A896700C96B5F /* BookShelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelf.m; sourceTree = "<group>"; };
+		133A3DB5197E10A5003BB890 /* ZLBSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBSearchViewController.h; sourceTree = "<group>"; };
+		133A3DB6197E10A5003BB890 /* ZLBSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBSearchViewController.m; sourceTree = "<group>"; };
+		133A3DB7197E10A5003BB890 /* ZLBSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZLBSearchViewController.xib; sourceTree = "<group>"; };
+		133A3DBB197E126A003BB890 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		133A3DBC197E126A003BB890 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		133C71871957C37100EE6E7D /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
 		133C71881957C37100EE6E7D /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		133C71891957C37100EE6E7D /* MainScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainScreenViewController.xib; sourceTree = "<group>"; };
@@ -223,6 +232,25 @@
 			name = "Cloud Manager";
 			sourceTree = "<group>";
 		};
+		133A3DB4197E1085003BB890 /* Search Controller */ = {
+			isa = PBXGroup;
+			children = (
+				133A3DB5197E10A5003BB890 /* ZLBSearchViewController.h */,
+				133A3DB6197E10A5003BB890 /* ZLBSearchViewController.m */,
+				133A3DB7197E10A5003BB890 /* ZLBSearchViewController.xib */,
+			);
+			name = "Search Controller";
+			sourceTree = "<group>";
+		};
+		133A3DBA197E1258003BB890 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				133A3DBB197E126A003BB890 /* search.png */,
+				133A3DBC197E126A003BB890 /* search@2x.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		133C71861957C35A00EE6E7D /* Main Screen */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				138322AC1978C7C500378F85 /* BooksBooksBooks.entitlements */,
+				133A3DB4197E1085003BB890 /* Search Controller */,
 				135D69CD194AA5ED00EC8C3D /* App Delegate */,
 				13D685371968DA80005C16F1 /* Change Book Details Controller */,
 				133C71911957CBE300EE6E7D /* Book Detail Controller */,
@@ -388,6 +417,7 @@
 		135D69E1194AAD8C00EC8C3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				133A3DBA197E1258003BB890 /* Icons */,
 				13416F17195FB88A00F653DF /* Banner Images */,
 				13416F15195FAB4700F653DF /* quotes.json */,
 			);
@@ -585,14 +615,17 @@
 				135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */,
 				13416F43195FBE6F00F653DF /* bannerImage22.jpg in Resources */,
 				133C71901957CBDE00EE6E7D /* BookDetailViewController.xib in Resources */,
+				133A3DBE197E126A003BB890 /* search@2x.png in Resources */,
 				138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */,
 				13416F23195FB89600F653DF /* bannerImage2.jpg in Resources */,
 				13416F3E195FBE6F00F653DF /* bannerImage17.jpg in Resources */,
 				13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */,
 				133C718B1957C37100EE6E7D /* MainScreenViewController.xib in Resources */,
+				133A3DB9197E10A5003BB890 /* ZLBSearchViewController.xib in Resources */,
 				13D685361968DA78005C16F1 /* ChangeBookDetailsViewController.xib in Resources */,
 				13416F16195FAB4700F653DF /* quotes.json in Resources */,
 				13416F29195FB89600F653DF /* bannerImage8.jpg in Resources */,
+				133A3DBD197E126A003BB890 /* search.png in Resources */,
 				13416F3C195FBE6F00F653DF /* bannerImage15.jpg in Resources */,
 				13416F3D195FBE6F00F653DF /* bannerImage16.jpg in Resources */,
 				13416F3F195FBE6F00F653DF /* bannerImage18.jpg in Resources */,
@@ -663,6 +696,7 @@
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
 				1324713E197AF98B00914FF1 /* ZLBCloudManager.m in Sources */,
 				135E7301196CFEEE001B24D9 /* ZLBAnalytics.m in Sources */,
+				133A3DB8197E10A5003BB890 /* ZLBSearchViewController.m in Sources */,
 				138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */,
 				133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */,
 				135FC37E19592371007C5D1D /* Book+Constants.m in Sources */,

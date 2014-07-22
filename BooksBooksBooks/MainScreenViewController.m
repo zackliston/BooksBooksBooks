@@ -14,6 +14,7 @@
 #import "Book+Constants.h"
 #import "BookShelf.h"
 #import "MainScreenHeaderView.h"
+#import "ZLBSearchViewController.h"
 
 static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableViewCellIdentifer";
 
@@ -108,6 +109,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 }
 
 #pragma mark - Setup
+
 - (void)setupNavigationBar
 {
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -235,6 +237,12 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 - (IBAction)addButtonPressed:(UIButton *)sender
 {
     [self presentAddViewController];
+}
+
+- (IBAction)searchButtonPressed:(UIButton *)sender
+{
+    ZLBSearchViewController *searchVC = [[ZLBSearchViewController alloc] init];
+    [searchVC presentFromViewController:self];
 }
 
 - (void)presentAddViewController
