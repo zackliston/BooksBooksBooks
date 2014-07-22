@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4BF20C1A-D7F5-4A38-9D3B-5FAC957E4F5A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BooksBooksBooks</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>08A47924-A9F4-4F6A-803A-16AD0DFEAA66</key>
+		<string>https://github.com/zackliston/BooksBooksBooks.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BooksBooksBooks.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>08A47924-A9F4-4F6A-803A-16AD0DFEAA66</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zackliston/BooksBooksBooks.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>08A47924-A9F4-4F6A-803A-16AD0DFEAA66</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>08A47924-A9F4-4F6A-803A-16AD0DFEAA66</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BooksBooksBooks</string>
+		</dict>
+	</array>
+</dict>
+</plist>
