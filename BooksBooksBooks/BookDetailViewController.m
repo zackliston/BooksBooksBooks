@@ -618,13 +618,13 @@ static double const kDefaultNotesTextViewHeight = 100.0;
         NSDictionary *userInfo = @{kBookPersonalRatingKey: [NSNumber numberWithFloat:personalRating], kBookPersonalNotesKey:self.notesTextView.text, kBookOwnStatusKey:ownStatus, kBookReadStatusKey:readStatus};
         [[DataController sharedInstance] addBookToCoreDataWithGTLBook:self.gtlBook withUserInfo:userInfo];
     } else {
-        personalDetailsDidChange = YES;
         if (readStatus) {
             self.coreDataBook.readStatus = readStatus;
         }
         if (ownStatus) {
             self.coreDataBook.doesOwn = ownStatus;
         }
+        [[DataController sharedInstance] saveContextUpdateCloud:YES];
     }
 
     [self.dismissDelegate dismissBookDetailViewController];
