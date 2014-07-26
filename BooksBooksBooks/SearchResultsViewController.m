@@ -11,7 +11,6 @@
 #import "Constants.h"
 #import "BookDetailViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <GTLBooks.h>
 #import <FXBlurView/FXBlurView.h>
 
 static NSUInteger const kMaxNumberOfResults = 10;
@@ -96,12 +95,7 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     SearchResultsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:tableCellIdentifier forIndexPath:indexPath];
     
     GTLBooksVolume *book = [self.books objectAtIndex:indexPath.row];
-    cell.imageURL = book.volumeInfo.imageLinks.thumbnail;
-    cell.title = book.volumeInfo.title;
-    cell.author = [book.volumeInfo.authors firstObject];
-    cell.rating = [book.volumeInfo.averageRating floatValue];
-    cell.numberOfRatings = [book.volumeInfo.ratingsCount integerValue];
-    cell.backgroundColor = [UIColor clearColor];
+    [cell setupWithGTLBook:book];
     
     return cell;
 }

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GTLBooks.h>
+
 #import "DismissBookDetailProtocol.h"
 #import <GAITrackedViewController.h>
+
+@class GTLQueryBooks;
 
 @interface SearchResultsViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, DismissBookDetailProtocol>
 

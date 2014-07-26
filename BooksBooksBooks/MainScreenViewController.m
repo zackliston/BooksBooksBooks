@@ -14,11 +14,13 @@
 #import "Book+Constants.h"
 #import "BookShelf.h"
 #import "MainScreenHeaderView.h"
-#import "ZLBSearchViewController.h"
+#import "SearchResultsTableViewCell.h"
+#import "BookDetailViewController.h"
 
-static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableViewCellIdentifer";
+static NSString *const kMainScreenTableViewCellIdentifier = @"kMainScreenTableViewCellIdentifer";
+static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSearchTableViewCellIdentifer";
 
-@interface MainScreenViewController ()
+@interface MainScreenViewController () <UISearchDisplayDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *actionBarView;
@@ -31,6 +33,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 @implementation MainScreenViewController {
     NSArray *books;
     NSMutableArray *bookShelves;
+    NSArray *searchResults;
 }
 
 #pragma mark Initializaiton
@@ -57,6 +60,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     [self setupTableView];
     [self setupActionBarView];
     [self setupNotificationObservers];
+    [self setupSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,11 +82,17 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-#pragma mark TableView DataSource
+#pragma mark - TableView DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return bookShelves.count;
+    if (tableView == self.tableView) {
+        return bookShelves.count;
+    } else if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return searchResults.count;
+    } else {
+        return 0;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -92,10 +102,20 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.tableView) {
+        return [self mainTableViewCellForRowAtIndexPath:indexPath];
+    } else if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [self searchTableViewCellForRowAtIndexPath:indexPath];
+    } else {
+        return nil;
+    }
+}
+
+- (UITableViewCell *)mainTableViewCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     BookShelf *shelfForRow = [bookShelves objectAtIndex:indexPath.row];
     
-    
-    MainScreenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MainScreenTableViewCellIdentifier forIndexPath:indexPath];
+    MainScreenTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kMainScreenTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.titleLabel.text = shelfForRow.title;
     [cell setupWithArrayOfBooks:shelfForRow.books];
@@ -103,9 +123,35 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
     return cell;
 }
 
+- (UITableViewCell *)searchTableViewCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SearchResultsTableViewCell *cell = [self.searchDisplayController.searchResultsTableView dequeueReusableCellWithIdentifier:kMainScreenSearchTableViewCellIdentifer forIndexPath:indexPath];
+    
+    Book *book = [searchResults objectAtIndex:indexPath.row];
+    [cell setupWithCoreDataBook:book];
+
+    return cell;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 225.0;
+    if (tableView == self.tableView) {
+        return 225.0;
+    } else if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 180.0;
+    }
+    return 10.0;
+}
+
+#pragma mark - TableView Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        Book *book = [searchResults objectAtIndex:indexPath.row];
+        BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] initWithBook:book width:self.view.bounds.size.width];
+        [self presentViewController:bookDetailVC animated:YES completion:NULL];
+    }
 }
 
 #pragma mark - Setup
@@ -118,7 +164,7 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (void)setupTableView
 {
-    [self.tableView registerNib:[UINib nibWithNibName:@"MainScreenTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:MainScreenTableViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"MainScreenTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kMainScreenTableViewCellIdentifier];
     
     self.tableView.tableHeaderView = [self headerView];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.bounds.size.width, 60.0)];
@@ -149,6 +195,18 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
                                              selector:@selector(contextDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:[[DataController sharedInstance] managedObjectContext]];
+}
+
+- (void)setupSearch
+{
+    self.searchDisplayController.searchBar.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    [self.searchDisplayController.searchBar setBarTintColor:[UIColor clearColor]];
+    [self.searchDisplayController.searchBar setTintColor:[UIColor whiteColor]];
+    
+    self.searchDisplayController.searchResultsTableView.tableHeaderView = [UIView new];
+    self.searchDisplayController.searchResultsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.searchDisplayController.searchResultsTableView registerNib:[UINib nibWithNibName:@"SearchResultsTableViewCell" bundle:nil] forCellReuseIdentifier:kMainScreenSearchTableViewCellIdentifer];
 }
 
 #pragma mark Setup Bookshelves
@@ -241,8 +299,8 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 
 - (IBAction)searchButtonPressed:(UIButton *)sender
 {
-    ZLBSearchViewController *searchVC = [[ZLBSearchViewController alloc] init];
-    [searchVC presentFromViewController:self];
+    [self.searchDisplayController setActive:YES animated:YES];
+    self.searchDisplayController.searchBar.hidden = NO;
 }
 
 - (void)presentAddViewController
@@ -307,6 +365,26 @@ static NSString *const MainScreenTableViewCellIdentifier = @"MainScreenTableView
 {
     [self presentViewController:viewController animated:YES completion:NULL];
 }
+
+#pragma mark - Search 
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+    [controller.searchBar becomeFirstResponder];
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    self.searchDisplayController.searchBar.hidden = YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    searchResults = [[DataController sharedInstance] searchBooksWithSearchText:searchString];
+    return YES;
+}
+
+
 
 
 @end

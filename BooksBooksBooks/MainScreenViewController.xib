@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="actionBarView" destination="2hl-uM-t4o" id="Xe2-Vk-Jsz"/>
                 <outlet property="addButton" destination="FDE-3L-mMP" id="jTx-an-SXx"/>
+                <outlet property="searchDisplayController" destination="pRD-Aj-q6f" id="8gv-DD-cQ0"/>
                 <outlet property="tableView" destination="dlL-gq-jgx" id="YA0-GP-P2o"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -41,7 +42,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wWO-my-K3c">
-                            <rect key="frame" x="270" y="14.5" width="30" height="30"/>
+                            <rect key="frame" x="270" y="15" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="3rw-Zw-pt9"/>
                                 <constraint firstAttribute="height" constant="30" id="Gs8-8L-GBU"/>
@@ -61,6 +62,14 @@
                         <constraint firstAttribute="centerY" secondItem="wWO-my-K3c" secondAttribute="centerY" id="nFl-kX-GAN"/>
                     </constraints>
                 </view>
+                <searchBar hidden="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="jGD-lZ-tSQ">
+                    <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Nkf-Px-NQD"/>
+                    </connections>
+                </searchBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -68,13 +77,25 @@
                 <constraint firstAttribute="trailing" secondItem="2hl-uM-t4o" secondAttribute="trailing" id="7fL-x6-mR6"/>
                 <constraint firstAttribute="bottom" secondItem="dlL-gq-jgx" secondAttribute="bottom" id="AiB-Y4-0EB"/>
                 <constraint firstItem="2hl-uM-t4o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="AxD-Uh-tjK"/>
+                <constraint firstItem="jGD-lZ-tSQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="G49-pS-968"/>
+                <constraint firstAttribute="trailing" secondItem="jGD-lZ-tSQ" secondAttribute="trailing" id="H4e-uu-fHc"/>
                 <constraint firstAttribute="trailing" secondItem="dlL-gq-jgx" secondAttribute="trailing" id="Rvn-qc-guT"/>
                 <constraint firstAttribute="bottom" secondItem="2hl-uM-t4o" secondAttribute="bottom" id="hM5-mO-rg7"/>
+                <constraint firstItem="jGD-lZ-tSQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="mg6-vc-0Nd"/>
                 <constraint firstItem="dlL-gq-jgx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zTK-ha-Eay"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
+        <searchDisplayController id="pRD-Aj-q6f">
+            <connections>
+                <outlet property="delegate" destination="-1" id="UeQ-9n-5Xa"/>
+                <outlet property="searchBar" destination="jGD-lZ-tSQ" id="wge-SU-hYj"/>
+                <outlet property="searchContentsController" destination="-1" id="gWo-kz-8uY"/>
+                <outlet property="searchResultsDataSource" destination="-1" id="cHC-mA-yVV"/>
+                <outlet property="searchResultsDelegate" destination="-1" id="umj-ba-zPH"/>
+            </connections>
+        </searchDisplayController>
     </objects>
     <resources>
         <image name="search.png" width="24" height="25"/>

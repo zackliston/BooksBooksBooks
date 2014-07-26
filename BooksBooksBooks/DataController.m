@@ -356,4 +356,24 @@ static DataController *sharedInstance;
     [self saveContextUpdateCloud:NO];
 }
 
+#pragma mark - Search
+
+- (NSArray *)searchBooksWithSearchText:(NSString *)searchText
+{
+    searchText = [searchText lowercaseString];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Book"];
+    
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"title CONTAINS[c] %@ OR mainAuthor CONTAINS[c] %@", searchText, searchText];
+    [fetchRequest setPredicate:searchPredicate];
+    
+    NSError *searchError = nil;
+    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&searchError];
+    
+    if (searchError) {
+        NSLog(@"Error searching database for %@ %@", searchText, searchError);
+    }
+    
+    return results;
+}
+
 @end

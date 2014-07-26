@@ -21,16 +21,26 @@ FOUNDATION_EXPORT NSString *const kBookPersonalNotesKey;
 @interface DataController : NSObject
 
 + (DataController *)sharedInstance;
+
+#pragma mark - Save
 - (void)saveContextUpdateCloud:(BOOL)shouldUpdateCloud;
 - (NSManagedObjectContext *)managedObjectContext;
 
+#pragma mark Save Book
+- (void)saveBook:(Book *)book;
+
+#pragma mark - Add Books
 - (void)addBookToCoreDataWithGTLBook:(GTLBooksVolume *)gtlBook withUserInfo:(NSDictionary *)userInfo;
 - (void)addBookToCoreDataWithCKRecord:(CKRecord *)record;
 
+#pragma mark - Update Book
 - (void)updateBook:(Book *)book withCKRecord:(CKRecord *)record;
 
-- (void)saveBook:(Book *)book;
-
+#pragma mark - Fetch
 - (Book *)fetchBookWithBookID:(NSString *)bookID;
+
+#pragma mark - Search
+
+- (NSArray *)searchBooksWithSearchText:(NSString *)searchText;
 
 @end
