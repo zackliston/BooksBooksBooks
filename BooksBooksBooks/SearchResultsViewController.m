@@ -11,7 +11,6 @@
 #import "Constants.h"
 #import "BookDetailViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <FXBlurView/FXBlurView.h>
 
 static NSUInteger const kMaxNumberOfResults = 10;
 

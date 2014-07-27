@@ -5,9 +5,9 @@ target "BooksBooksBooks" do
 pod 'AFNetworking'
 pod 'GoogleAnalytics-iOS-SDK'
 pod 'Google-API-Client'
-pod 'FXBlurView'
 pod 'MBProgressHUD'
 pod 'DJWStarRatingView'
+pod 'Reachability', '3.1.1'
 end
 
 target "BooksBooksBooksTests" do

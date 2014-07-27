@@ -16,6 +16,8 @@
 #import "MainScreenHeaderView.h"
 #import "SearchResultsTableViewCell.h"
 #import "BookDetailViewController.h"
+#import "UIViewController+ZLBBannerView.h"
+#import "ZLBReachability.h"
 
 static NSString *const kMainScreenTableViewCellIdentifier = @"kMainScreenTableViewCellIdentifer";
 static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSearchTableViewCellIdentifer";
@@ -294,7 +296,11 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 #pragma mark Button Responders
 - (IBAction)addButtonPressed:(UIButton *)sender
 {
-    [self presentAddViewController];
+    if ([[ZLBReachability sharedInstance] isReachable]) {
+        [self presentAddViewController];
+    } else {
+        [self showBannerWithMessage:@"You are not connected to the internet. To add books you must have an Internet connection." timeInterval:5.0];
+    }
 }
 
 - (IBAction)searchButtonPressed:(UIButton *)sender

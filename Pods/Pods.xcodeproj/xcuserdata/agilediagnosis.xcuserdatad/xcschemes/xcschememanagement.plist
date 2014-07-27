@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BooksBooksBooks-FXBlurView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-BooksBooksBooks-GTMHTTPFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -39,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-BooksBooksBooks-Reachability.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-BooksBooksBooks-gtm-oauth2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,47 +52,47 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>006C7A2DA85C424F83228052</key>
+		<key>092BDEF6150843128B5BFEB9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>25181DE16A2A465A92BC54F6</key>
+		<key>2ADCE7E17B68440A89DDA2F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3A9C965FDE3E490BA13F9DCB</key>
+		<key>5F2F86850B6248B58ECC2953</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>59D199E7A9304AA1978DC954</key>
+		<key>B77DAE25DF8749F7B7D8E8AC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>622525B8138549449C71BF07</key>
+		<key>BA63714E67D34852B205D23C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AA3A0649CAA6428EA98AFE9C</key>
+		<key>BB39454E45FF423CA937B560</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B3CFDD7808984D349DE37BC5</key>
+		<key>E247C084E6274F5FAB77747B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C0CAC2FE0F6244A493E43156</key>
+		<key>ED7F412F66DA4516A3ED6839</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E575D5B60F104832911B748D</key>
+		<key>F56F20D7E5A44F04BE8B2FB6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

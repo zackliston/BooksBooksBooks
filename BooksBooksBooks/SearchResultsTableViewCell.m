@@ -59,7 +59,13 @@ static CGFloat const Margins = 145.0;
 
 - (void)setupWithCoreDataBook:(Book *)book
 {
-    self.coverImageView.image = [self getLocalImageFromBook:book];
+    UIImage *image = [self getLocalImageFromBook:book];
+    if (image) {
+        self.coverImageView.image = image;
+    } else {
+        self.imageURL = [self getBiggestImagePathInDictionary:book.imageURLs];
+    }
+    
     self.title = book.title;
     self.author = book.mainAuthor;
     self.rating = [book.averageRating floatValue];
@@ -204,7 +210,7 @@ static CGFloat const Margins = 145.0;
         }
     }
     
-    NSString *pathToImage = [availableLocalImages objectForKey:thumbnailImageKey];
+    NSString *pathToImage = [self getBiggestImagePathInDictionary:availableLocalImages];
     
     if (pathToImage) {
         return [[UIImage alloc] initWithContentsOfFile:pathToImage];

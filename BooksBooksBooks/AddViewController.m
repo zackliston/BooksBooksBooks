@@ -10,7 +10,6 @@
 #import "UIView+Borders.h"
 #import "SearchResultsViewController.h"
 #import <GTLBooks.h>
-#import <FXBlurView/FXBlurView.h>
 #import <QuartzCore/QuartzCore.h>
 
 @interface AddViewController ()

@@ -54,6 +54,7 @@ static NSString *const ImageDirectory = @"localImageDirectory";
 + (void)saveImage:(UIImage *)image to:(NSString *)fileLocation
 {
     [UIImagePNGRepresentation(image) writeToFile:fileLocation atomically:NO];
+    
 }
 
 + (BOOL)doesImageExistAtPath:(NSString *)path

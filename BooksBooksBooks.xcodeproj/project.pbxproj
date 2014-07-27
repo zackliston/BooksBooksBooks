@@ -52,11 +52,13 @@
 		135D69D9194AA90000EC8C3D /* AddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 135D69D7194AA90000EC8C3D /* AddViewController.xib */; };
 		135E7301196CFEEE001B24D9 /* ZLBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */; };
 		135FC37E19592371007C5D1D /* Book+Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 135FC37D19592371007C5D1D /* Book+Constants.m */; };
+		1366F09219857CFA0044190A /* UIViewController+ZLBBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */; };
 		138322AE1978C7CF00378F85 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138322AD1978C7CF00378F85 /* CloudKit.framework */; };
 		138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */; };
 		138DE7F719592F51002DBC21 /* MainScreenTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */; };
 		138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 138DE7F919594344002DBC21 /* BookCollectionViewCell.m */; };
 		138DE7FC19594344002DBC21 /* BookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */; };
+		1391DF2A1985785E00A06677 /* ZLBReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1391DF291985785E00A06677 /* ZLBReachability.m */; };
 		139C65291957D1BB009BB746 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139C65281957D1BB009BB746 /* DataController.m */; };
 		13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */; };
 		13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */; };
@@ -148,6 +150,8 @@
 		135FC37C19592371007C5D1D /* Book+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Constants.h"; sourceTree = "<group>"; };
 		135FC37D19592371007C5D1D /* Book+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Constants.m"; sourceTree = "<group>"; };
 		1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushViewControllerProtocol.h; sourceTree = "<group>"; };
+		1366F09019857CFA0044190A /* UIViewController+ZLBBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZLBBannerView.h"; sourceTree = "<group>"; };
+		1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZLBBannerView.m"; sourceTree = "<group>"; };
 		138322AC1978C7C500378F85 /* BooksBooksBooks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BooksBooksBooks.entitlements; sourceTree = "<group>"; };
 		138322AD1978C7CF00378F85 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenTableViewCell.h; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 		138DE7F819594344002DBC21 /* BookCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCollectionViewCell.h; sourceTree = "<group>"; };
 		138DE7F919594344002DBC21 /* BookCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCollectionViewCell.m; sourceTree = "<group>"; };
 		138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookCollectionViewCell.xib; sourceTree = "<group>"; };
+		1391DF281985785E00A06677 /* ZLBReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBReachability.h; sourceTree = "<group>"; };
+		1391DF291985785E00A06677 /* ZLBReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBReachability.m; sourceTree = "<group>"; };
 		139C65271957D1BB009BB746 /* DataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		139C65281957D1BB009BB746 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		13AEBA76194FEEF700E3B681 /* SearchResultsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsTableViewCell.h; sourceTree = "<group>"; };
@@ -239,13 +245,9 @@
 		133C71861957C35A00EE6E7D /* Main Screen */ = {
 			isa = PBXGroup;
 			children = (
-				133C71871957C37100EE6E7D /* MainScreenViewController.h */,
-				133C71881957C37100EE6E7D /* MainScreenViewController.m */,
-				133C71891957C37100EE6E7D /* MainScreenViewController.xib */,
-				138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */,
-				138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */,
-				138DE7F819594344002DBC21 /* BookCollectionViewCell.h */,
-				138DE7F919594344002DBC21 /* BookCollectionViewCell.m */,
+				1391DF2B19857BF800A06677 /* Main Screen Controller */,
+				1391DF2C19857C0500A06677 /* Main Screen TableView Cells */,
+				1391DF2D19857C1F00A06677 /* Book Collection Cell */,
 				1327758B195A896700C96B5F /* BookShelf.h */,
 				1327758C195A896700C96B5F /* BookShelf.m */,
 				13159D5A195BB69F007B9218 /* MainScreenHeaderView.h */,
@@ -259,6 +261,7 @@
 			children = (
 				133C718C1957CBDE00EE6E7D /* BookDetailViewController.h */,
 				133C718D1957CBDE00EE6E7D /* BookDetailViewController.m */,
+				133C718E1957CBDE00EE6E7D /* BookDetailViewController.xib */,
 			);
 			name = "Book Detail Controller";
 			sourceTree = "<group>";
@@ -319,13 +322,8 @@
 			children = (
 				138322AC1978C7C500378F85 /* BooksBooksBooks.entitlements */,
 				135D69CD194AA5ED00EC8C3D /* App Delegate */,
-				13D685371968DA80005C16F1 /* Change Book Details Controller */,
-				133C71911957CBE300EE6E7D /* Book Detail Controller */,
-				133C71861957C35A00EE6E7D /* Main Screen */,
-				135D69D4194AA8E300EC8C3D /* Add View Controller */,
-				13BA9F78194C1817007980D7 /* Search Results Controller */,
-				135D69DA194AA93C00EC8C3D /* Nibs */,
-				135D69B6194A9E9300EC8C3D /* Images.xcassets */,
+				1391DF3019857C6900A06677 /* Main Screens */,
+				1391DF3119857C7200A06677 /* Custom Controls */,
 				135D69AC194A9E9300EC8C3D /* Supporting Files */,
 			);
 			path = BooksBooksBooks;
@@ -334,6 +332,8 @@
 		135D69AC194A9E9300EC8C3D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				135D69B6194A9E9300EC8C3D /* Images.xcassets */,
+				1391DF271985784A00A06677 /* Reachability */,
 				13247135197AF2E200914FF1 /* Cloud Manager */,
 				135E72FE196CFED6001B24D9 /* Analytics Helpers */,
 				1361557E195F58B9004B8095 /* Protocols */,
@@ -380,22 +380,9 @@
 			children = (
 				135D69D5194AA90000EC8C3D /* AddViewController.h */,
 				135D69D6194AA90000EC8C3D /* AddViewController.m */,
-			);
-			name = "Add View Controller";
-			sourceTree = "<group>";
-		};
-		135D69DA194AA93C00EC8C3D /* Nibs */ = {
-			isa = PBXGroup;
-			children = (
-				13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */,
-				138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */,
-				138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */,
-				133C718E1957CBDE00EE6E7D /* BookDetailViewController.xib */,
-				13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */,
-				13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */,
 				135D69D7194AA90000EC8C3D /* AddViewController.xib */,
 			);
-			name = Nibs;
+			name = "Add View Controller";
 			sourceTree = "<group>";
 		};
 		135D69E1194AAD8C00EC8C3D /* Images */ = {
@@ -427,6 +414,86 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		1391DF271985784A00A06677 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				1391DF281985785E00A06677 /* ZLBReachability.h */,
+				1391DF291985785E00A06677 /* ZLBReachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
+		1391DF2B19857BF800A06677 /* Main Screen Controller */ = {
+			isa = PBXGroup;
+			children = (
+				133C71871957C37100EE6E7D /* MainScreenViewController.h */,
+				133C71881957C37100EE6E7D /* MainScreenViewController.m */,
+				133C71891957C37100EE6E7D /* MainScreenViewController.xib */,
+			);
+			name = "Main Screen Controller";
+			sourceTree = "<group>";
+		};
+		1391DF2C19857C0500A06677 /* Main Screen TableView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				138DE7F319592F51002DBC21 /* MainScreenTableViewCell.h */,
+				138DE7F419592F51002DBC21 /* MainScreenTableViewCell.m */,
+				138DE7F519592F51002DBC21 /* MainScreenTableViewCell.xib */,
+			);
+			name = "Main Screen TableView Cells";
+			sourceTree = "<group>";
+		};
+		1391DF2D19857C1F00A06677 /* Book Collection Cell */ = {
+			isa = PBXGroup;
+			children = (
+				138DE7F819594344002DBC21 /* BookCollectionViewCell.h */,
+				138DE7F919594344002DBC21 /* BookCollectionViewCell.m */,
+				138DE7FA19594344002DBC21 /* BookCollectionViewCell.xib */,
+			);
+			name = "Book Collection Cell";
+			sourceTree = "<group>";
+		};
+		1391DF2E19857C4000A06677 /* Search Results Controller */ = {
+			isa = PBXGroup;
+			children = (
+				13BA9F79194C1832007980D7 /* SearchResultsViewController.h */,
+				13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */,
+				13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */,
+			);
+			name = "Search Results Controller";
+			sourceTree = "<group>";
+		};
+		1391DF2F19857C4D00A06677 /* Search Results TableView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				13AEBA76194FEEF700E3B681 /* SearchResultsTableViewCell.h */,
+				13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */,
+				13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */,
+			);
+			name = "Search Results TableView Cell";
+			sourceTree = "<group>";
+		};
+		1391DF3019857C6900A06677 /* Main Screens */ = {
+			isa = PBXGroup;
+			children = (
+				13D685371968DA80005C16F1 /* Change Book Details Controller */,
+				133C71911957CBE300EE6E7D /* Book Detail Controller */,
+				133C71861957C35A00EE6E7D /* Main Screen */,
+				135D69D4194AA8E300EC8C3D /* Add View Controller */,
+				13BA9F78194C1817007980D7 /* Search Results Controller */,
+			);
+			name = "Main Screens";
+			sourceTree = "<group>";
+		};
+		1391DF3119857C7200A06677 /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+				1366F09019857CFA0044190A /* UIViewController+ZLBBannerView.h */,
+				1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */,
+			);
+			name = "Custom Controls";
+			sourceTree = "<group>";
+		};
 		139C652A1957D1C0009BB746 /* Data Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,10 +520,8 @@
 		13BA9F78194C1817007980D7 /* Search Results Controller */ = {
 			isa = PBXGroup;
 			children = (
-				13BA9F79194C1832007980D7 /* SearchResultsViewController.h */,
-				13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */,
-				13AEBA76194FEEF700E3B681 /* SearchResultsTableViewCell.h */,
-				13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */,
+				1391DF2E19857C4000A06677 /* Search Results Controller */,
+				1391DF2F19857C4D00A06677 /* Search Results TableView Cell */,
 			);
 			name = "Search Results Controller";
 			sourceTree = "<group>";
@@ -480,6 +545,7 @@
 			children = (
 				13D685321968DA78005C16F1 /* ChangeBookDetailsViewController.h */,
 				13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */,
+				13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */,
 			);
 			name = "Change Book Details Controller";
 			sourceTree = "<group>";
@@ -686,11 +752,13 @@
 				13247144197B40C100914FF1 /* Book.m in Sources */,
 				13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */,
 				13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */,
+				1391DF2A1985785E00A06677 /* ZLBReachability.m in Sources */,
 				135D69B2194A9E9300EC8C3D /* AppDelegate.m in Sources */,
 				13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */,
 				13D685351968DA78005C16F1 /* ChangeBookDetailsViewController.m in Sources */,
 				135D69AF194A9E9300EC8C3D /* main.m in Sources */,
 				13159D5C195BB69F007B9218 /* MainScreenHeaderView.m in Sources */,
+				1366F09219857CFA0044190A /* UIViewController+ZLBBannerView.m in Sources */,
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
 				138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */,
 				133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */,
