@@ -42,6 +42,10 @@ static ZLBCloudManager *sharedInstance;
 
 - (CKDatabase *)privateDatabase
 {
+    if (!_hasiCloudAccount) {
+        return nil;
+    }
+    
     if (!_privateDatabase) {
         _privateDatabase = [[CKContainer defaultContainer] privateCloudDatabase];
     }
@@ -145,7 +149,7 @@ static ZLBCloudManager *sharedInstance;
                 NSLog(@"One Zone was supposed to be returned from the save record zone operation buy %lu were", (unsigned long)savedZones.count);
             }
         } else {
-            NSLog(@"CLOUD ERROR Could not save zone %@", syncZone);
+            NSLog(@"CLOUD ERROR Could not save zone %@", error);
         }
     }];
     [zoneOperation setQualityOfService:NSQualityOfServiceUserInitiated];
@@ -235,12 +239,8 @@ static ZLBCloudManager *sharedInstance;
 - (void)insertOrUpdateBook:(Book *)book
 {
     [self insertOrUpdateBookOnPublicDatabase:book];
+    [self insertOrUpdateBookOnPrivateDatabase:book];
     
-    if (_hasiCloudAccount) {
-        [self insertOrUpdateBookOnPrivateDatabase:book];
-    } else {
-        NSLog(@"CLOUD Not inserting book to private database because the user is not logged into an iCloud account");
-    }
 }
 
 - (void)insertOrUpdateBookOnPublicDatabase:(Book *)book
@@ -332,7 +332,6 @@ static ZLBCloudManager *sharedInstance;
             }
         }];
     } else {
-        
         NSLog(@"CLOUD ERROR: Could not query Private Database because we do not have a syncZoneID right now");
     }
 }
@@ -362,7 +361,7 @@ static ZLBCloudManager *sharedInstance;
 
 - (void)insertBookToPrivateDatabase:(Book *)book
 {
-    if (_hasiCloudAccount) {
+    //if (_hasiCloudAccount) {
         CKRecord *privateRecord = [self privateBookRecordFromCoreDataBook:book];
         CKModifyRecordsOperation *insertOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[privateRecord] recordIDsToDelete:nil];
         [insertOperation setModifyRecordsCompletionBlock:^(NSArray *savedRecords, NSArray *deletedRecords, NSError *error) {
@@ -380,7 +379,7 @@ static ZLBCloudManager *sharedInstance;
         }];
         
         [self.privateDatabase addOperation:insertOperation];
-    }
+    //}
 }
 
 #pragma mark - Add Reference
@@ -512,7 +511,7 @@ static ZLBCloudManager *sharedInstance;
 {
     CKRecord *record = nil;
     
-    if (_hasiCloudAccount && self.syncZoneID) {
+    if (self.syncZoneID) {
         record = [[CKRecord alloc] initWithRecordType:kRecordTypePrivateBook zoneID:self.syncZoneID];
         [record setObject:book.title forKey:kBookTitleKey];
         [record setObject:book.bookID forKey:kBookIDKey];

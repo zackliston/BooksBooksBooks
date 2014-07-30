@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BooksBooksBooks/ZLBCloudManager.m"
-            timestampString = "427595943.668493"
+            timestampString = "428185426.52624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
-            landmarkName = "-checkIfBookExistsInPrivateDatabaseAndAddOrUpdateBook:"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-privateDatabase"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

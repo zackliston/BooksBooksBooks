@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13159D5C195BB69F007B9218 /* MainScreenHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13159D5B195BB69F007B9218 /* MainScreenHeaderView.m */; };
 		13159D60195BBFC0007B9218 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 13159D5F195BBFC0007B9218 /* DownloadManager.m */; };
 		1324713E197AF98B00914FF1 /* ZLBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324713D197AF98B00914FF1 /* ZLBCloudManager.m */; };
 		13247144197B40C100914FF1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13247143197B40C100914FF1 /* Book.m */; };
@@ -70,6 +69,8 @@
 		13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */; };
 		13C53F4B194AC0BF00705DE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C53F4A194AC0BF00705DE1 /* CoreGraphics.framework */; };
 		13C53F4D194AC8E700705DE1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C53F4C194AC8E700705DE1 /* QuartzCore.framework */; };
+		13CE647B1988A777008DCE18 /* ZLBZoomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13CE647A1988A777008DCE18 /* ZLBZoomHeaderView.m */; };
+		13CE64811988B75F008DCE18 /* ZLBUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 13CE64801988B75F008DCE18 /* ZLBUtilities.m */; };
 		13D685351968DA78005C16F1 /* ChangeBookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */; };
 		13D685361968DA78005C16F1 /* ChangeBookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */; };
 		13DB17F9195A9DDC00BB23F6 /* bannerImage11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 13DB17F8195A9DDC00BB23F6 /* bannerImage11.jpg */; };
@@ -87,8 +88,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13159D5A195BB69F007B9218 /* MainScreenHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenHeaderView.h; sourceTree = "<group>"; };
-		13159D5B195BB69F007B9218 /* MainScreenHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenHeaderView.m; sourceTree = "<group>"; };
 		13159D5E195BBFC0007B9218 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		13159D5F195BBFC0007B9218 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 		1324713C197AF98B00914FF1 /* ZLBCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBCloudManager.h; sourceTree = "<group>"; };
@@ -181,6 +180,11 @@
 		13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBarcodeScannerViewController.m; sourceTree = "<group>"; };
 		13C53F4A194AC0BF00705DE1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		13C53F4C194AC8E700705DE1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		13CE64791988A777008DCE18 /* ZLBZoomHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBZoomHeaderView.h; sourceTree = "<group>"; };
+		13CE647A1988A777008DCE18 /* ZLBZoomHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBZoomHeaderView.m; sourceTree = "<group>"; };
+		13CE647D1988B216008DCE18 /* ZLBZoomHeaderViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLBZoomHeaderViewProtocol.h; sourceTree = "<group>"; };
+		13CE647F1988B75F008DCE18 /* ZLBUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBUtilities.h; sourceTree = "<group>"; };
+		13CE64801988B75F008DCE18 /* ZLBUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBUtilities.m; sourceTree = "<group>"; };
 		13D685321968DA78005C16F1 /* ChangeBookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBookDetailsViewController.h; sourceTree = "<group>"; };
 		13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeBookDetailsViewController.m; sourceTree = "<group>"; };
 		13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeBookDetailsViewController.xib; sourceTree = "<group>"; };
@@ -250,8 +254,6 @@
 				1391DF2D19857C1F00A06677 /* Book Collection Cell */,
 				1327758B195A896700C96B5F /* BookShelf.h */,
 				1327758C195A896700C96B5F /* BookShelf.m */,
-				13159D5A195BB69F007B9218 /* MainScreenHeaderView.h */,
-				13159D5B195BB69F007B9218 /* MainScreenHeaderView.m */,
 			);
 			name = "Main Screen";
 			sourceTree = "<group>";
@@ -325,6 +327,7 @@
 				1391DF3019857C6900A06677 /* Main Screens */,
 				1391DF3119857C7200A06677 /* Custom Controls */,
 				135D69AC194A9E9300EC8C3D /* Supporting Files */,
+				13CE647C1988B1E1008DCE18 /* Protocols */,
 			);
 			path = BooksBooksBooks;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				135D69B6194A9E9300EC8C3D /* Images.xcassets */,
+				13CE647E1988B73F008DCE18 /* Utilities */,
 				1391DF271985784A00A06677 /* Reachability */,
 				13247135197AF2E200914FF1 /* Cloud Manager */,
 				135E72FE196CFED6001B24D9 /* Analytics Helpers */,
@@ -488,8 +492,8 @@
 		1391DF3119857C7200A06677 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
-				1366F09019857CFA0044190A /* UIViewController+ZLBBannerView.h */,
-				1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */,
+				13CE64781988A735008DCE18 /* Zoom HeaderView */,
+				13CE64771988A72D008DCE18 /* Banner View */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -538,6 +542,41 @@
 				13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */,
 			);
 			path = TFBarcodeScanner;
+			sourceTree = "<group>";
+		};
+		13CE64771988A72D008DCE18 /* Banner View */ = {
+			isa = PBXGroup;
+			children = (
+				1366F09019857CFA0044190A /* UIViewController+ZLBBannerView.h */,
+				1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */,
+			);
+			name = "Banner View";
+			sourceTree = "<group>";
+		};
+		13CE64781988A735008DCE18 /* Zoom HeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				13CE64791988A777008DCE18 /* ZLBZoomHeaderView.h */,
+				13CE647A1988A777008DCE18 /* ZLBZoomHeaderView.m */,
+			);
+			name = "Zoom HeaderView";
+			sourceTree = "<group>";
+		};
+		13CE647C1988B1E1008DCE18 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				13CE647D1988B216008DCE18 /* ZLBZoomHeaderViewProtocol.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		13CE647E1988B73F008DCE18 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				13CE647F1988B75F008DCE18 /* ZLBUtilities.h */,
+				13CE64801988B75F008DCE18 /* ZLBUtilities.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		13D685371968DA80005C16F1 /* Change Book Details Controller */ = {
@@ -745,6 +784,7 @@
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
 				1324713E197AF98B00914FF1 /* ZLBCloudManager.m in Sources */,
 				135E7301196CFEEE001B24D9 /* ZLBAnalytics.m in Sources */,
+				13CE64811988B75F008DCE18 /* ZLBUtilities.m in Sources */,
 				138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */,
 				133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */,
 				135FC37E19592371007C5D1D /* Book+Constants.m in Sources */,
@@ -757,9 +797,9 @@
 				13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */,
 				13D685351968DA78005C16F1 /* ChangeBookDetailsViewController.m in Sources */,
 				135D69AF194A9E9300EC8C3D /* main.m in Sources */,
-				13159D5C195BB69F007B9218 /* MainScreenHeaderView.m in Sources */,
 				1366F09219857CFA0044190A /* UIViewController+ZLBBannerView.m in Sources */,
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
+				13CE647B1988A777008DCE18 /* ZLBZoomHeaderView.m in Sources */,
 				138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */,
 				133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */,
 				13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */,
