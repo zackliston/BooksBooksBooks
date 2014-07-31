@@ -23,7 +23,7 @@
                 <outlet property="titleLabel" destination="cIL-ss-oaN" id="ts5-F0-RQc"/>
                 <outlet property="titleLabelHeight" destination="7oE-js-g09" id="xTq-vp-mb6"/>
                 <outlet property="topBarView" destination="wAQ-hr-A14" id="dNq-q8-Eg7"/>
-                <outlet property="verticalSpaceBetweenMainViewAndBottomOrScreen" destination="6RU-Sh-6Wz" id="Agf-fy-sTh"/>
+                <outlet property="verticalSpaceBetweenScrollViewAndButtons" destination="2WL-Wy-LOn" id="2mI-07-70l"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

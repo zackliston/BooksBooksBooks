@@ -23,7 +23,7 @@ static double const kMaxAuthorFontSize = 20.0;
 static double const kMaxTitleLabelHeight = 60.0;
 static double const kMaxAuthorLabelHeight = 40.0;
 static double const kDefaultTitleAuthorLabelWidth = 250;
-static double const kDefaultNotesTextViewHeight = 100.0;
+static double const kDefaultNotesTextViewHeight = 110.0;
 
 @interface BookDetailViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
@@ -51,8 +51,9 @@ static double const kDefaultNotesTextViewHeight = 100.0;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *descriptionLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *authorLabelHeight;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenMainViewAndBottomOrScreen;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeight;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenScrollViewAndButtons;
 
 
 @property (nonatomic, assign) BOOL existsInLibrary;
@@ -658,9 +659,11 @@ static double const kDefaultNotesTextViewHeight = 100.0;
         height = keyboardFrame.size.width;
     }
     
+    height -= self.buttonViewHeight.constant;
+    
     [UIView animateWithDuration:0.33 animations:^{
         
-        self.verticalSpaceBetweenMainViewAndBottomOrScreen.constant = height;
+        self.verticalSpaceBetweenScrollViewAndButtons.constant = height;
         
     } completion:^(BOOL finished) {
         [self.scrollView scrollRectToVisible:self.notesTextView.frame animated:YES];
@@ -670,7 +673,7 @@ static double const kDefaultNotesTextViewHeight = 100.0;
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     [UIView animateWithDuration:0.33 animations:^{
-        self.verticalSpaceBetweenMainViewAndBottomOrScreen.constant = 0.0;
+        self.verticalSpaceBetweenScrollViewAndButtons.constant = 0.0;
     }];
 }
 
@@ -693,7 +696,7 @@ static double const kDefaultNotesTextViewHeight = 100.0;
     CGFloat height = MAX(kDefaultNotesTextViewHeight, boundingRect.size.height);
     CGFloat difference = self.notesTextViewHeight.constant-height;
     difference = fabs(difference);
-    
+
     if (difference > 1.0) {
         self.notesTextViewHeight.constant = height;
         [self.scrollView scrollRectToVisible:CGRectMake(1.0, self.scrollView.contentSize.height, 1.0, 1.0) animated:YES];

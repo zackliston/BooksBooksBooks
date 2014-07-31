@@ -288,4 +288,5 @@
     
     return scanOutlineView;
 }
+
 @end
