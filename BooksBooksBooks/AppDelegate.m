@@ -15,6 +15,7 @@
 #import <CloudKit/CloudKit.h>
 #import <GAI.h>
 #import "ZLBReachability.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
             
@@ -25,6 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"c12370920ed8aa9b236c976f6242a8ed7975aa1f"];
     [self setupGoogleAnalytics];
     [self setupWindow];
     [self setupCloudKit];

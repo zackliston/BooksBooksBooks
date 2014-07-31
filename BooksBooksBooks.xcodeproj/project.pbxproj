@@ -61,6 +61,7 @@
 		139C65291957D1BB009BB746 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139C65281957D1BB009BB746 /* DataController.m */; };
 		13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */; };
 		13AEBA7A194FEEF700E3B681 /* SearchResultsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */; };
+		13BA25A71989FCFD002BEAED /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13BA25A61989FCFD002BEAED /* Crashlytics.framework */; };
 		13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F69194BF49D007980D7 /* UIView+Borders.m */; };
 		13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */; };
 		13BA9F7D194C1832007980D7 /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */; };
@@ -166,6 +167,7 @@
 		13AEBA76194FEEF700E3B681 /* SearchResultsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsTableViewCell.h; sourceTree = "<group>"; };
 		13AEBA77194FEEF700E3B681 /* SearchResultsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsTableViewCell.m; sourceTree = "<group>"; };
 		13AEBA78194FEEF700E3B681 /* SearchResultsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsTableViewCell.xib; sourceTree = "<group>"; };
+		13BA25A61989FCFD002BEAED /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		13BA9F68194BF49D007980D7 /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
 		13BA9F69194BF49D007980D7 /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
 		13BA9F79194C1832007980D7 /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13C53F4D194AC8E700705DE1 /* QuartzCore.framework in Frameworks */,
+				13BA25A71989FCFD002BEAED /* Crashlytics.framework in Frameworks */,
 				138322AE1978C7CF00378F85 /* CloudKit.framework in Frameworks */,
 				13C53F4B194AC0BF00705DE1 /* CoreGraphics.framework in Frameworks */,
 				9B6CCFD4ADEB43F3AB5D0602 /* libPods-BooksBooksBooks.a in Frameworks */,
@@ -592,6 +595,7 @@
 		D54EC05822D747759BF2D001 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13BA25A61989FCFD002BEAED /* Crashlytics.framework */,
 				138322AD1978C7CF00378F85 /* CloudKit.framework */,
 				13C53F4C194AC8E700705DE1 /* QuartzCore.framework */,
 				13C53F4A194AC0BF00705DE1 /* CoreGraphics.framework */,
@@ -612,6 +616,7 @@
 				135D69A6194A9E9300EC8C3D /* Frameworks */,
 				135D69A7194A9E9300EC8C3D /* Resources */,
 				CBAFAE859AEC4FE2897B7654 /* Copy Pods Resources */,
+				13BA25A51989FCDC002BEAED /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -740,6 +745,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		13BA25A51989FCDC002BEAED /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c12370920ed8aa9b236c976f6242a8ed7975aa1f ce30d917f628bb588edb287c79548e543a060694cce4c1a9378cd3befd2db0df";
+		};
 		473F9359F42C40D3961922F3 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -912,6 +930,10 @@
 				CODE_SIGN_ENTITLEMENTS = BooksBooksBooks/BooksBooksBooks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = BooksBooksBooks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -932,6 +954,10 @@
 				CODE_SIGN_ENTITLEMENTS = BooksBooksBooks/BooksBooksBooks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = BooksBooksBooks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
