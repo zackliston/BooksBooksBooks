@@ -249,6 +249,22 @@ static DataController *sharedInstance;
     
 }
 
+- (NSArray *)fetchAllBooks
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        NSLog(@"Error fetching Books %@", error);
+    } else {
+        return fetchedObjects;
+    }
+    return nil;
+}
+
 #pragma mark - Handle CKRecords
 
 - (void)addBookToCoreDataWithCKRecord:(CKRecord *)record

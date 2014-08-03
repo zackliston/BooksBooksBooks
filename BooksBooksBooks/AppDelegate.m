@@ -66,9 +66,13 @@
 
 - (void)setupCloudKit
 {
+    NSLog(@"start");
     [[ZLBCloudManager sharedInstance] setupCloudUser];
-    [[ZLBCloudManager sharedInstance] setupSyncZoneAndSubscription:YES fetchChanges:YES];
+    [[ZLBCloudManager sharedInstance] uploadLocalChangesToCloud];
+    [[ZLBCloudManager sharedInstance] fetchCloudChanges];
+    [[ZLBCloudManager sharedInstance] setupSyncZoneAndSubscription:YES];
     
+    NSLog(@"finish");
 }
 
 - (void)setupReachability
@@ -104,7 +108,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    [[ZLBCloudManager sharedInstance] fetchChanges];
+    [[ZLBCloudManager sharedInstance] fetchCloudChanges];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 

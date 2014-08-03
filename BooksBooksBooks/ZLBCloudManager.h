@@ -13,8 +13,10 @@
 + (ZLBCloudManager *)sharedInstance;
 
 - (void)setupCloudUser;
-- (void)setupSyncZoneAndSubscription:(BOOL)shouldStartSubscription fetchChanges:(BOOL)shouldFetchChanges;
+- (void)setupSyncZoneAndSubscription:(BOOL)shouldStartSubscription;
+- (void)uploadLocalChangesToCloud;
+- (void)fetchCloudChanges;
 
 - (void)updateCloudWithInsertedObjects:(NSSet *)insertedObjects updatedObjects:(NSSet *)updatedObjects deletedObjects:(NSSet *)deletedObjects;
-- (void)fetchChanges;
+
 @end

@@ -38,6 +38,7 @@ FOUNDATION_EXPORT NSString *const kBookPersonalNotesKey;
 
 #pragma mark - Fetch
 - (Book *)fetchBookWithBookID:(NSString *)bookID;
+- (NSArray *)fetchAllBooks;
 
 #pragma mark - Search
 

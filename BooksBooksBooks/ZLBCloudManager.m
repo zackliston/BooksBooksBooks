@@ -28,6 +28,10 @@ static ZLBCloudManager *sharedInstance;
 @implementation ZLBCloudManager {
     CKRecordID *_userRecordID;
     BOOL _hasiCloudAccount;
+    
+    BOOL shouldFetchChangesWhenSyncZoneIDIsSet;
+    BOOL shouldUploadChangesWhenSyncZoneIDIsSet;
+    BOOL hasUploadedChangesToPublicDatabase;
 }
 
 #pragma mark - Getters/Setters
@@ -73,6 +77,19 @@ static ZLBCloudManager *sharedInstance;
         return changeToken;
     } else {
         return nil;
+    }
+}
+
+- (void)setSyncZoneID:(CKRecordZoneID *)syncZoneID
+{
+    _syncZoneID = syncZoneID;
+    if (shouldFetchChangesWhenSyncZoneIDIsSet) {
+        [self fetchCloudChanges];
+        shouldFetchChangesWhenSyncZoneIDIsSet = NO;
+    }
+    if (shouldUploadChangesWhenSyncZoneIDIsSet) {
+        [self uploadLocalChangesToCloud];
+        shouldUploadChangesWhenSyncZoneIDIsSet = NO;
     }
 }
 
@@ -126,7 +143,7 @@ static ZLBCloudManager *sharedInstance;
     }
 }
 
-- (void)setupSyncZoneAndSubscription:(BOOL)shouldStartSubscription fetchChanges:(BOOL)shouldFetchChanges
+- (void)setupSyncZoneAndSubscription:(BOOL)shouldStartSubscription
 {
     CKRecordZone *syncZone = [[CKRecordZone alloc] initWithZoneName:kPrivateDatabaseSynceZoneName];
     CKModifyRecordZonesOperation *zoneOperation = [[CKModifyRecordZonesOperation alloc] initWithRecordZonesToSave:@[syncZone] recordZoneIDsToDelete:nil];
@@ -137,14 +154,9 @@ static ZLBCloudManager *sharedInstance;
                 self.syncZoneID = zone.zoneID;
                 NSLog(@"Successfully saved Synce Zone");
                 
-                if (shouldFetchChanges) {
-                    [self fetchChanges];
-                }
-                
                 if (shouldStartSubscription) {
                     [self startSubscription];
                 }
-                
             } else {
                 NSLog(@"One Zone was supposed to be returned from the save record zone operation buy %lu were", (unsigned long)savedZones.count);
             }
@@ -157,9 +169,7 @@ static ZLBCloudManager *sharedInstance;
     [self.privateDatabase addOperation:zoneOperation];
 }
 
-#pragma mark - Public Method Helpers
-
-- (void)fetchChanges
+- (void)fetchCloudChanges
 {
     if (self.syncZoneID) {
         CKServerChangeToken *serverChangeToken = [self getServerChangeToken];
@@ -181,8 +191,29 @@ static ZLBCloudManager *sharedInstance;
         }];
         
         [self.privateDatabase addOperation:fetchChangesOperation];
+    } else {
+        shouldFetchChangesWhenSyncZoneIDIsSet = YES;
     }
 }
+
+- (void)uploadLocalChangesToCloud
+{
+    NSArray *books = [[DataController sharedInstance] fetchAllBooks];
+    
+    if (self.syncZoneID) {
+        [self batchUploadLocalChangesToPrivateDatabaseWithBooks:books];
+        
+    } else {
+        shouldUploadChangesWhenSyncZoneIDIsSet = YES;
+    }
+    
+    if (!hasUploadedChangesToPublicDatabase) {
+        [self batchUploadLocalChangesToPublicDatabaseWithBooks:books];
+        hasUploadedChangesToPublicDatabase = YES;
+    }
+}
+
+#pragma mark - Public Method Helpers
 
 - (void)startSubscription
 {
@@ -225,6 +256,54 @@ static ZLBCloudManager *sharedInstance;
     [self.privateDatabase addOperation:addSubscriptionOperation];
 }
 
+- (void)batchUploadLocalChangesToPrivateDatabaseWithBooks:(NSArray *)books
+{
+    NSMutableArray *bookIDs = [NSMutableArray new];
+    for (Book *book in books) {
+        if (!book.privateCloudRecordID) {
+            [self checkIfBookExistsInPrivateDatabaseAndAddOrUpdateBook:book];
+        } else {
+            [bookIDs addObject:book.privateCloudRecordID];
+        }
+    }
+    
+    __block NSArray *blockBooks = books;
+    CKFetchRecordsOperation *fetchOperation = [[CKFetchRecordsOperation alloc] initWithRecordIDs:[bookIDs copy]];
+    [fetchOperation setFetchRecordsCompletionBlock:^(NSDictionary *recordsByRecordID, NSError *error) {
+        if (!error) {
+            [self updateBooksInPrivateDataBase:[recordsByRecordID allValues] withCoreDataBooks:blockBooks];
+        } else {
+            NSLog(@"CLOUD ERROR fetching Books with IDs %@ %@", bookIDs, error);
+        }
+    }];
+    
+    [self.privateDatabase addOperation:fetchOperation];
+}
+
+- (void)batchUploadLocalChangesToPublicDatabaseWithBooks:(NSArray *)books
+{
+    NSMutableArray *bookIDs = [NSMutableArray new];
+    for (Book *book in books) {
+        if (!book.publicCloudRecordID) {
+            [self checkIfBookExistsInPublicDatabaseAndAddOrUpdateBook:book];
+        } else {
+            [bookIDs addObject:book.publicCloudRecordID];
+        }
+    }
+    
+    CKFetchRecordsOperation *fetchOperation = [[CKFetchRecordsOperation alloc] initWithRecordIDs:[bookIDs copy]];
+    [fetchOperation setFetchRecordsCompletionBlock:^(NSDictionary *recordsByRecordID, NSError *error) {
+        if (!error) {
+            [self fetchUserRecordAndAddAsOwnerOfBooks:[recordsByRecordID allValues]];
+        } else {
+            NSLog(@"CLOUD ERROR fetching books from public database %@", error);
+        }
+    }];
+
+    
+    [self.publicDatabase addOperation:fetchOperation];
+}
+
 #pragma mark - Update iCloud
 #pragma mark Insert
 
@@ -240,7 +319,6 @@ static ZLBCloudManager *sharedInstance;
 {
     [self insertOrUpdateBookOnPublicDatabase:book];
     [self insertOrUpdateBookOnPrivateDatabase:book];
-    
 }
 
 - (void)insertOrUpdateBookOnPublicDatabase:(Book *)book
@@ -266,7 +344,7 @@ static ZLBCloudManager *sharedInstance;
     CKFetchRecordsOperation *fetchOperation = [[CKFetchRecordsOperation alloc] initWithRecordIDs:@[book.publicCloudRecordID]];
     [fetchOperation setPerRecordCompletionBlock:^(CKRecord *record, CKRecordID *recordID, NSError *error) {
         if (!error) {
-            [self fetchUserRecordAndAddAsOwnerOfBook:record];
+            [self fetchUserRecordAndAddAsOwnerOfBooks:@[record]];
         } else {
             NSLog(@"CLOUD ERROR: Could not fetch Book %@ from cloud %@", book.title, error);
         }
@@ -300,7 +378,7 @@ static ZLBCloudManager *sharedInstance;
                 [self insertBookToPublicDatabase:book];
             } else if (results.count == 1) {
                 CKRecord *record = [results firstObject];
-                [self fetchUserRecordAndAddAsOwnerOfBook:record];
+                [self fetchUserRecordAndAddAsOwnerOfBooks:@[record]];
                 
             } else {
                 NSLog(@"ERROR: There should only be one book with ID %@ but there are %lu Updated only the first one", book.bookID, (unsigned long)results.count);
@@ -343,7 +421,7 @@ static ZLBCloudManager *sharedInstance;
     [insertOperation setModifyRecordsCompletionBlock:^(NSArray *savedRecords, NSArray *deletedRecords, NSError *error) {
         if (!error) {
             CKRecord *record = [savedRecords firstObject];
-            [self fetchUserRecordAndAddAsOwnerOfBook:record];
+            [self fetchUserRecordAndAddAsOwnerOfBooks:@[record]];
     
             dispatch_async(dispatch_get_main_queue(), ^{
                 book.publicCloudRecordID = record.recordID;
@@ -384,12 +462,14 @@ static ZLBCloudManager *sharedInstance;
 
 #pragma mark - Add Reference
 
-- (void)fetchUserRecordAndAddAsOwnerOfBook:(CKRecord *)bookRecord
+- (void)fetchUserRecordAndAddAsOwnerOfBooks:(NSArray *)bookRecords
 {
+    
     CKFetchRecordsOperation *fetchOp = [[CKFetchRecordsOperation alloc] initWithRecordIDs:@[_userRecordID]];
     [fetchOp setPerRecordCompletionBlock:^(CKRecord *userRecord, CKRecordID *userRecordID, NSError *error) {
         if (!error) {
-            [self addUser:userRecord asOwnerOfBook:bookRecord];
+            
+            [self addUser:userRecord asOwnerOfBooks:bookRecords];
         } else {
             NSLog(@"CLOUD ERROR fetching User Record %@ %@", userRecordID.recordName, error);
         }
@@ -408,43 +488,47 @@ static ZLBCloudManager *sharedInstance;
     [self.publicDatabase addOperation:fetchOp];
 }
 
-- (void)addUser:(CKRecord *)userRecord asOwnerOfBook:(CKRecord *)bookRecord
+- (void)addUser:(CKRecord *)userRecord asOwnerOfBooks:(NSArray *)bookRecords
 {
-    BOOL isNewReference = YES;
-    
-    CKReference *reference = [[CKReference alloc] initWithRecord:bookRecord action:CKReferenceActionNone];
     NSArray *ownedBooks = [userRecord objectForKey:kOwnerOwnedBooksKey];
+    BOOL hasNewReferences = NO;
     
-    
-    if (ownedBooks && ownedBooks.count>0) {
-        for (CKReference *previousReference in ownedBooks) {
-            if ([previousReference.recordID.recordName isEqualToString:reference.recordID.recordName]) {
-                isNewReference = NO;
-            }
-        }
+    for (CKRecord *bookRecord in bookRecords) {
+        BOOL isNewReference = YES;
+        CKReference *reference = [[CKReference alloc] initWithRecord:bookRecord action:CKReferenceActionNone];
         
-        if (isNewReference) {
-            NSMutableArray *mutableCopy = [ownedBooks mutableCopy];
-            [mutableCopy addObject:reference];
-            ownedBooks = [mutableCopy copy];
+        if (ownedBooks && ownedBooks.count>0) {
+            for (CKReference *previousReference in ownedBooks) {
+                if ([previousReference.recordID.recordName isEqualToString:reference.recordID.recordName]) {
+                    isNewReference = NO;
+                }
+            }
+            
+            if (isNewReference) {
+                NSMutableArray *mutableCopy = [ownedBooks mutableCopy];
+                [mutableCopy addObject:reference];
+                ownedBooks = [mutableCopy copy];
+                hasNewReferences = YES;
+            }
+        } else {
+            ownedBooks = @[reference];
         }
-    } else {
-        ownedBooks = @[reference];
     }
     
-    if (isNewReference) {
+    if (hasNewReferences) {
         [userRecord setObject:ownedBooks forKey:kOwnerOwnedBooksKey];
         
         CKModifyRecordsOperation *modifyOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[userRecord] recordIDsToDelete:nil];
         [modifyOperation setModifyRecordsCompletionBlock:^(NSArray *savedRecords, NSArray *deletedRecords, NSError *error) {
             if (!error) {
-                NSLog(@"Successfully added user as owner of a book");
-                
+                NSLog(@"Successfully added user as owner of a books");
+                /**
                 CKReference* recordToMatch = [[CKReference alloc] initWithRecord:bookRecord action:CKReferenceActionNone];
-                NSPredicate* predicate = [NSPredicate predicateWithFormat:@"%K CONTAINS %@",kOwnerOwnedBooksKey, recordToMatch];
-                
+                NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ownedBooks CONTAINS %@",kOwnerOwnedBooksKey, recordToMatch];
+            
                 // Create the query object.
                 CKQuery* query = [[CKQuery alloc] initWithRecordType:@"Users" predicate:predicate];
+               
                 CKQueryOperation* queryOp = [[CKQueryOperation alloc] initWithQuery:query];
                 [queryOp setRecordFetchedBlock:^(CKRecord *record) {
                     NSLog(@"book %@", [record objectForKey:kBookTitleKey]);
@@ -453,10 +537,12 @@ static ZLBCloudManager *sharedInstance;
                 [queryOp setQueryCompletionBlock:^(CKQueryCursor *c, NSError *error) {
                     if (error) {
                         NSLog(@"errrr %@", error);
+                    } else {
+                        NSLog(@"works");
                     }
                 }];
                 [self.publicDatabase addOperation:queryOp];
-                
+                 */
             } else {
                 NSLog(@"CLOUD ERROR adding user as owner of book %@", error);
             }
@@ -482,6 +568,36 @@ static ZLBCloudManager *sharedInstance;
     }];
     
     [self.privateDatabase addOperation:insertOperation];
+}
+
+- (void)updateBooksInPrivateDataBase:(NSArray *)bookRecordArray withCoreDataBooks:(NSArray *)coreDataBookArray
+{
+    
+    NSMutableArray *updatedRecords = [NSMutableArray new];
+    for (NSInteger i = 0; i < bookRecordArray.count; i++) {
+        CKRecord *oldRecord = [bookRecordArray objectAtIndex:i];
+        
+        NSPredicate *bookIDPredicate = [NSPredicate predicateWithFormat:@"bookID = %@", [oldRecord objectForKey:kBookIDKey]];
+        Book *coreDataBook = [[coreDataBookArray filteredArrayUsingPredicate:bookIDPredicate] firstObject];
+        if (!coreDataBook) {
+            NSLog(@"CLOUD ERROR No CoreData book found for ID %@", [oldRecord objectForKey:kBookIDKey]);
+            return;
+        }
+        
+        CKRecord *updatedRecord = [self privateBookRecordFromPreviousBookRecord:oldRecord andCoreDataBook:coreDataBook];
+        [updatedRecords addObject:updatedRecord];
+    }
+    
+    CKModifyRecordsOperation *updateOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:[updatedRecords copy] recordIDsToDelete:nil];
+    [updateOperation setModifyRecordsCompletionBlock:^(NSArray *savedRecords, NSArray *deletedRecords, NSError *error) {
+        if (!error) {
+            NSLog(@"Successfully updated Books %@ to the private iCloud database", [coreDataBookArray valueForKey:@"title"]);
+        } else {
+            NSLog(@"There was an error updating Book %@ to the private iCloud database %@", [coreDataBookArray valueForKey:@"title"], error);
+        }
+    }];
+    
+    [self.privateDatabase addOperation:updateOperation];
 }
 
 #pragma mark - iCloud Helpers
@@ -608,5 +724,6 @@ static ZLBCloudManager *sharedInstance;
         [[DataController sharedInstance] updateBook:book withCKRecord:record];
     }
 }
+
 
 @end

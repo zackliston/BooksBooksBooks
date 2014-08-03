@@ -50,7 +50,6 @@ static char UIScrollViewZoomHeaderView;
 - (instancetype)initWithRandomImageRandomQuoteWidth:(CGFloat)width
 {
     CGRect frame = CGRectMake(0.0, -HeaderHeight, width, HeaderHeight);
-    NSLog(@"Frame %@", NSStringFromCGRect(frame));
     self = [super initWithFrame:frame];
     if (self) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
