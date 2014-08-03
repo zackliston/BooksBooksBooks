@@ -87,4 +87,10 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
+
+- (IBAction)startEdit:(id)sender
+{
+    [self.delegate mainScreenTableViewCell:self enabledEditing:!self.isEditing];
+}
+
 @end

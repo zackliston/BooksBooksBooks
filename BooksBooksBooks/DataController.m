@@ -12,6 +12,7 @@
 #import "ZLBCloudManager.h"
 #import "Book.h"
 #import "Book+Constants.h"
+#import "Shelf+Books.h"
 #import "ZLBCloudConstants.h"
 
 NSString *const kBookReadStatusKey = @"bookReadStatusKey";
@@ -173,7 +174,7 @@ static DataController *sharedInstance;
     newBook.imageURLs = [self convertImageLinksPropertyToDictionary:gtlBook.volumeInfo.imageLinks];
     newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:newBook.imageURLs bookID:newBook.bookID];
     
-    newBook.doesOwn = [userInfo objectForKey:kBookOwnStatusKey];
+    newBook.ownStatus = [userInfo objectForKey:kBookOwnStatusKey];
     newBook.readStatus = [userInfo objectForKey:kBookReadStatusKey];
     newBook.personalNotes = [userInfo objectForKey:kBookPersonalNotesKey];
     newBook.personalRating = [userInfo objectForKey:kBookPersonalRatingKey];
@@ -189,6 +190,31 @@ static DataController *sharedInstance;
 {
     book.dateModifiedInSecondsSinceEpoch = [NSNumber numberWithFloat:[[NSDate date] timeIntervalSince1970]];
     [self saveContextUpdateCloud:YES];
+}
+
+- (Shelf *)addShelfWithTitle:(NSString *)title ownStatus:(BookOwnStatus)ownStatus readStatus:(BookReadStatus)readStatus averageRating:(NSNumber *)averageRating personalRating:(NSNumber *)personalRating sortOrder:(NSInteger)sortOrder
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    Shelf *shelf = [NSEntityDescription insertNewObjectForEntityForName:@"Shelf" inManagedObjectContext:context];
+    shelf.title = title;
+    shelf.ownStatus = [NSNumber numberWithInteger:(NSInteger)ownStatus];
+    shelf.readStatus = [NSNumber numberWithInteger:(NSInteger)readStatus];
+    shelf.sortOrder = [NSNumber numberWithInteger:sortOrder];
+    
+    if (averageRating) {
+        shelf.averageRating = averageRating;
+    } else {
+        shelf.averageRating = [NSNumber numberWithDouble:-1.0];
+    }
+    
+    if (personalRating) {
+        shelf.personalRating = personalRating;
+    } else {
+        shelf.personalRating = [NSNumber numberWithDouble:-1.0];
+    }
+    
+    [self saveContextUpdateCloud:NO];
+    return shelf;
 }
 
 #pragma mark Add Book Helpers
@@ -220,7 +246,6 @@ static DataController *sharedInstance;
     return [NSDictionary dictionaryWithDictionary:tempDictionary];
 }
 
-
 #pragma mark - Fetch Book
 
 - (Book *)fetchBookWithBookID:(NSString *)bookID
@@ -249,6 +274,21 @@ static DataController *sharedInstance;
     
 }
 
+- (NSArray *)fetchBooksWithPredicate:(NSPredicate *)predicate
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Book"];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    if (error) {
+        NSLog(@"Error fetching books in method fetchBooksWithPredicate %@", error);
+    }
+    
+    return results;
+}
+
 - (NSArray *)fetchAllBooks
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -259,10 +299,30 @@ static DataController *sharedInstance;
     NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects == nil) {
         NSLog(@"Error fetching Books %@", error);
-    } else {
-        return fetchedObjects;
+        return nil;
     }
-    return nil;
+    return fetchedObjects;
+}
+
+- (NSArray *)fetchAllShelves
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Shelf" inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"sortOrder" ascending:YES]]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        NSLog(@"Error fetching Books %@", error);
+        return nil;
+    } else {
+        if (fetchedObjects.count > 0) {
+            return fetchedObjects;
+        } else {
+            return [self createAndReturnDefaultShelves];
+        }
+    }
 }
 
 #pragma mark - Handle CKRecords
@@ -290,7 +350,7 @@ static DataController *sharedInstance;
         newBook.imageURLs = imageURLs;
         newBook.localImageLinks = [self localImageLinksFromExternalImageLinks:imageURLs bookID:newBook.bookID];
     }
-    newBook.doesOwn = [record objectForKey:kPrivateBookOwnStatusKey];
+    newBook.ownStatus = [record objectForKey:kPrivateBookOwnStatusKey];
     newBook.readStatus = [record objectForKey:kPrivateBookReadStatusKey];
     newBook.personalNotes = [record objectForKey:kPrivateBookPersonalNotesKey];
     newBook.personalRating = [record objectForKey:kPrivateBookPersonalRatingKey];
@@ -351,7 +411,7 @@ static DataController *sharedInstance;
     }
     
     if ([record objectForKey:kPrivateBookOwnStatusKey]) {
-        book.doesOwn = [record objectForKey:kPrivateBookOwnStatusKey];
+        book.ownStatus = [record objectForKey:kPrivateBookOwnStatusKey];
     }
     if ([record objectForKey:kPrivateBookReadStatusKey]) {
         book.readStatus = [record objectForKey:kPrivateBookReadStatusKey];
@@ -390,6 +450,22 @@ static DataController *sharedInstance;
     }
     
     return results;
+}
+
+#pragma mark - Helpers
+
+- (NSArray *)createAndReturnDefaultShelves
+{
+    NSMutableArray *shelves = [NSMutableArray new];
+    
+    [shelves addObject:[self addShelfWithTitle:@"Currently Reading" ownStatus:BookOwnStatusNone readStatus:BookIsCurrentlyReading averageRating:nil personalRating:nil sortOrder:0]];
+    [shelves addObject:[self addShelfWithTitle:@"Books you want to read" ownStatus:BookOwnStatusNone readStatus:BookWantsToRead averageRating:nil personalRating:nil sortOrder:2]];
+    [shelves addObject:[self addShelfWithTitle:@"Your Wishlist" ownStatus:BookWantsToOwn readStatus:BookReadStatusNone averageRating:nil personalRating:nil sortOrder:3]];
+    [shelves addObject:[self addShelfWithTitle:@"All the books you own" ownStatus:BookIsOwned readStatus:BookReadStatusNone averageRating:nil personalRating:nil sortOrder:4]];
+    [shelves addObject:[self addShelfWithTitle:@"All Books" ownStatus:BookOwnStatusNone readStatus:BookReadStatusNone averageRating:nil personalRating:nil sortOrder:5]];
+    [shelves addObject:[self addShelfWithTitle:@"Your top rated" ownStatus:BookOwnStatusNone readStatus:BookReadStatusNone averageRating:nil personalRating:[NSNumber numberWithDouble:3.5] sortOrder:1]];
+    
+    return [shelves copy];
 }
 
 @end

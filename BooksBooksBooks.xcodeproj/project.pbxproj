@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		13159D60195BBFC0007B9218 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 13159D5F195BBFC0007B9218 /* DownloadManager.m */; };
 		1324713E197AF98B00914FF1 /* ZLBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324713D197AF98B00914FF1 /* ZLBCloudManager.m */; };
-		13247144197B40C100914FF1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13247143197B40C100914FF1 /* Book.m */; };
-		1327758D195A896700C96B5F /* BookShelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 1327758C195A896700C96B5F /* BookShelf.m */; };
 		133A3DBD197E126A003BB890 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A3DBB197E126A003BB890 /* search.png */; };
 		133A3DBE197E126A003BB890 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A3DBC197E126A003BB890 /* search@2x.png */; };
 		133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133C71881957C37100EE6E7D /* MainScreenViewController.m */; };
@@ -42,6 +40,8 @@
 		13416F44195FBE6F00F653DF /* bannerImage23.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 13416F37195FBE6F00F653DF /* bannerImage23.jpg */; };
 		13416F45195FBE6F00F653DF /* bannerImage24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 13416F38195FBE6F00F653DF /* bannerImage24.jpg */; };
 		13450BE3197B4E5200E0D2CB /* ZLBCloudConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 13450BE2197B4E5200E0D2CB /* ZLBCloudConstants.m */; };
+		13546168198EE34800260913 /* Shelf+Books.m in Sources */ = {isa = PBXBuildFile; fileRef = 13546167198EE34800260913 /* Shelf+Books.m */; };
+		13596E5B198EDFD900116AC4 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 13596E5A198EDFD900116AC4 /* Book.m */; };
 		135D69AF194A9E9300EC8C3D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69AE194A9E9300EC8C3D /* main.m */; };
 		135D69B2194A9E9300EC8C3D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 135D69B1194A9E9300EC8C3D /* AppDelegate.m */; };
 		135D69B5194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 135D69B3194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld */; };
@@ -65,6 +65,7 @@
 		13BA9F6A194BF49D007980D7 /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F69194BF49D007980D7 /* UIView+Borders.m */; };
 		13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */; };
 		13BA9F7D194C1832007980D7 /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */; };
+		13BE6629198EE87A00242993 /* Shelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BE6628198EE87A00242993 /* Shelf.m */; };
 		13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F41194AC05C00705DE1 /* TFBarcode.m */; };
 		13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F44194AC05C00705DE1 /* TFBarcodeScanner.m */; };
 		13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C53F46194AC05C00705DE1 /* TFBarcodeScannerViewController.m */; };
@@ -86,6 +87,13 @@
 			remoteGlobalIDString = 135D69A8194A9E9300EC8C3D;
 			remoteInfo = BooksBooksBooks;
 		};
+		13596E57198ECE5B00116AC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 135D69A1194A9E9300EC8C3D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 135D69A8194A9E9300EC8C3D;
+			remoteInfo = BooksBooksBooks;
+		};
 		135D69BD194A9E9300EC8C3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 135D69A1194A9E9300EC8C3D /* Project object */;
@@ -100,10 +108,6 @@
 		13159D5F195BBFC0007B9218 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 		1324713C197AF98B00914FF1 /* ZLBCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBCloudManager.h; sourceTree = "<group>"; };
 		1324713D197AF98B00914FF1 /* ZLBCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBCloudManager.m; sourceTree = "<group>"; };
-		13247142197B40C100914FF1 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		13247143197B40C100914FF1 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
-		1327758B195A896700C96B5F /* BookShelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelf.h; sourceTree = "<group>"; };
-		1327758C195A896700C96B5F /* BookShelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelf.m; sourceTree = "<group>"; };
 		133A3DBB197E126A003BB890 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		133A3DBC197E126A003BB890 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		133C71871957C37100EE6E7D /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
@@ -138,6 +142,10 @@
 		13416F38195FBE6F00F653DF /* bannerImage24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bannerImage24.jpg; sourceTree = "<group>"; };
 		13450BE1197B4E5200E0D2CB /* ZLBCloudConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBCloudConstants.h; sourceTree = "<group>"; };
 		13450BE2197B4E5200E0D2CB /* ZLBCloudConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBCloudConstants.m; sourceTree = "<group>"; };
+		13546166198EE34800260913 /* Shelf+Books.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Shelf+Books.h"; sourceTree = "<group>"; };
+		13546167198EE34800260913 /* Shelf+Books.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Shelf+Books.m"; sourceTree = "<group>"; };
+		13596E59198EDFD900116AC4 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		13596E5A198EDFD900116AC4 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		135D69A9194A9E9300EC8C3D /* BooksBooksBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BooksBooksBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135D69AD194A9E9300EC8C3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		135D69AE194A9E9300EC8C3D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -156,7 +164,7 @@
 		135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBAnalytics.m; sourceTree = "<group>"; };
 		135FC37C19592371007C5D1D /* Book+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Constants.h"; sourceTree = "<group>"; };
 		135FC37D19592371007C5D1D /* Book+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Constants.m"; sourceTree = "<group>"; };
-		1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushViewControllerProtocol.h; sourceTree = "<group>"; };
+		1361557F195F58DD004B8095 /* MainScreenTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenTableViewCellDelegate.h; sourceTree = "<group>"; };
 		1366F09019857CFA0044190A /* UIViewController+ZLBBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZLBBannerView.h"; sourceTree = "<group>"; };
 		1366F09119857CFA0044190A /* UIViewController+ZLBBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZLBBannerView.m"; sourceTree = "<group>"; };
 		138322AC1978C7C500378F85 /* BooksBooksBooks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BooksBooksBooks.entitlements; sourceTree = "<group>"; };
@@ -180,6 +188,8 @@
 		13BA9F79194C1832007980D7 /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
 		13BA9F7A194C1832007980D7 /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		13BA9F7B194C1832007980D7 /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
+		13BE6627198EE87A00242993 /* Shelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shelf.h; sourceTree = "<group>"; };
+		13BE6628198EE87A00242993 /* Shelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shelf.m; sourceTree = "<group>"; };
 		13C53F40194AC05C00705DE1 /* TFBarcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFBarcode.h; sourceTree = "<group>"; };
 		13C53F41194AC05C00705DE1 /* TFBarcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBarcode.m; sourceTree = "<group>"; };
 		13C53F42194AC05C00705DE1 /* TFBarcodeScanner-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TFBarcodeScanner-Prefix.pch"; sourceTree = "<group>"; };
@@ -198,7 +208,6 @@
 		13D685331968DA78005C16F1 /* ChangeBookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeBookDetailsViewController.m; sourceTree = "<group>"; };
 		13D685341968DA78005C16F1 /* ChangeBookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeBookDetailsViewController.xib; sourceTree = "<group>"; };
 		13D6853B1969E064005C16F1 /* ChangeBookDetailsResultsProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBookDetailsResultsProtocol.h; sourceTree = "<group>"; };
-		13D6853C1969EB74005C16F1 /* DismissBookDetailProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissBookDetailProtocol.h; sourceTree = "<group>"; };
 		13DB17F8195A9DDC00BB23F6 /* bannerImage11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bannerImage11.jpg; sourceTree = "<group>"; };
 		1FAF38A810564B1AADA94EE8 /* libPods-BooksBooksBooks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksBooksBooks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B308640D4424061861B54E1 /* Pods-BooksBooksBooks.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksBooksBooks.xcconfig"; path = "Pods/Pods-BooksBooksBooks.xcconfig"; sourceTree = "<group>"; };
@@ -262,8 +271,6 @@
 				1391DF2B19857BF800A06677 /* Main Screen Controller */,
 				1391DF2C19857C0500A06677 /* Main Screen TableView Cells */,
 				1391DF2D19857C1F00A06677 /* Book Collection Cell */,
-				1327758B195A896700C96B5F /* BookShelf.h */,
-				1327758C195A896700C96B5F /* BookShelf.m */,
 			);
 			name = "Main Screen";
 			sourceTree = "<group>";
@@ -333,11 +340,11 @@
 			isa = PBXGroup;
 			children = (
 				138322AC1978C7C500378F85 /* BooksBooksBooks.entitlements */,
+				13CE647C1988B1E1008DCE18 /* Protocols */,
 				135D69CD194AA5ED00EC8C3D /* App Delegate */,
 				1391DF3019857C6900A06677 /* Main Screens */,
 				1391DF3119857C7200A06677 /* Custom Controls */,
 				135D69AC194A9E9300EC8C3D /* Supporting Files */,
-				13CE647C1988B1E1008DCE18 /* Protocols */,
 			);
 			path = BooksBooksBooks;
 			sourceTree = "<group>";
@@ -350,7 +357,6 @@
 				1391DF271985784A00A06677 /* Reachability */,
 				13247135197AF2E200914FF1 /* Cloud Manager */,
 				135E72FE196CFED6001B24D9 /* Analytics Helpers */,
-				1361557E195F58B9004B8095 /* Protocols */,
 				13159D5D195BBFAA007B9218 /* Download Manager */,
 				139C652A1957D1C0009BB746 /* Data Controller */,
 				13BA9F67194BF491007980D7 /* Borders */,
@@ -416,16 +422,6 @@
 				135E7300196CFEEE001B24D9 /* ZLBAnalytics.m */,
 			);
 			name = "Analytics Helpers";
-			sourceTree = "<group>";
-		};
-		1361557E195F58B9004B8095 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				1361557F195F58DD004B8095 /* PushViewControllerProtocol.h */,
-				13D6853B1969E064005C16F1 /* ChangeBookDetailsResultsProtocol.h */,
-				13D6853C1969EB74005C16F1 /* DismissBookDetailProtocol.h */,
-			);
-			name = Protocols;
 			sourceTree = "<group>";
 		};
 		1391DF271985784A00A06677 /* Reachability */ = {
@@ -511,9 +507,13 @@
 		139C652A1957D1C0009BB746 /* Data Controller */ = {
 			isa = PBXGroup;
 			children = (
+				13596E59198EDFD900116AC4 /* Book.h */,
+				13596E5A198EDFD900116AC4 /* Book.m */,
 				135D69B3194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld */,
-				13247142197B40C100914FF1 /* Book.h */,
-				13247143197B40C100914FF1 /* Book.m */,
+				13BE6627198EE87A00242993 /* Shelf.h */,
+				13BE6628198EE87A00242993 /* Shelf.m */,
+				13546166198EE34800260913 /* Shelf+Books.h */,
+				13546167198EE34800260913 /* Shelf+Books.m */,
 				139C65271957D1BB009BB746 /* DataController.h */,
 				139C65281957D1BB009BB746 /* DataController.m */,
 				135FC37C19592371007C5D1D /* Book+Constants.h */,
@@ -575,6 +575,8 @@
 		13CE647C1988B1E1008DCE18 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				1361557F195F58DD004B8095 /* MainScreenTableViewCellDelegate.h */,
+				13D6853B1969E064005C16F1 /* ChangeBookDetailsResultsProtocol.h */,
 				13CE647D1988B216008DCE18 /* ZLBZoomHeaderViewProtocol.h */,
 			);
 			name = Protocols;
@@ -647,6 +649,7 @@
 			dependencies = (
 				135D69BE194A9E9300EC8C3D /* PBXTargetDependency */,
 				13596E56198ECE5B00116AC4 /* PBXTargetDependency */,
+				13596E58198ECE5B00116AC4 /* PBXTargetDependency */,
 			);
 			name = BooksBooksBooksTests;
 			productName = BooksBooksBooksTests;
@@ -804,7 +807,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				135D69D8194AA90000EC8C3D /* AddViewController.m in Sources */,
-				1327758D195A896700C96B5F /* BookShelf.m in Sources */,
 				139C65291957D1BB009BB746 /* DataController.m in Sources */,
 				13159D60195BBFC0007B9218 /* DownloadManager.m in Sources */,
 				13C53F48194AC05C00705DE1 /* TFBarcodeScanner.m in Sources */,
@@ -813,9 +815,10 @@
 				13CE64811988B75F008DCE18 /* ZLBUtilities.m in Sources */,
 				138DE7FB19594344002DBC21 /* BookCollectionViewCell.m in Sources */,
 				133C718F1957CBDE00EE6E7D /* BookDetailViewController.m in Sources */,
+				13596E5B198EDFD900116AC4 /* Book.m in Sources */,
 				135FC37E19592371007C5D1D /* Book+Constants.m in Sources */,
 				13450BE3197B4E5200E0D2CB /* ZLBCloudConstants.m in Sources */,
-				13247144197B40C100914FF1 /* Book.m in Sources */,
+				13BE6629198EE87A00242993 /* Shelf.m in Sources */,
 				13AEBA79194FEEF700E3B681 /* SearchResultsTableViewCell.m in Sources */,
 				13BA9F7C194C1832007980D7 /* SearchResultsViewController.m in Sources */,
 				1391DF2A1985785E00A06677 /* ZLBReachability.m in Sources */,
@@ -827,6 +830,7 @@
 				13C53F49194AC05C00705DE1 /* TFBarcodeScannerViewController.m in Sources */,
 				13CE647B1988A777008DCE18 /* ZLBZoomHeaderView.m in Sources */,
 				138DE7F619592F51002DBC21 /* MainScreenTableViewCell.m in Sources */,
+				13546168198EE34800260913 /* Shelf+Books.m in Sources */,
 				133C718A1957C37100EE6E7D /* MainScreenViewController.m in Sources */,
 				13C53F47194AC05C00705DE1 /* TFBarcode.m in Sources */,
 				135D69B5194A9E9300EC8C3D /* BooksBooksBooks.xcdatamodeld in Sources */,
@@ -848,6 +852,11 @@
 			isa = PBXTargetDependency;
 			target = 135D69A8194A9E9300EC8C3D /* BooksBooksBooks */;
 			targetProxy = 13596E55198ECE5B00116AC4 /* PBXContainerItemProxy */;
+		};
+		13596E58198ECE5B00116AC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 135D69A8194A9E9300EC8C3D /* BooksBooksBooks */;
+			targetProxy = 13596E57198ECE5B00116AC4 /* PBXContainerItemProxy */;
 		};
 		135D69BE194A9E9300EC8C3D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -132,7 +132,6 @@ static double const kDefaultNotesTextViewHeight = 110.0;
     self.navigationItem.leftBarButtonItem = leftButton;
 }
 
-
 #pragma mark Setup With Book
 
 - (void)setupWithGTLBook:(GTLBooksVolume *)book
@@ -209,7 +208,7 @@ static double const kDefaultNotesTextViewHeight = 110.0;
     [ownButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     NSString *ownButtonText;
-    switch ([self.coreDataBook.doesOwn integerValue]) {
+    switch ([self.coreDataBook.ownStatus integerValue]) {
         case BookIsOwned:
             ownButtonText = @"In Library";
             break;
@@ -632,7 +631,7 @@ static double const kDefaultNotesTextViewHeight = 110.0;
             self.coreDataBook.readStatus = readStatus;
         }
         if (ownStatus) {
-            self.coreDataBook.doesOwn = ownStatus;
+            self.coreDataBook.ownStatus = ownStatus;
         }
         [[DataController sharedInstance] saveContextUpdateCloud:YES];
     }

@@ -10,9 +10,6 @@
 #import "AddViewController.h"
 #import "MainScreenTableViewCell.h"
 #import "DataController.h"
-#import "Book.h"
-#import "Book+Constants.h"
-#import "BookShelf.h"
 #import "SearchResultsTableViewCell.h"
 #import "BookDetailViewController.h"
 #import "UIViewController+ZLBBannerView.h"
@@ -20,6 +17,8 @@
 #import "ZLBZoomHeaderView.h"
 #import "ZLBZoomHeaderViewProtocol.h"
 #import "ZLBUtilities.h"
+#import "Shelf+Books.h"
+#import "Book+Constants.h"
 
 static NSString *const kMainScreenTableViewCellIdentifier = @"kMainScreenTableViewCellIdentifer";
 static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSearchTableViewCellIdentifer";
@@ -35,8 +34,8 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 @end
 
 @implementation MainScreenViewController {
-    NSArray *books;
-    NSMutableArray *bookShelves;
+    NSArray *bookShelves;
+    NSMutableDictionary *booksForBookShelf;
     NSArray *searchResults;
 }
 
@@ -46,7 +45,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        booksForBookShelf = [NSMutableDictionary new];
     }
     return self;
 }
@@ -63,7 +62,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self setupBooks];
+    [self setupBookShelves];
     [self setupStatusBar];
     [self setupTableView];
     [self setupActionBarView];
@@ -143,6 +142,16 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     [self.tableView addHeaderWithRandomImageRandomQuote];
     self.tableView.headerView.delegate = self;
 }
+
+- (void)setupBookShelves
+{
+    bookShelves = [[DataController sharedInstance] fetchAllShelves];
+    
+    for (Shelf *shelf in bookShelves) {
+        [booksForBookShelf setObject:shelf.books forKey:shelf.objectID];
+    }
+}
+
 #pragma mark - TableView DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -174,12 +183,13 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 
 - (UITableViewCell *)mainTableViewCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BookShelf *shelfForRow = [bookShelves objectAtIndex:indexPath.row];
+    Shelf *shelfForRow = [bookShelves objectAtIndex:indexPath.row];
+    NSArray *booksForRow = [booksForBookShelf objectForKey:shelfForRow.objectID];
     
     MainScreenTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kMainScreenTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.titleLabel.text = shelfForRow.title;
-    [cell setupWithArrayOfBooks:shelfForRow.books];
+    [cell setupWithArrayOfBooks:booksForRow];
     
     return cell;
 }
@@ -215,89 +225,22 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     }
 }
 
-#pragma mark Setup Bookshelves
-
-- (void)setupBooks
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    books = [self fetchAllBooks];
-    bookShelves = [[NSMutableArray alloc] init];
-    
-    BookShelf *currentlyReadingShelf = [self setupCurrentlyReadingShelf];
-    if (currentlyReadingShelf.books.count > 0) {
-        [bookShelves addObject:currentlyReadingShelf];
-    }
-    
-    BookShelf *wantToReadShelf = [self setupWantToReadShelf];
-    if (wantToReadShelf.books.count >0) {
-        [bookShelves addObject:wantToReadShelf];
-    }
-    
-    BookShelf *wishlistShelf = [self setupWishlistShelf];
-    if (wishlistShelf.books.count >0) {
-        [bookShelves addObject:wishlistShelf];
-    }
-    
-    BookShelf *libraryShelf = [self setupPersonalLibrary];
-    if (libraryShelf.books.count >0) {
-        [bookShelves addObject:libraryShelf];
-    }
-    
-    BookShelf *haveReadShelf = [self setupHaveReadShelf];
-    if (haveReadShelf.books.count >0) {
-        [bookShelves addObject:haveReadShelf];
-    }
+    return YES;
 }
 
-- (BookShelf *)setupBookSelfWithPredicate:(NSPredicate *)predicate title:(NSString *)title
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    NSArray *filteredArray = [books filteredArrayUsingPredicate:predicate];
-    
-    NSSortDescriptor *sortByTimeModified = [NSSortDescriptor sortDescriptorWithKey:@"dateModifiedInSecondsSinceEpoch" ascending:NO];
-    filteredArray = [filteredArray sortedArrayUsingDescriptors:@[sortByTimeModified]];
-    
-    BookShelf *shelf = [[BookShelf alloc] init];
-    shelf.title = title;
-    shelf.books = filteredArray;
-    
-    return shelf;
-}
-
-- (BookShelf *)setupCurrentlyReadingShelf
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"readStatus == %i", BookIsCurrentlyReading];
-    
-    return [self setupBookSelfWithPredicate:predicate title:@"Books you're currently reading"];
-}
-
-- (BookShelf *)setupWantToReadShelf
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"readStatus == %i", BookWantsToRead];
-    
-    return [self setupBookSelfWithPredicate:predicate title:@"Books you want to read"];
-}
-
-- (BookShelf *)setupWishlistShelf
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", BookWantsToOwn];
-    
-    return [self setupBookSelfWithPredicate:predicate title:@"Your wishlist"];
-}
-
-- (BookShelf *)setupPersonalLibrary
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doesOwn == %i", BookIsOwned];
-    
-    return [self setupBookSelfWithPredicate:predicate title:@"All the books you own"];
-}
-
-- (BookShelf *)setupHaveReadShelf
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"readStatus == %i", BookHasBeenRead];
-    
-    return [self setupBookSelfWithPredicate:predicate title:@"Books you've read"];
+    NSMutableArray *mutableShelves = [bookShelves mutableCopy];
+    id oldShelf = [mutableShelves objectAtIndex:sourceIndexPath.row];
+    [mutableShelves removeObjectAtIndex:sourceIndexPath.row];
+    [mutableShelves insertObject:oldShelf atIndex:destinationIndexPath.row];
+    bookShelves = mutableShelves;
 }
 
 #pragma mark Button Responders
+
 - (IBAction)addButtonPressed:(UIButton *)sender
 {
     if ([[ZLBReachability sharedInstance] isReachable]) {
@@ -321,24 +264,6 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 
 #pragma mark Core Data Stuff
 
-- (NSArray *)fetchAllBooks
-{
-    NSManagedObjectContext *context = [[DataController sharedInstance] managedObjectContext];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"Book" inManagedObjectContext:context]];
-    
-    NSError *fetchError = nil;
-    NSArray *fetchedBooks = [context executeFetchRequest:fetchRequest error:&fetchError];
-    
-    if (fetchError) {
-        NSLog(@"Error fetching books in MainViewController %@", fetchError);
-        return nil;
-    } else {
-        return fetchedBooks;
-    }
-}
-
 - (void)contextDidSave:(NSNotification *)notification
 {
     if (![NSThread isMainThread]) {
@@ -346,7 +271,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
         return;
     }
     
-    [self setupBooks];
+    [self setupBookShelves];
     [self.tableView reloadData];
     
     NSSet *insertedObjects = [notification.userInfo objectForKey:NSInsertedObjectsKey];
@@ -361,7 +286,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 - (void)scrollToWhereNewInsertedObjectIs:(Book *)book
 {
     NSInteger index = [bookShelves indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        BookShelf *shelf = (BookShelf *)obj;
+        Shelf *shelf = (Shelf *)obj;
         return [shelf.books containsObject:book];
     }];
     
@@ -369,11 +294,16 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     self.newBook = nil;
 }
 
-#pragma mark - Delegate Methods
+#pragma mark - MainScreenTableViewCell Delegate Methods
 
 - (void)pushViewController:(UIViewController *)viewController
 {
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)mainScreenTableViewCell:(MainScreenTableViewCell *)cell enabledEditing:(BOOL)enabled
+{
+    [self.tableView setEditing:enabled animated:YES];
 }
 
 #pragma mark - Search 

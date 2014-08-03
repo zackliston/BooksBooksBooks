@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PushViewControllerProtocol.h"
+#import "MainScreenTableViewCellDelegate.h"
 #import <GAITrackedViewController.h>
 
-@interface MainScreenViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, PushViewControllerProtocol>
+@interface MainScreenViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, MainScreenTableViewCellDelegate>
 
 @end

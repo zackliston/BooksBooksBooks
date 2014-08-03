@@ -208,7 +208,7 @@ static double const ButtonHeight = 50.0;
     if (!self.isNewBook) {
         NSInteger tagToSelect = 0;
         if (self.option == ChangeBookOwnershipOption) {
-            tagToSelect = [self.book.doesOwn integerValue];
+            tagToSelect = [self.book.ownStatus integerValue];
         } else if (self.option == ChangeBookReadStatusOption) {
             tagToSelect = [self.book.readStatus integerValue];
         }

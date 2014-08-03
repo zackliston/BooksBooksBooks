@@ -15,8 +15,6 @@
 
 static ZLBCloudManager *sharedInstance;
 
-
-
 @interface ZLBCloudManager ()
 
 @property (nonatomic, weak) CKDatabase *publicDatabase;
@@ -653,7 +651,7 @@ static ZLBCloudManager *sharedInstance;
         [record setObject:book.publisher forKey:kBookPublisherKey];
         [record setObject:book.ratingsCount forKey:kBookRatingsCountKey];
         [record setObject:book.subtitle forKey:kBookSubtitleKey];
-        [record setObject:book.doesOwn forKey:kPrivateBookOwnStatusKey];
+        [record setObject:book.ownStatus forKey:kPrivateBookOwnStatusKey];
         [record setObject:book.readStatus forKey:kPrivateBookReadStatusKey];
         [record setObject:book.personalRating forKey:kPrivateBookPersonalRatingKey];
         [record setObject:book.personalNotes forKey:kPrivateBookPersonalNotesKey];
@@ -680,7 +678,7 @@ static ZLBCloudManager *sharedInstance;
     [record setObject:book.publisher forKey:kBookPublisherKey];
     [record setObject:book.ratingsCount forKey:kBookRatingsCountKey];
     [record setObject:book.subtitle forKey:kBookSubtitleKey];
-    [record setObject:book.doesOwn forKey:kPrivateBookOwnStatusKey];
+    [record setObject:book.ownStatus forKey:kPrivateBookOwnStatusKey];
     [record setObject:book.readStatus forKey:kPrivateBookReadStatusKey];
     [record setObject:book.personalRating forKey:kPrivateBookPersonalRatingKey];
     [record setObject:book.personalNotes forKey:kPrivateBookPersonalNotesKey];

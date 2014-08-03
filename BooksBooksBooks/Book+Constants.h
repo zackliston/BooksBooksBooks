@@ -12,13 +12,15 @@ typedef enum {
     BookHasBeenRead = 0,
     BookWantsToRead,
     BookIsCurrentlyReading,
-    BookDoesNotWantToRead
+    BookDoesNotWantToRead,
+    BookReadStatusNone
 } BookReadStatus;
 
 typedef enum {
     BookIsOwned =0,
     BookWantsToOwn,
-    BookDoesNotOwn
+    BookDoesNotOwn,
+    BookOwnStatusNone
 } BookOwnStatus;
 
 extern NSString *const largeImageKey;
