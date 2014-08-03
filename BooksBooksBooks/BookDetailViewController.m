@@ -7,6 +7,7 @@
 //
 
 #import "BookDetailViewController.h"
+#import "ZLBUtilities.h"
 #import "Book+Constants.h"
 #import "DataController.h"
 #import "DownloadManager.h"
@@ -110,10 +111,27 @@ static double const kDefaultNotesTextViewHeight = 110.0;
 {
     [super viewWillAppear:animated];
     self.screenName = @"Book Details";
+    [self setupNavigationBar];
     
 }
 
 #pragma mark - Setup
+
+- (void)setupUI
+{
+    [self setupPersonalRating];
+    [self setupNotesTextView];
+    
+    self.topBarView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    self.buttonView.backgroundColor = [UIColor clearColor];
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = leftButton;
+}
+
 
 #pragma mark Setup With Book
 
@@ -264,15 +282,6 @@ static double const kDefaultNotesTextViewHeight = 110.0;
     [self setAuthorAndHeightForAuthor:author];
     [self setBookDescriptionAndHeightForDescription:self.coreDataBook.bookDescription];
     [self setRating:[self.coreDataBook.averageRating floatValue] ratingCount:[self.coreDataBook.ratingsCount integerValue]];
-}
-
-- (void)setupUI
-{
-    [self setupPersonalRating];
-    [self setupNotesTextView];
-    
-    self.topBarView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
-    self.buttonView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setRating:(CGFloat)rating ratingCount:(NSInteger)ratingCount
@@ -505,17 +514,17 @@ static double const kDefaultNotesTextViewHeight = 110.0;
 
 #pragma mark - Button Listeners
 
-- (IBAction)closeButtonPressed:(UIButton *)sender
+- (void)backButtonPressed:(id)sender
 {
     if (personalDetailsDidChange) {
         if (!self.coreDataBook) {
             [self promptAddBook];
         } else {
             [self setNewBookValuesAndSave];
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } else {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -628,7 +637,7 @@ static double const kDefaultNotesTextViewHeight = 110.0;
         [[DataController sharedInstance] saveContextUpdateCloud:YES];
     }
 
-    [self.dismissDelegate dismissBookDetailViewController];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - AlertView Delegate Methods
@@ -701,6 +710,32 @@ static double const kDefaultNotesTextViewHeight = 110.0;
         self.notesTextViewHeight.constant = height;
         [self.scrollView scrollRectToVisible:CGRectMake(1.0, self.scrollView.contentSize.height, 1.0, 1.0) animated:YES];
     }
+}
+
+#pragma mark - ScrollView delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self adjustNavigationBarForContentOffset:scrollView.contentOffset];
+}
+
+- (void)adjustNavigationBarForContentOffset:(CGPoint)contentOffset
+{
+    UIImage *backgroundImage = nil;
+    UIImage *shadowImage = nil;
+    if (contentOffset.y <= 0.0) {
+        backgroundImage = [UIImage new];
+        shadowImage = [UIImage new];
+    } else if (contentOffset.y <= 100.0) {
+        CGFloat opacity = contentOffset.y/100.0;
+        backgroundImage = [UIImage imageWithColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:opacity]];
+        shadowImage = [UIImage new];
+    } else {
+        backgroundImage = [UIImage imageWithColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
+    }
+    
+    [self.navigationController.navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = shadowImage;
 }
 
 #pragma mark - KVO

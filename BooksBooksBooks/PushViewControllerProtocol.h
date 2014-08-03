@@ -10,6 +10,6 @@
 
 @protocol PushViewControllerProtocol <NSObject>
 
-- (void)presentViewController:(UIViewController *)viewController;
+- (void)pushViewController:(UIViewController *)viewController;
 
 @end

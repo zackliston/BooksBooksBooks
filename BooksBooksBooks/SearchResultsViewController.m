@@ -110,9 +110,8 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
 {
     GTLBooksVolume *book = [self.books objectAtIndex:indexPath.row];
     BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] initWithBook:book width:self.view.bounds.size.width];
-    bookDetailVC.dismissDelegate = self;
     
-    [self.navigationController presentViewController:bookDetailVC animated:YES completion:NULL];
+    [self.navigationController pushViewController:bookDetailVC animated:YES];
 }
 
 #pragma mark Setup
@@ -209,12 +208,4 @@ static NSString *tableCellIdentifier = @"tableCellIdentifer";
     }
 }
 
-#pragma mark - Delegate Methods
-
-- (void)dismissBookDetailViewController
-{
-    [self dismissViewControllerAnimated:NO completion:^{
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }];
-}
 @end

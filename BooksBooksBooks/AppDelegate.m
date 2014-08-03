@@ -66,13 +66,10 @@
 
 - (void)setupCloudKit
 {
-    NSLog(@"start");
     [[ZLBCloudManager sharedInstance] setupCloudUser];
     [[ZLBCloudManager sharedInstance] uploadLocalChangesToCloud];
     [[ZLBCloudManager sharedInstance] fetchCloudChanges];
     [[ZLBCloudManager sharedInstance] setupSyncZoneAndSubscription:YES];
-    
-    NSLog(@"finish");
 }
 
 - (void)setupReachability

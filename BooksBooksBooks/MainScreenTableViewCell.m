@@ -66,7 +66,8 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     Book *book = [self.books objectAtIndex:indexPath.row];
     
     BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] initWithBook:book width:collectionView.bounds.size.width];
-    [self.delegate presentViewController:bookDetailVC];
+    
+    [self.delegate pushViewController:bookDetailVC];
 }
 
 #pragma mark - Setup

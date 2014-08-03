@@ -9,14 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <GTLBooks.h>
 #import "ChangeBookDetailsResultsProtocol.h"
-#import "DismissBookDetailProtocol.h"
 #import <GAITrackedViewController.h>
 @class Book;
 
 @interface BookDetailViewController : GAITrackedViewController <UIActionSheetDelegate, ChangeBookDetailsResultsProtocol, UIScrollViewDelegate, UIAlertViewDelegate, UITextViewDelegate>
 
 - (id)initWithBook:(id)book width:(CGFloat)width;
-
-@property (nonatomic, weak) id<DismissBookDetailProtocol>dismissDelegate;
 
 @end

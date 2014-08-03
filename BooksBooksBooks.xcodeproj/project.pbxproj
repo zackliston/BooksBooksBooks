@@ -79,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		13596E55198ECE5B00116AC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 135D69A1194A9E9300EC8C3D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 135D69A8194A9E9300EC8C3D;
+			remoteInfo = BooksBooksBooks;
+		};
 		135D69BD194A9E9300EC8C3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 135D69A1194A9E9300EC8C3D /* Project object */;
@@ -639,6 +646,7 @@
 			);
 			dependencies = (
 				135D69BE194A9E9300EC8C3D /* PBXTargetDependency */,
+				13596E56198ECE5B00116AC4 /* PBXTargetDependency */,
 			);
 			name = BooksBooksBooksTests;
 			productName = BooksBooksBooksTests;
@@ -836,6 +844,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		13596E56198ECE5B00116AC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 135D69A8194A9E9300EC8C3D /* BooksBooksBooks */;
+			targetProxy = 13596E55198ECE5B00116AC4 /* PBXContainerItemProxy */;
+		};
 		135D69BE194A9E9300EC8C3D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 135D69A8194A9E9300EC8C3D /* BooksBooksBooks */;

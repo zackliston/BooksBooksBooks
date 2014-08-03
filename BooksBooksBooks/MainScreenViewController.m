@@ -64,7 +64,6 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self setupBooks];
-    [self setupNavigationBar];
     [self setupStatusBar];
     [self setupTableView];
     [self setupActionBarView];
@@ -77,6 +76,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 {
     [super viewWillAppear:animated];
     self.screenName = @"Main Screen";
+    [self setupNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -88,13 +88,15 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     }
 }
 
-
 #pragma mark - Setup
 
 - (void)setupNavigationBar
 {
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)setupTableView
@@ -209,7 +211,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         Book *book = [searchResults objectAtIndex:indexPath.row];
         BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] initWithBook:book width:self.view.bounds.size.width];
-        [self presentViewController:bookDetailVC animated:YES completion:NULL];
+        [self.navigationController pushViewController:bookDetailVC animated:YES];\
     }
 }
 
@@ -369,9 +371,9 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 
 #pragma mark - Delegate Methods
 
-- (void)presentViewController:(UIViewController *)viewController
+- (void)pushViewController:(UIViewController *)viewController
 {
-    [self presentViewController:viewController animated:YES completion:NULL];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Search 

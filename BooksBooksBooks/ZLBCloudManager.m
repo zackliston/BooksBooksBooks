@@ -32,6 +32,8 @@ static ZLBCloudManager *sharedInstance;
     BOOL shouldFetchChangesWhenSyncZoneIDIsSet;
     BOOL shouldUploadChangesWhenSyncZoneIDIsSet;
     BOOL hasUploadedChangesToPublicDatabase;
+    
+    NSInteger retryAddingBooksToOwnerCount;
 }
 
 #pragma mark - Getters/Setters
@@ -109,6 +111,7 @@ static ZLBCloudManager *sharedInstance;
     self = [super init];
     if (self) {
         _hasiCloudAccount = YES;
+        retryAddingBooksToOwnerCount = 0;
     }
     
     return self;
@@ -439,7 +442,7 @@ static ZLBCloudManager *sharedInstance;
 
 - (void)insertBookToPrivateDatabase:(Book *)book
 {
-    //if (_hasiCloudAccount) {
+    if (_hasiCloudAccount) {
         CKRecord *privateRecord = [self privateBookRecordFromCoreDataBook:book];
         CKModifyRecordsOperation *insertOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[privateRecord] recordIDsToDelete:nil];
         [insertOperation setModifyRecordsCompletionBlock:^(NSArray *savedRecords, NSArray *deletedRecords, NSError *error) {
@@ -457,35 +460,42 @@ static ZLBCloudManager *sharedInstance;
         }];
         
         [self.privateDatabase addOperation:insertOperation];
-    //}
+    }
 }
 
 #pragma mark - Add Reference
 
 - (void)fetchUserRecordAndAddAsOwnerOfBooks:(NSArray *)bookRecords
 {
-    
-    CKFetchRecordsOperation *fetchOp = [[CKFetchRecordsOperation alloc] initWithRecordIDs:@[_userRecordID]];
-    [fetchOp setPerRecordCompletionBlock:^(CKRecord *userRecord, CKRecordID *userRecordID, NSError *error) {
-        if (!error) {
-            
-            [self addUser:userRecord asOwnerOfBooks:bookRecords];
-        } else {
-            NSLog(@"CLOUD ERROR fetching User Record %@ %@", userRecordID.recordName, error);
-        }
-    }];
-    
-    [fetchOp setFetchRecordsCompletionBlock:^(NSDictionary *recordsByRecordID, NSError *error) {
-        if (!error) {
-            if (recordsByRecordID.allKeys.count > 1) {
-                NSLog(@"CLOUD ERROR there should never be more than one userRecord for a userrRecordID but there are %lu", (unsigned long)recordsByRecordID.allKeys.count);
+    if (_userRecordID) {
+        CKFetchRecordsOperation *fetchOp = [[CKFetchRecordsOperation alloc] initWithRecordIDs:@[_userRecordID]];
+        [fetchOp setPerRecordCompletionBlock:^(CKRecord *userRecord, CKRecordID *userRecordID, NSError *error) {
+            if (!error) {
+                
+                [self addUser:userRecord asOwnerOfBooks:bookRecords];
+            } else {
+                NSLog(@"CLOUD ERROR fetching User Record %@ %@", userRecordID.recordName, error);
             }
-        } else {
-            NSLog(@"Error fetching UserRecord %@", error);
+        }];
+        
+        [fetchOp setFetchRecordsCompletionBlock:^(NSDictionary *recordsByRecordID, NSError *error) {
+            if (!error) {
+                if (recordsByRecordID.allKeys.count > 1) {
+                    NSLog(@"CLOUD ERROR there should never be more than one userRecord for a userrRecordID but there are %lu", (unsigned long)recordsByRecordID.allKeys.count);
+                }
+            } else {
+                NSLog(@"Error fetching UserRecord %@", error);
+            }
+        }];
+        
+        [self.publicDatabase addOperation:fetchOp];
+    } else {
+        NSLog(@"CLOUD Cannot add user as owner of books because the user is not logged into an iCloud account. Retrying in 2 seconds");
+        if (retryAddingBooksToOwnerCount < 3) {
+            [self performSelector:@selector(fetchUserRecordAndAddAsOwnerOfBooks:) withObject:bookRecords afterDelay:2.0];
+            retryAddingBooksToOwnerCount ++;
         }
-    }];
-    
-    [self.publicDatabase addOperation:fetchOp];
+    }
 }
 
 - (void)addUser:(CKRecord *)userRecord asOwnerOfBooks:(NSArray *)bookRecords
@@ -724,6 +734,5 @@ static ZLBCloudManager *sharedInstance;
         [[DataController sharedInstance] updateBook:book withCKRecord:record];
     }
 }
-
 
 @end
