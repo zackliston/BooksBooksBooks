@@ -362,6 +362,8 @@ static DataController *sharedInstance;
     [self saveContextUpdateCloud:NO];
 }
 
+#pragma mark - Update
+
 - (void)updateBook:(Book *)book withCKRecord:(CKRecord *)record
 {
     if ( [record objectForKey:kBookAuthorsKey]) {
@@ -429,6 +431,47 @@ static DataController *sharedInstance;
         book.dateModifiedInSecondsSinceEpoch = [record objectForKey:kPrivateBookModifiedKey];
     }
     
+    [self saveContextUpdateCloud:NO];
+}
+
+- (void)changeSortOrderOfShelf:(Shelf *)shelfThatChanged to:(NSInteger)newSortOrder from:(NSInteger)oldSortOrder
+{
+    NSArray *shelves = [self fetchAllShelves];
+    
+    for (Shelf *shelf in shelves) {
+        if ([shelf isEqual:shelfThatChanged]) {
+            shelf.sortOrder = [NSNumber numberWithInteger:newSortOrder];
+        } else {
+            if ([shelf.sortOrder integerValue] > oldSortOrder) {
+                NSInteger old = [shelf.sortOrder integerValue];
+                old--;
+                shelf.sortOrder = [NSNumber numberWithInteger:old];
+            }
+            if ([shelf.sortOrder integerValue] >= newSortOrder) {
+                NSInteger old = [shelf.sortOrder integerValue];
+                old++;
+                shelf.sortOrder = [NSNumber numberWithInteger:old];
+            }
+        }
+    }
+    [self saveContextUpdateCloud:NO];
+}
+
+#pragma mark - Delete
+
+- (void)deleteShelf:(Shelf *)shelfToDelete
+{
+    NSArray *allShelves = [self fetchAllShelves];
+    
+    for (Shelf *shelf in allShelves) {
+        NSInteger oldSortOrder = [shelf.sortOrder integerValue];
+        if (oldSortOrder > [shelfToDelete.sortOrder integerValue]) {
+            oldSortOrder--;
+            shelf.sortOrder = [NSNumber numberWithInteger:oldSortOrder];
+        }
+    }
+    
+    [[self managedObjectContext] deleteObject:shelfToDelete];
     [self saveContextUpdateCloud:NO];
 }
 

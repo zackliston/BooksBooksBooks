@@ -17,5 +17,6 @@
 @property (nonatomic,weak) id<MainScreenTableViewCellDelegate>delegate;
 
 - (void)setupWithArrayOfBooks:(NSArray *)books;
+- (void)setEditButtonSelected:(BOOL)isSelected;
 
 @end

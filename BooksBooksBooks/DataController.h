@@ -12,6 +12,7 @@
 @import CloudKit;
 
 @class Book;
+@class Shelf;
 
 FOUNDATION_EXPORT NSString *const kBookReadStatusKey;
 FOUNDATION_EXPORT NSString *const kBookOwnStatusKey;
@@ -35,6 +36,7 @@ FOUNDATION_EXPORT NSString *const kBookPersonalNotesKey;
 
 #pragma mark - Update Book
 - (void)updateBook:(Book *)book withCKRecord:(CKRecord *)record;
+- (void)changeSortOrderOfShelf:(Shelf *)shelfThatChanged to:(NSInteger)newSortOrder from:(NSInteger)oldSortOrder;
 
 #pragma mark - Fetch
 - (Book *)fetchBookWithBookID:(NSString *)bookID;
@@ -43,6 +45,8 @@ FOUNDATION_EXPORT NSString *const kBookPersonalNotesKey;
 - (NSArray *)fetchAllBooks;
 - (NSArray *)fetchAllShelves;
 
+#pragma mark - Delete
+- (void)deleteShelf:(Shelf *)shelfToDelete;
 
 #pragma mark - Search
 

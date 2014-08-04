@@ -18,6 +18,7 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
 @interface MainScreenTableViewCell ()
 
 @property (nonatomic, strong) NSArray *books;
+@property (strong, nonatomic) IBOutlet UIButton *editButton;
 
 @end
 
@@ -33,6 +34,11 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setEditButtonSelected:(BOOL)isSelected
+{
+    [self.editButton setSelected:isSelected];
 }
 
 #pragma mark - CollectionView DataSource
@@ -87,9 +93,9 @@ static NSString *const MainScreenCollectionViewCellIdentifier = @"MainScreenColl
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
-
-- (IBAction)startEdit:(id)sender
+- (IBAction)startEdit:(UIButton *)sender
 {
+    [sender setSelected:!self.isEditing];
     [self.delegate mainScreenTableViewCell:self enabledEditing:!self.isEditing];
 }
 

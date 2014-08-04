@@ -189,6 +189,7 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
     MainScreenTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kMainScreenTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.titleLabel.text = shelfForRow.title;
+    [cell setEditButtonSelected:self.tableView.isEditing];
     [cell setupWithArrayOfBooks:booksForRow];
     
     return cell;
@@ -232,11 +233,24 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    NSMutableArray *mutableShelves = [bookShelves mutableCopy];
-    id oldShelf = [mutableShelves objectAtIndex:sourceIndexPath.row];
-    [mutableShelves removeObjectAtIndex:sourceIndexPath.row];
-    [mutableShelves insertObject:oldShelf atIndex:destinationIndexPath.row];
-    bookShelves = mutableShelves;
+    Shelf *oldShelf = [bookShelves objectAtIndex:sourceIndexPath.row];
+    [[DataController sharedInstance] changeSortOrderOfShelf:oldShelf to:destinationIndexPath.row from:sourceIndexPath.row];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray *mutableShelves = [bookShelves mutableCopy];
+        Shelf *shelf = [mutableShelves objectAtIndex:indexPath.row];
+        [mutableShelves removeObject:shelf];
+        
+        [self.tableView beginUpdates];
+        bookShelves = [mutableShelves copy];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+        
+        [[DataController sharedInstance] performSelector:@selector(deleteShelf:) withObject:shelf afterDelay:0.5];
+    }
 }
 
 #pragma mark Button Responders
@@ -304,6 +318,10 @@ static NSString *const kMainScreenSearchTableViewCellIdentifer = @"kMainScreenSe
 - (void)mainScreenTableViewCell:(MainScreenTableViewCell *)cell enabledEditing:(BOOL)enabled
 {
     [self.tableView setEditing:enabled animated:YES];
+    
+    for (MainScreenTableViewCell *cell in self.tableView.visibleCells) {
+        [cell setEditButtonSelected:enabled];
+    }
 }
 
 #pragma mark - Search 
